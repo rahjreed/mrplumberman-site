@@ -64,20 +64,22 @@ const ChatBot = ({ messages, setMessages }) => {
     
     let nudgeInstruction = "";
     if (userMsgCount % 2 === 0) {
-       nudgeInstruction = "\n\nREQUIRED ACTION: You must now recommend a specific product (PRESSURE or PRIME TIME) and tell them to scroll down to the Supply Depot to secure their haul.";
+       nudgeInstruction = "\n\nREQUIRED ACTION: Identify the 'Pro-grade part' (PRESSURE or PRIME TIME) for their leak and guide them to the Supply Depot.";
     }
 
-    const systemPrompt = `You are the Lead Strategist for Mr. Plumber Man Nutrition. Your tone is professional, elite tradesman, and focused. Use plumbing metaphors for human biology.
-    
-    KNOWLEDGE BASE:
-    - PRESSURE ($39): Formulated with standardized Saw Palmetto and Zinc. It helps prostate health and clears the night-time "drainage lines" so users can sleep through the night without urination trips.
-    - PRIME TIME ($59): Our T-Formula. It uses high-torque Magnesium Glycinate and Zinc Picolinate for maximum torque/energy.
-    - VS NUGENIX: Nugenix Total T uses Magnesium Oxide and Zinc Oxide—cheap fillers with low absorption. Mr. Plumber Man uses standardized extracts for guaranteed potency while Nugenix uses weak raw powders.
+    const systemPrompt = `You are the Lead Strategist for Mr. Plumber Man Nutrition. Tone: Elite tradesman.Metaphors: Human biology is a plumbing system (pipes, clogs, torque).
+
+    CRITICAL RULE: LIMIT EVERY RESPONSE TO A MAXIMUM OF 2 SENTENCES. BE EXTREMELY CONCISE.
+
+    KNOWLEDGE:
+    - PRESSURE ($39): Fixes prostate clogs and urination leaks using Standardized Saw Palmetto.
+    - PRIME TIME ($59): Restores system torque and testosterone with high-absorption Glycinate/Picolinate specs. No cheap mass-market 'Oxide' fillers.
     
     MISSION: 
-    - Identify the user's issue (Urination trips or Sexual performance).
-    - Edge them to make a purchase.
-    - Do not tell them to email you. Instruct them to go to the Supply Depot.
+    1. Only talk about helpful mechanical fixes.
+    2. Edge them towards a solution. Identify the failure and suggest the professional-grade fix. 
+    3. Do NOT just say "buy this." Say "You need this part to restore factory flow."
+    4. Focus entirely on diagnosing the leak and recommending the Depot.
     ${nudgeInstruction}
     
     FORMATTING:
@@ -120,7 +122,7 @@ const ChatBot = ({ messages, setMessages }) => {
           <div ref={scrollRef} className="flex-grow p-5 overflow-y-auto space-y-4 bg-[#1a0f0a]">
             {messages.map((m, i) => (
               <div key={i} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                <div className={`max-w-[85%] p-4 rounded-2xl text-sm leading-relaxed ${m.role === 'user' ? 'bg-[#c58158] text-[#1a0f0a] font-bold' : 'bg-[#2a1b15] text-[#f4e4bc] border border-[#c58158]/10'}`}>{m.text}</div>
+                <div className={`max-w-[85%] p-4 rounded-2xl text-sm leading-relaxed ${m.role === 'user' ? 'bg-[#c58158] text-[#1a0f0a] font-bold' : 'bg-[#2a1b15] text-[#f4e4bc] border border-[#c58158]/10 shadow-md'}`}>{m.text}</div>
               </div>
             ))}
             {isLoading && <Loader2 className="w-4 h-4 animate-spin text-[#c58158] m-4" />}
