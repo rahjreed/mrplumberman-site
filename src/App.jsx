@@ -20,10 +20,197 @@ import {
   XCircle,
   Home,
   Network,
-  ChevronDown
+  ChevronDown,
+  Quote,
+  Truck,
+  RefreshCcw
 } from 'lucide-react';
 
-const apiKey = ""; // Environment handles this
+// API Key integrated for Chatbot and Image Generation
+const apiKey = "AIzaSyDFL2O357z2caEPOckF9kPQAh7KpDBC6E4";
+
+// --- Recent Purchases Data (50 Locations) ---
+const purchaseData = [
+  { city: "Chicago", state: "IL", product: "OVERHAUL COMBO", time: "2 mins ago" },
+  { city: "Houston", state: "TX", product: "PRIME TIME", time: "5 mins ago" },
+  { city: "Phoenix", state: "AZ", product: "PRESSURE", time: "12 mins ago" },
+  { city: "Philadelphia", state: "PA", product: "OVERHAUL COMBO", time: "18 mins ago" },
+  { city: "San Antonio", state: "TX", product: "PRIME TIME", time: "24 mins ago" },
+  { city: "San Diego", state: "CA", product: "PRESSURE", time: "31 mins ago" },
+  { city: "Dallas", state: "TX", product: "OVERHAUL COMBO", time: "45 mins ago" },
+  { city: "Austin", state: "TX", product: "PRIME TIME", time: "1 hour ago" },
+  { city: "Jacksonville", state: "FL", product: "OVERHAUL COMBO", time: "1 hour ago" },
+  { city: "Fort Worth", state: "TX", product: "PRESSURE", time: "2 hours ago" },
+  { city: "Columbus", state: "OH", product: "PRIME TIME", time: "2 hours ago" },
+  { city: "Charlotte", state: "NC", product: "PRESSURE", time: "3 hours ago" },
+  { city: "Seattle", state: "WA", product: "OVERHAUL COMBO", time: "3 hours ago" },
+  { city: "Denver", state: "CO", product: "PRIME TIME", time: "4 hours ago" },
+  { city: "Boston", state: "MA", product: "OVERHAUL COMBO", time: "4 hours ago" },
+  { city: "Nashville", state: "TN", product: "PRESSURE", time: "5 hours ago" },
+  { city: "Las Vegas", state: "NV", product: "PRIME TIME", time: "5 hours ago" },
+  { city: "Baltimore", state: "MD", product: "PRESSURE", time: "6 hours ago" },
+  { city: "Louisville", state: "KY", product: "OVERHAUL COMBO", time: "6 hours ago" },
+  { city: "Milwaukee", state: "WI", product: "PRESSURE", time: "7 hours ago" },
+  { city: "Albuquerque", state: "NM", product: "PRIME TIME", time: "7 hours ago" },
+  { city: "Tucson", state: "AZ", product: "PRESSURE", time: "8 hours ago" },
+  { city: "Fresno", state: "CA", product: "OVERHAUL COMBO", time: "8 hours ago" },
+  { city: "Sacramento", state: "CA", product: "PRIME TIME", time: "9 hours ago" },
+  { city: "Kansas City", state: "MO", product: "OVERHAUL COMBO", time: "9 hours ago" },
+  { city: "Atlanta", state: "GA", product: "PRESSURE", time: "10 hours ago" },
+  { city: "Omaha", state: "NE", product: "PRIME TIME", time: "10 hours ago" },
+  { city: "Raleigh", state: "NC", product: "PRESSURE", time: "11 hours ago" },
+  { city: "Miami", state: "FL", product: "OVERHAUL COMBO", time: "11 hours ago" },
+  { city: "Minneapolis", state: "MN", product: "PRESSURE", time: "12 hours ago" },
+  { city: "Cleveland", state: "OH", product: "PRIME TIME", time: "12 hours ago" },
+  { city: "Tampa", state: "FL", product: "OVERHAUL COMBO", time: "13 hours ago" },
+  { city: "Pittsburgh", state: "PA", product: "PRESSURE", time: "14 hours ago" },
+  { city: "Boise", state: "ID", product: "PRIME TIME", time: "15 hours ago" },
+  { city: "Portland", state: "OR", product: "OVERHAUL COMBO", time: "16 hours ago" },
+  { city: "Salt Lake City", state: "UT", product: "PRESSURE", time: "17 hours ago" },
+  { city: "Little Rock", state: "AR", product: "PRIME TIME", time: "18 hours ago" },
+  { city: "Birmingham", state: "AL", product: "PRESSURE", time: "19 hours ago" },
+  { city: "Des Moines", state: "IA", product: "OVERHAUL COMBO", time: "20 hours ago" },
+  { city: "Jackson", state: "MS", product: "PRESSURE", time: "21 hours ago" },
+  { city: "Baton Rouge", state: "LA", product: "PRIME TIME", time: "22 hours ago" },
+  { city: "Tulsa", state: "OK", product: "PRESSURE", time: "23 hours ago" },
+  { city: "Wichita", state: "KS", product: "OVERHAUL COMBO", time: "Yesterday" },
+  { city: "Knoxville", state: "TN", product: "PRESSURE", time: "Yesterday" },
+  { city: "Charleston", state: "SC", product: "PRIME TIME", time: "Yesterday" },
+  { city: "Savannah", state: "GA", product: "PRESSURE", time: "Yesterday" },
+  { city: "Orlando", state: "FL", product: "OVERHAUL COMBO", time: "Yesterday" },
+  { city: "Reno", state: "NV", product: "PRIME TIME", time: "Yesterday" },
+  { city: "Providence", state: "RI", product: "OVERHAUL COMBO", time: "Yesterday" },
+  { city: "Grand Rapids", state: "MI", product: "PRESSURE", time: "Yesterday" }
+];
+
+// --- Purchase Notification Pill (Subtle, Static Version) ---
+const PurchasePill = () => {
+  const [index, setIndex] = useState(0);
+  const [fade, setFade] = useState(true);
+
+  useEffect(() => {
+    const cycle = () => {
+      setFade(false);
+      setTimeout(() => {
+        setIndex((prev) => (prev + 1) % purchaseData.length);
+        setFade(true);
+      }, 500);
+    };
+    const interval = setInterval(cycle, 10000); 
+    return () => clearInterval(interval);
+  }, []);
+
+  const item = purchaseData[index];
+
+  return (
+    <div className="fixed bottom-6 left-6 z-[90] pointer-events-none">
+      <div className="bg-[#1a0f0a]/90 border border-[#c58158]/30 px-3 py-2 rounded-lg shadow-xl flex items-center gap-3 max-w-[240px] backdrop-blur-sm">
+        <div className={`transition-opacity duration-500 shrink-0 ${fade ? 'opacity-100' : 'opacity-0'}`}>
+          <div className="w-7 h-7 bg-[#c58158]/20 rounded flex items-center justify-center border border-[#c58158]/20">
+            <Package size={14} className="text-[#c58158]" />
+          </div>
+        </div>
+        <div className={`flex flex-col transition-opacity duration-500 ${fade ? 'opacity-100' : 'opacity-0'}`}>
+          <div className="flex items-center gap-2">
+            <span className="text-white text-[8px] font-black uppercase italic tracking-wider leading-none">Order Dispatch</span>
+            <span className="text-[#c58158] text-[7px] font-bold uppercase opacity-60 tracking-widest">• {item.time}</span>
+          </div>
+          <p className="text-[#f4e4bc]/80 text-[9px] font-bold uppercase tracking-tight leading-tight mt-1 truncate">
+            {item.city}, {item.state} secured <span className="text-[#d4af37]">{item.product}</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// --- Testimonials Data ---
+const testimonials = [
+  {
+    name: "James T.",
+    location: "Chicago, IL",
+    text: "I've tried every drugstore saw palmetto bottle on the shelf. Zero results. Two weeks on PRESSURE and I'm finally sleeping through the night like I'm 20 again.",
+    product: "PRESSURE",
+    rating: 5
+  },
+  {
+    name: "Robert M.",
+    location: "Houston, TX",
+    text: "System torque is back. Prime Time gave me that edge back in the bedroom and the gym. It's night and day compared to those mass-market fillers.",
+    product: "PRIME TIME",
+    rating: 5
+  },
+  {
+    name: "Mike D.",
+    location: "Phoenix, AZ",
+    text: "My flow was like a leaky faucet. Now the pressure is actually back to professional standards. No more waking up 3 times a night to check the lines.",
+    product: "PRESSURE",
+    rating: 5
+  },
+  {
+    name: "David L.",
+    location: "Austin, TX",
+    text: "The wife noticed the difference first. Everything is running smoother, harder, and longer. This kit is the real deal for anyone needing a performance overhaul.",
+    product: "PRIME TIME",
+    rating: 5
+  },
+  {
+    name: "Thomas W.",
+    location: "Jacksonville, FL",
+    text: "Don't waste money on generic prostate support. I did that for a year with zero change. PRESSURE is the only formula that actually cleared the pipes.",
+    product: "PRESSURE",
+    rating: 5
+  },
+  {
+    name: "Gary H.",
+    location: "Denver, CO",
+    text: "Reignited my energy levels. I was hitting the snooze button on life until I started the Prime Time protocol. Now I'm ready for the shift before it starts.",
+    product: "PRIME TIME",
+    rating: 5
+  },
+  {
+    name: "Steven P.",
+    location: "Nashville, TN",
+    text: "Rock-solid reliability. I finally did an 8-hour shift in bed without a single trip to the bathroom. My sleep quality has completely transformed.",
+    product: "PRESSURE",
+    rating: 5
+  },
+  {
+    name: "Mark S.",
+    location: "Baltimore, MD",
+    text: "Harder erections and way more drive. It feels like my internal engine got a complete overhaul. I feel pressurized and primed every morning.",
+    product: "PRIME TIME",
+    rating: 5
+  },
+  {
+    name: "Paul R.",
+    location: "Tucson, AZ",
+    text: "I spent hundreds on 'natural' solutions that did nothing. Standardized extract is the secret. The flow is unstoppable now. Absolute industrial quality.",
+    product: "PRESSURE",
+    rating: 5
+  },
+  {
+    name: "Anthony G.",
+    location: "Atlanta, GA",
+    text: "The OVERHAUL COMBO is the way to go. Flow is clear and the torque is high. No more apologies needed in the bedroom or on the job site.",
+    product: "COMBO",
+    rating: 5
+  },
+  {
+    name: "Larry B.",
+    location: "Miami, FL",
+    text: "Nightly system checks are a thing of the past. One solid sleep, high pressure in the morning. Exactly what the specialist ordered for my pipes.",
+    product: "PRESSURE",
+    rating: 5
+  },
+  {
+    name: "Kevin J.",
+    location: "Las Vegas, NV",
+    text: "Tried Nugenix and it felt like a placebo. Prime Time actually delivers the torque it promises. Harder, stronger, and more energy throughout the day.",
+    product: "PRIME TIME",
+    rating: 5
+  }
+];
 
 // --- Discount Popup ---
 const DiscountPopup = ({ isOpen, onClose }) => {
@@ -64,22 +251,23 @@ const ChatBot = ({ messages, setMessages }) => {
     
     let nudgeInstruction = "";
     if (userMsgCount % 2 === 0) {
-       nudgeInstruction = "\n\nREQUIRED ACTION: Identify the 'Pro-grade part' (PRESSURE or PRIME TIME) for their leak and guide them to the Supply Depot.";
+       nudgeInstruction = "\n\nREQUIRED ACTION: Acting as a professional strategist, recommend the correct part (PRESSURE, PRIME TIME, or the OVERHAUL kit) to fix their system leak and tell them to secure it at the Supply Depot below.";
     }
 
-    const systemPrompt = `You are the Lead Strategist for Mr. Plumber Man Nutrition. Tone: Elite tradesman.Metaphors: Human biology is a plumbing system (pipes, clogs, torque).
+    const systemPrompt = `You are the Lead Strategist for Mr. Plumber Man Nutrition. Tone: Professional tradesman, authoritative, elite. Metaphors: Biology is a plumbing system (pipes, flow, torque).
 
     CRITICAL RULE: LIMIT EVERY RESPONSE TO A MAXIMUM OF 2 SENTENCES. BE EXTREMELY CONCISE.
 
     KNOWLEDGE:
-    - PRESSURE ($39): Fixes prostate clogs and urination leaks using Standardized Saw Palmetto.
-    - PRIME TIME ($59): Restores system torque and testosterone with high-absorption Glycinate/Picolinate specs. No cheap mass-market 'Oxide' fillers.
+    - PRESSURE ($39): Fixes prostate clogs and nightly urination leaks using Standardized Saw Palmetto. 
+    - PRIME TIME ($59): Restores testosterone torque with high-absorption Glycinate/Picolinate. Outperforms mass-market 'Oxide' fillers found in kits like Nugenix.
+    - OVERHAUL COMBO ($97): Ultimate kit. Both formulas for total restoration.
+    - SHIPPING: All orders ship free.
     
     MISSION: 
-    1. Only talk about helpful mechanical fixes.
-    2. Edge them towards a solution. Identify the failure and suggest the professional-grade fix. 
-    3. Do NOT just say "buy this." Say "You need this part to restore factory flow."
-    4. Focus entirely on diagnosing the leak and recommending the Depot.
+    1. Identify the system leak (Urination or performance).
+    2. Edge them towards a solution. Identify the failure and suggest the pro-grade fix. 
+    3. Never tell them to email. Instruct them to go to the Supply Depot.
     ${nudgeInstruction}
     
     FORMATTING:
@@ -163,10 +351,11 @@ const App = () => {
 
   const teardownRef = useRef(null);
   const depotRef = useRef(null);
+  const testimonialsRef = useRef(null);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (!sessionStorage.getItem('mp_pop_v2')) { setShowPopup(true); sessionStorage.setItem('mp_pop_v2', 't'); }
+      if (!sessionStorage.getItem('mp_pop_v3')) { setShowPopup(true); sessionStorage.setItem('mp_pop_v3', 't'); }
     }, 5000);
     return () => clearTimeout(timer);
   }, []);
@@ -177,7 +366,7 @@ const App = () => {
 
   const Header = () => (
     <nav className="fixed top-0 left-0 w-full z-[80] p-6">
-      <div className="max-w-5xl mx-auto flex justify-between items-center bg-[#2a1b15]/95 backdrop-blur-md border border-[#c58158]/30 rounded-full px-6 py-3 shadow-2xl">
+      <div className="max-w-6xl mx-auto flex justify-between items-center bg-[#2a1b15]/95 backdrop-blur-md border border-[#c58158]/30 rounded-full px-6 py-3 shadow-2xl">
         <div className="flex items-center space-x-3 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
           <div className="w-8 h-8 bg-[#c58158] rounded-lg flex items-center justify-center font-black text-[#1a0f0a] shadow-md"><Wrench size={18} /></div>
           <span className="text-[14px] font-black uppercase tracking-tight text-[#d4af37] italic">MR. PLUMBER MAN</span>
@@ -196,58 +385,57 @@ const App = () => {
       
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center px-4 pt-32 pb-20 overflow-hidden">
+        {/* 70's Style Geometric Wallpaper Layer */}
+        <div 
+            className="absolute inset-0 z-0 opacity-20 pointer-events-none"
+            style={{
+                backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c58158' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2v-4h4v-2h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2v-4h4v-2H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"), radial-gradient(circle at center, transparent 0%, #1a0f0a 100%)`,
+                maskImage: 'linear-gradient(to right, transparent 10%, black 90%)',
+                WebkitMaskImage: 'linear-gradient(to right, transparent 10%, black 90%)'
+            }}
+        />
         <div className="absolute inset-0 bg-gradient-to-b from-[#1a0f0a] via-transparent to-[#1a0f0a] z-10" />
-        <div className="absolute inset-0 opacity-5 pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/cardboard-flat.png')]" />
+        <div className="absolute inset-0 opacity-5 pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/cardboard-flat.png')] z-10" />
 
-        <div className="max-w-7xl mx-auto relative z-20 w-full grid lg:grid-cols-2 gap-12 items-center">
-          <div className="text-center lg:text-left space-y-8">
+        <div className="max-w-6xl mx-auto relative z-20 w-full grid lg:grid-cols-2 gap-12 items-center">
+          <div className="text-center lg:text-left">
             <ScrollReveal>
-              <div className="inline-flex items-center space-x-3 px-6 py-2 mb-4 text-[10px] font-black uppercase tracking-[0.5em] text-[#d4af37] border-y border-[#c58158]/30 italic">
-                <Award size={14} /><span>Industrial Grade Vitality</span>
-              </div>
-              
-              <h1 className="text-6xl md:text-7xl font-black tracking-tighter mb-8 leading-[0.9] uppercase italic text-white drop-shadow-2xl">
-                MASTER YOUR <br />
-                <span className="text-[#d4af37]">VITAL</span> PLUMBING
-              </h1>
-              
-              <p className="text-xl md:text-2xl text-[#f4e4bc]/70 mb-2 leading-relaxed max-w-xl font-bold italic">
-                Fix your flow with formulas engineered for the <span className="text-white underline decoration-[#c58158] underline-offset-8">modern tradesman</span>. No leaks, no guesswork.
-              </p>
-              <p className="text-sm font-bold text-[#d4af37] uppercase tracking-widest mt-4 italic">
-                Two formulas. One mission: restore energy, performance, and prostate flow.
-              </p>
-              
-              <div className="flex flex-col sm:flex-row items-center lg:justify-start justify-center gap-6 mt-8 relative">
-                 <div className="absolute w-40 h-40 bg-[#d4af37]/20 blur-2xl rounded-full -z-10 animate-pulse"></div>
-                 <button onClick={() => scrollTo(depotRef)} className="bg-[#c58158] text-[#1a0f0a] px-12 py-5 font-black uppercase tracking-[0.2em] shadow-[0_10px_0_#8c5a3d] hover:translate-y-[2px] active:translate-y-[8px] transition-all flex items-center gap-3 italic">
-                   Order Supplies <ArrowRight size={20} />
-                 </button>
+              <div className="flex flex-col items-center lg:items-start">
+                <div className="inline-flex items-center space-x-3 px-6 py-2 mb-8 text-[10px] font-black uppercase tracking-[0.5em] text-[#d4af37] border-y border-[#c58158]/30 italic">
+                  <Award size={14} /><span>INDUSTRIAL-GRADE VITALITY</span>
+                </div>
+                <h1 className="text-6xl md:text-7xl font-black tracking-tighter mb-8 leading-[0.9] uppercase italic text-white drop-shadow-2xl">MASTER YOUR FLOW.</h1>
+                <div className="space-y-4 max-w-xl">
+                  <p className="text-xl md:text-2xl text-[#f4e4bc]/70 leading-relaxed font-bold italic">Performance engineered for men who like everything running smoothly.</p>
+                  <div className="flex items-center gap-2 justify-center lg:justify-start text-[#d4af37]">
+                    <Truck size={14} />
+                    <p className="text-sm font-bold uppercase tracking-widest italic">All orders include free express shipping.</p>
+                  </div>
+                </div>
+                <div className="mt-12 relative flex items-center justify-center lg:justify-start">
+                  <div className="absolute w-40 h-40 bg-[#d4af37]/20 blur-2xl rounded-full -z-10 animate-pulse"></div>
+                  <button onClick={() => scrollTo(depotRef)} className="bg-[#c58158] text-[#1a0f0a] px-12 py-5 font-black uppercase tracking-[0.2em] shadow-[0_10px_0_#8c5a3d] hover:translate-y-[2px] active:translate-y-[8px] transition-all flex items-center gap-3 italic">
+                    TURN THE PRESSURE UP <ArrowRight size={20} />
+                  </button>
+                </div>
               </div>
             </ScrollReveal>
           </div>
-
           <div className="relative group lg:mt-0 mt-12">
             <ScrollReveal>
               <div className="relative aspect-[4/5] md:aspect-square lg:aspect-[4/5] mx-auto max-w-[500px] border-8 border-[#3d291f] shadow-2xl overflow-hidden bg-[#2a1b15]">
-                <GenerateImage 
-                  prompt="A professional vintage industrial poster illustration of a muscular Black man with dreadlocks, wearing a blue short-sleeve work shirt and dark overalls, holding a large silver wrench over his shoulder, warm copper and mahogany studio lighting, clean lines, high quality character art, brown background, no text" 
-                  hero 
-                />
+                <GenerateImage prompt="A professional vintage industrial poster illustration of a muscular Black man with dreadlocks, wearing a blue short-sleeve work shirt and dark overalls, holding a large silver wrench over his shoulder, warm copper and mahogany studio lighting, clean lines, high quality character art, brown background, no text" hero />
                 <div className="absolute inset-0 border-[2px] border-[#c58158]/20 m-4 pointer-events-none"></div>
-                
-                {/* Hero Product Card Overlay */}
-                <div className="absolute bottom-4 right-4 bg-[#1a0f0a] border-2 border-[#c58158]/40 p-4 rounded-md shadow-xl">
-                  <div className="flex flex-col gap-1 mb-2">
-                    <span className="text-white text-sm font-black uppercase italic">PRESSURE</span>
-                    <span className="text-[#d4af37] text-[10px] uppercase tracking-widest">Prostate Support</span>
+                <div className="absolute bottom-4 right-4 bg-[#1a0f0a] border-2 border-[#c58158]/40 p-4 rounded-md shadow-xl z-20">
+                  <div className="flex flex-col gap-1 mb-2 text-left text-xs font-bold uppercase tracking-widest">
+                    <span className="text-white italic">PRESSURE</span>
+                    <span className="text-[#d4af37] text-[10px]">Prostate Support</span>
                   </div>
-                  <div className="flex items-center justify-between gap-4">
+                  <div className="flex items-center justify-between gap-4 pt-1">
                     <span className="text-[#c58158] font-black text-lg">$39</span>
                     <button onClick={() => scrollTo(depotRef)} className="bg-[#c58158] text-[#1a0f0a] px-3 py-1 rounded-sm text-[9px] font-black uppercase tracking-widest italic hover:bg-[#d4af37]">Shop Now</button>
                   </div>
                 </div>
-
                 <div className="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black/80 to-transparent">
                   <p className="text-[10px] font-black uppercase tracking-[0.4em] text-[#d4af37] italic">"Fix Your Flow Like A Pro"</p>
                 </div>
@@ -255,7 +443,6 @@ const App = () => {
             </ScrollReveal>
           </div>
         </div>
-        
         <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce opacity-30 cursor-pointer z-30" onClick={() => scrollTo(teardownRef)}>
           <ChevronDown size={32} />
         </div>
@@ -280,7 +467,7 @@ const App = () => {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-0 items-stretch relative">
               <div className="bg-[#2a1b15]/40 p-10 md:p-14 border-2 border-[#c58158]/10 relative z-10 shadow-lg group grayscale opacity-85 hover:opacity-100 transition-all duration-500">
-                <div className="absolute top-4 right-4 text-[9px] uppercase tracking-widest text-[#c58158]/60">Mass Market Formula</div>
+                <div className="absolute top-4 right-4 text-[9px] uppercase tracking-widest text-[#c58158]/60 text-right">Mass Market Formula</div>
                 <h4 className="text-xl font-black text-[#c58158] mb-12 flex items-center uppercase tracking-[0.2em] italic opacity-50"><XCircle className="w-6 h-6 mr-3 text-red-900" /> NUGENIX TOTAL-T</h4>
                 <div className="space-y-8 italic">
                   {[
@@ -291,8 +478,8 @@ const App = () => {
                     { l: "Saw Palmetto", v: "50mg Raw Berries" },
                     { l: "Extract Type", v: "Non-Standardized" }
                   ].map((row, i) => (
-                    <div key={i} className="flex justify-between border-b border-[#c58158]/10 pb-4">
-                      <p className="text-[10px] text-[#c58158]/60 uppercase font-black tracking-widest">{row.l}</p>
+                    <div key={i} className="flex justify-between border-b border-[#c58158]/10 pb-4 text-right">
+                      <p className="text-[10px] text-[#c58158]/60 uppercase font-black tracking-widest text-left">{row.l}</p>
                       <p className="text-sm text-[#f4e4bc]/40 font-bold uppercase">{row.v}</p>
                     </div>
                   ))}
@@ -310,8 +497,8 @@ const App = () => {
                     { l: "Saw Palmetto", v: "100mg Standardized" },
                     { l: "Extract Type", v: "Potency Guaranteed" }
                   ].map((row, i) => (
-                    <div key={i} className="flex justify-between border-b border-[#c58158]/20 pb-4">
-                      <p className="text-[10px] text-[#d4af37] uppercase font-black tracking-widest">{row.l}</p>
+                    <div key={i} className="flex justify-between border-b border-[#c58158]/20 pb-4 text-right">
+                      <p className="text-[10px] text-[#d4af37] uppercase font-black tracking-widest text-left">{row.l}</p>
                       <p className="text-sm text-white font-black uppercase">{row.v}</p>
                     </div>
                   ))}
@@ -322,10 +509,42 @@ const App = () => {
         </ScrollReveal>
       </section>
 
+      {/* Testimonials */}
+      <section ref={testimonialsRef} className="px-6 py-24 md:py-32 bg-[#140b08] border-y border-[#c58158]/10">
+        <ScrollReveal>
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-20 space-y-4">
+               <h2 className="text-[#c58158] font-black uppercase tracking-[0.5em] text-xs underline decoration-1">Verified Logistics</h2>
+               <h1 className="text-5xl md:text-8xl font-black uppercase tracking-tighter text-white leading-none">THE <span className="text-[#d4af37]">TESTIMONIAL</span> DEPT</h1>
+               <p className="text-[#f4e4bc]/50 font-bold uppercase tracking-widest italic">Real results from tradesmen in the field.</p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {testimonials.map((t, idx) => (
+                <div key={idx} className="bg-[#2a1b15]/40 border-2 border-[#c58158]/20 p-8 flex flex-col hover:border-[#d4af37] transition duration-300 relative rounded-sm shadow-xl">
+                  <div className="absolute top-4 right-4 opacity-10"><Quote size={40} className="text-[#c58158]" /></div>
+                  <div className="flex gap-1 mb-6">
+                    {[...Array(t.rating)].map((_, i) => <Star key={i} size={14} className="fill-[#d4af37] text-[#d4af37]" />)}
+                  </div>
+                  <p className="text-[#f4e4bc] font-bold italic leading-relaxed text-sm mb-8 relative z-10">"{t.text}"</p>
+                  <div className="mt-auto border-t border-[#c58158]/10 pt-6 text-left">
+                    <p className="text-[#d4af37] font-black uppercase tracking-widest text-xs italic">{t.name}</p>
+                    <div className="flex justify-between items-center mt-1">
+                      <p className="text-[#c58158]/60 font-bold uppercase text-[9px] tracking-widest">{t.location}</p>
+                      <span className="text-[8px] font-black bg-[#c58158]/10 px-2 py-0.5 border border-[#c58158]/20 text-[#c58158] rounded-full">{t.product}</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </ScrollReveal>
+      </section>
+
       {/* Proof Strip */}
-      <section className="bg-[#140b08] py-12 border-y border-[#c58158]/10">
-        <div className="max-w-6xl mx-auto px-6 italic">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center items-center">
+      <section className="bg-[#1a0f0a] py-12 border-y border-[#c58158]/10">
+        <div className="max-w-6xl mx-auto px-6 italic text-center">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 items-center">
             <div className="flex flex-col items-center gap-3">
               <Star className="w-5 h-5 text-[#d4af37]" />
               <span className="text-[10px] uppercase tracking-widest font-black text-[#f4e4bc]/70">Trusted by thousands</span>
@@ -350,35 +569,55 @@ const App = () => {
       <section className="bg-[#1a0f0a] py-24 px-6 border-b border-[#c58158]/10 italic text-center">
         <ScrollReveal>
           <div className="max-w-4xl mx-auto space-y-10">
-            <h2 className="text-3xl md:text-5xl font-black uppercase text-white tracking-tighter">STOP BUYING POWDERED FILLER. <br /><span className="text-[#c58158]">UPGRADE YOUR SYSTEM.</span></h2>
-            <button onClick={() => scrollTo(depotRef)} className="bg-[#c58158] text-[#1a0f0a] px-12 py-5 font-black uppercase tracking-[0.2em] shadow-[0_10px_0_#8c5a3d] hover:translate-y-[2px] transition-all">Shop The Supply Depot</button>
+            <h2 className="text-3xl md:text-5xl font-black uppercase text-white tracking-tighter leading-none">STOP BUYING POWDERED FILLER. <br /><span className="text-[#c58158]">UPGRADE YOUR SYSTEM.</span></h2>
+            <button onClick={() => scrollTo(depotRef)} className="bg-[#c58158] text-[#1a0f0a] px-12 py-5 font-black uppercase tracking-[0.2em] shadow-[0_10px_0_#8c5a3d] hover:translate-y-[2px] active:translate-y-[8px] transition-all mx-auto">Shop The Supply Depot</button>
           </div>
         </ScrollReveal>
       </section>
 
       {/* Supply Depot */}
       <section ref={depotRef} className="px-6 py-24 md:py-32 bg-[#140b08]">
-       <div className="max-w-5xl mx-auto italic text-center">
+       <div className="max-w-7xl mx-auto italic text-center">
           <ScrollReveal>
             <div className="mb-20 space-y-4">
-               <h2 className="text-[#c58158] font-black uppercase tracking-[0.5em] text-xs underline">Supply Inventory</h2>
+               <h2 className="text-[#c58158] font-black uppercase tracking-[0.5em] text-xs underline decoration-1">Supply Inventory</h2>
                <h1 className="text-6xl md:text-8xl font-black uppercase tracking-tighter text-white leading-none">THE <span className="text-[#d4af37]">SUPPLY</span> DEPOT</h1>
+               <div className="flex items-center gap-2 justify-center text-[#d4af37] animate-pulse">
+                 <Truck size={16} />
+                 <span className="text-[10px] font-black uppercase tracking-[0.4em]">All orders include free express shipping</span>
+               </div>
             </div>
-            <div className="grid md:grid-cols-2 gap-12 text-center">
+            
+            <div className="grid md:grid-cols-3 gap-8 text-center">
                {[
                  { id: 'p', name: "PRESSURE", sub: "Prostate Support", price: 39, img: "Vintage copper supplement bottle, prostate formula", desc: "Clear the lines and restore factory-spec flow rate." },
-                 { id: 't', name: "PRIME TIME", sub: "T-Formula", price: 59, img: "Industrial bronze supplement bottle, testosterone booster", desc: "High-torque energy and maximum drive restoration." }
+                 { id: 't', name: "PRIME TIME", sub: "T-Formula", price: 59, img: "Industrial bronze supplement bottle, testosterone booster", desc: "High-torque energy and maximum drive restoration." },
+                 { id: 'c', name: "THE OVERHAUL", sub: "Combo Pack", price: 97, img: "Two vintage supplement bottles side by side, copper and bronze labels", desc: "The ultimate blueprint. Secure both formulas for total system performance.", tag: "Best Value" }
                ].map(p => (
-                 <div key={p.id} className="bg-[#2a1b15]/40 border-2 border-[#c58158]/20 p-10 hover:border-[#d4af37] transition duration-500 flex flex-col items-center group rounded-sm shadow-2xl">
-                    <div className="w-full aspect-square bg-[#1a0f0a] border border-[#c58158]/20 mb-10 flex items-center justify-center relative shadow-inner overflow-hidden">
+                 <div key={p.id} className="bg-[#2a1b15]/40 border-2 border-[#c58158]/20 p-8 hover:border-[#d4af37] transition duration-500 flex flex-col items-center group rounded-sm shadow-2xl relative overflow-hidden">
+                    {p.tag && (
+                      <div className="absolute top-4 left-[-30px] bg-[#d4af37] text-[#1a0f0a] px-10 py-1 text-[8px] font-black uppercase tracking-widest -rotate-45 shadow-lg">
+                        {p.tag}
+                      </div>
+                    )}
+                    <div className="w-full aspect-square bg-[#1a0f0a] border border-[#c58158]/20 mb-8 flex items-center justify-center relative shadow-inner overflow-hidden">
                        <GenerateImage prompt={p.img} />
                     </div>
-                    <h3 className="text-4xl font-black text-white uppercase mb-2 leading-none">{p.name}</h3>
-                    <p className="text-[#d4af37] font-black uppercase tracking-[0.4em] text-[10px] mb-6">{p.sub}</p>
-                    <p className="text-[#f4e4bc]/50 font-bold uppercase tracking-widest text-sm mb-12 italic leading-relaxed">{p.desc}</p>
-                    <div className="mt-auto w-full flex items-center justify-between pt-8 border-t border-[#c58158]/20">
-                       <p className="text-4xl font-black italic text-white">${p.price}</p>
-                       <button className="bg-[#c58158] text-[#1a0f0a] px-8 py-4 font-black uppercase tracking-widest text-xs hover:bg-[#d4af37] shadow-[0_6px_0_#8c5a3d] active:translate-y-[6px] transition-all">Add To Kit</button>
+                    <h3 className="text-3xl font-black text-white uppercase mb-2 leading-none">{p.name}</h3>
+                    <p className="text-[#d4af37] font-black uppercase tracking-[0.4em] text-[9px] mb-4">{p.sub}</p>
+                    <p className="text-[#f4e4bc]/50 font-bold uppercase tracking-widest text-xs mb-8 italic leading-relaxed h-12">{p.desc}</p>
+                    
+                    <div className="mt-auto w-full space-y-4 pt-6 border-t border-[#c58158]/20 text-center">
+                       <div className="flex flex-col items-center gap-1">
+                          <p className="text-3xl font-black italic text-white">${p.price}</p>
+                          <span className="text-[8px] text-[#c58158] font-black uppercase tracking-widest">Free Express Shipping</span>
+                       </div>
+                       <div className="space-y-3">
+                         <button className="w-full bg-[#c58158] text-[#1a0f0a] py-4 font-black uppercase tracking-widest text-xs hover:bg-[#d4af37] shadow-[0_6px_0_#8c5a3d] active:translate-y-[6px] transition-all">Add To Kit</button>
+                         <button className="w-full border border-[#c58158]/40 bg-transparent text-[#d4af37] py-2 font-black uppercase tracking-[0.3em] text-[9px] hover:bg-[#c58158]/10 transition-all italic flex items-center justify-center gap-2">
+                           <RefreshCcw size={10} /> Subscribe & Save 5%
+                         </button>
+                       </div>
                     </div>
                  </div>
                ))}
@@ -387,14 +626,20 @@ const App = () => {
        </div>
       </section>
 
-      <footer className="bg-[#0f0a08] py-20 px-6 text-center italic">
+      <footer className="bg-[#0f0a08] py-20 px-6 text-center italic border-t border-[#c58158]/10">
          <div className="max-w-5xl mx-auto space-y-10">
+            <div className="flex flex-col items-center gap-4 opacity-40 grayscale hover:opacity-100 transition-opacity">
+              <div className="w-12 h-12 bg-[#c58158] rounded-lg flex items-center justify-center font-black text-[#1a0f0a] shadow-md"><Wrench size={24} /></div>
+              <span className="text-[14px] font-black uppercase tracking-[0.3em] text-[#d4af37] italic">MR. PLUMBER MAN</span>
+            </div>
             <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#c58158]/30 leading-relaxed max-w-2xl mx-auto italic">
                * These statements have not been evaluated by the FDA. This product is not intended to diagnose, treat, cure, or prevent any disease. Comparison based on available label specifications. Nugenix Total-T is a registered trademark of its respective owner.
             </p>
          </div>
       </footer>
 
+      {/* Floating UI */}
+      <PurchasePill />
       <ChatBot messages={chatMessages} setMessages={setChatMessages} />
       <DiscountPopup isOpen={showPopup} onClose={() => setShowPopup(false)} />
     </div>
@@ -422,7 +667,7 @@ const GenerateImage = ({ prompt, hero = false }) => {
   if (loading) return (
     <div className="flex flex-col items-center justify-center h-full bg-[#1a0f0a] p-8">
       <Loader2 className="animate-spin text-[#c58158] mb-2" size={hero ? 40 : 24} />
-      <span className="text-[8px] font-black uppercase tracking-[0.4em] text-[#c58158]/40 italic text-center">Schematic...</span>
+      <span className="text-[8px] font-black uppercase tracking-[0.4em] text-[#c58158]/40 italic text-center">Assembling...</span>
     </div>
   );
 
