@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+ import React, { useState, useEffect, useRef } from 'react';
 import { 
   CheckCircle2, 
   ArrowRight, 
@@ -242,7 +242,7 @@ const DiscountPopup = ({ isOpen, onClose }) => {
             <div className="inline-block p-4 bg-[#c58158]/10 rounded-full">
               <Ticket className="w-12 h-12 text-[#d4af37] rotate-12" />
             </div>
-            <h2 className="text-4xl font-black italic uppercase tracking-tighter text-white">WANT THE <span className="text-[#d4af37]">BEST DEALS?</span></h2>
+            <h2 className="text-4xl font-black italic uppercase tracking-tighter text-white text-center">WANT THE <span className="text-[#d4af37]">BEST DEALS?</span></h2>
             <p className="text-[#f4e4bc]/60 font-bold uppercase tracking-widest text-xs italic text-center">Join the dispatch list and take <span className="text-white">15% OFF</span> your next haul.</p>
             
             <form 
@@ -336,14 +336,23 @@ const ChatBot = ({ messages, setMessages }) => {
     - PLAIN TEXT ONLY. No markdown, no bolding, no hashtags.`;
 
     try {
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ contents: [{ parts: [{ text: userQuery }] }], systemInstruction: { parts: [{ text: systemPrompt }] } })
+      // Logic replaced with local API block as requested
+      const response = await fetch("/api/gemini", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userQuery, systemPrompt }),
       });
+
       const data = await response.json();
-      const rawText = data.candidates?.[0]?.content?.parts?.[0]?.text || "System clog. Secure your kit at the Supply Depot.";
-      return rawText.replace(/[#*_|]/g, '');
+
+      if (!response.ok) {
+        throw new Error(data?.error || "Request failed");
+      }
+
+      const rawText =
+        data?.text || "System clog. Secure your kit at the Supply Depot.";
+
+      return rawText.replace(/[#*_|]/g, "");
     } catch (e) {
       if (retryCount < 2) return callGemini(userQuery, retryCount + 1);
       return "Connection leak detected. Secure your order at the Supply Depot below.";
@@ -530,7 +539,7 @@ const App = () => {
             <div className="mb-16 space-y-6 text-center">
               <h2 className="text-xs font-black uppercase tracking-[0.6em] text-[#c58158] font-black text-center">Blueprint Analysis</h2>
               <h3 className="text-5xl md:text-9xl font-black tracking-tighter uppercase mb-8 leading-none italic text-white text-center">SYSTEM <span className="text-[#d4af37]">TEARDOWN</span>.</h3>
-              <p className="text-[#f4e4bc]/50 text-xl md:text-2xl font-bold max-w-3xl leading-relaxed italic uppercase tracking-widest mx-auto text-center">Nugenix built recognition. Mr. Plumber Man builds results. Engineering always wins over advertising.</p>
+              <p className="text-[#f4e4bc]/50 text-xl md:text-2xl font-bold max-w-3xl leading-relaxed italic uppercase tracking-widest mx-auto text-center text-center">Nugenix built recognition. Mr. Plumber Man builds results. Engineering always wins over advertising.</p>
             </div>
             <div className="grid grid-cols-4 w-full mb-4 px-10 text-[10px] uppercase tracking-widest text-[#c58158]/60 font-black hidden lg:grid text-left">
               <span>Formula Type</span>
@@ -666,7 +675,6 @@ const App = () => {
         <ScrollReveal>
           <div className="max-w-4xl mx-auto space-y-10">
             <h2 className="text-3xl md:text-5xl font-black uppercase text-white tracking-tighter leading-none text-center">STOP BUYING POWDERED FILLER. <br /><span className="text-[#c58158]">UPGRADE YOUR SYSTEM.</span></h2>
-            {/* UPGRADE CTA BUTTON: Rounding updated to rounded-lg to match hero CTA and dispatch ticker */}
             <button onClick={() => scrollTo(depotRef)} className="bg-[#c58158] text-[#1a0f0a] px-12 py-5 font-black uppercase tracking-[0.2em] shadow-[0_10px_0_#8c5a3d] rounded-lg hover:translate-y-[2px] active:translate-y-[8px] transition-all mx-auto text-center flex justify-center items-center">Shop The Supply Depot</button>
           </div>
         </ScrollReveal>
@@ -678,19 +686,20 @@ const App = () => {
           <ScrollReveal>
             <div className="mb-20 space-y-4 text-center">
                <h2 className="text-[#c58158] font-black uppercase tracking-[0.5em] text-xs underline decoration-1 text-center">Supply Inventory</h2>
-               <h1 className="text-6xl md:text-8xl font-black uppercase tracking-tighter text-white leading-none text-center">THE <span className="text-[#d4af37]">SUPPLY</span> DEPOT</h1>
+               <h1 className="text-6xl md:text-8xl font-black uppercase tracking-tighter text-white leading-none text-center text-center">THE <span className="text-[#d4af37]">SUPPLY</span> DEPOT</h1>
                <div className="flex items-center gap-2 justify-center text-[#d4af37] animate-pulse">
                  <Truck size={16} />
                  <span className="text-[10px] font-black uppercase tracking-[0.4em]">All orders include free express shipping</span>
                </div>
             </div>
+            
             <div className="grid md:grid-cols-3 gap-8">
                {[
                  { id: 'p', name: "PRESSURE", sub: "Prostate Support", price: 39, imgOverride: "https://images.travelprox.com/mrplumberman/pressure.png", desc: "Clear the lines and restore factory-spec flow rate." },
                  { id: 't', name: "PRIME TIME", sub: "T-Formula", price: 59, imgOverride: "https://images.travelprox.com/mrplumberman/primeheat.png", desc: "High-torque energy and maximum drive restoration." },
                  { id: 'c', name: "THE OVERHAUL", sub: "Combo Pack", price: 97, imgOverride: "https://images.travelprox.com/mrplumberman/symbol.png", desc: "The ultimate blueprint. Secure both formulas for total system performance.", tag: "Best Value" }
                ].map(p => (
-                 <div key={p.id} className="bg-[#2a1b15]/40 border-2 border-[#c58158]/20 p-8 hover:border-[#d4af37] transition duration-500 flex flex-col items-center group rounded-sm shadow-2xl relative overflow-hidden text-center">
+                 <div key={p.id} className="bg-[#2a1b15]/40 border-2 border-[#c58158]/20 p-8 hover:border-[#d4af37] transition duration-500 flex flex-col items-center group rounded-sm shadow-2xl relative overflow-hidden text-center text-center">
                     {p.tag && (
                       <div className="absolute top-4 left-[-30px] bg-[#d4af37] text-[#1a0f0a] px-10 py-1 text-[8px] font-black uppercase tracking-widest -rotate-45 shadow-lg">
                         {p.tag}
@@ -701,8 +710,9 @@ const App = () => {
                     </div>
                     <h3 className="text-3xl font-black text-white uppercase mb-2 leading-none text-center">{p.name}</h3>
                     <p className="text-[#d4af37] font-black uppercase tracking-[0.4em] text-[9px] mb-4 text-center">{p.sub}</p>
-                    <p className="text-[#f4e4bc]/50 font-bold uppercase tracking-widest text-xs mb-8 italic leading-relaxed h-12 text-center text-center">{p.desc}</p>
-                    <div className="mt-auto w-full space-y-4 pt-6 border-t border-[#c58158]/20 text-center">
+                    <p className="text-[#f4e4bc]/50 font-bold uppercase tracking-widest text-xs mb-8 italic leading-relaxed h-12 text-center text-center text-center">{p.desc}</p>
+                    
+                    <div className="mt-auto w-full space-y-4 pt-6 border-t border-[#c58158]/20 text-center text-center text-center">
                        <div className="flex flex-col items-center gap-1 text-center">
                           <p className="text-3xl font-black italic text-white">${p.price}</p>
                           <span className="text-[8px] text-[#c58158] font-black uppercase tracking-widest">Free Express Shipping</span>
@@ -726,7 +736,7 @@ const App = () => {
             <div className="opacity-40 grayscale hover:opacity-100 transition-opacity mb-4">
               <img src="https://images.travelprox.com/mrplumberman/plumlogo.png" className="h-10 w-auto" alt="Mr. Plumber Man Logo" />
             </div>
-            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#c58158]/30 leading-relaxed max-w-2xl mx-auto italic text-center">
+            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#c58158]/30 leading-relaxed max-w-2xl mx-auto italic text-center text-center">
                * These statements have not been evaluated by the FDA. This product is not intended to diagnose, treat, cure, or prevent any disease. Comparison based on available label specifications. Nugenix Total-T is a registered trademark of its respective owner.
             </p>
          </div>
@@ -777,7 +787,7 @@ const GenerateImage = ({ prompt, hero = false }) => {
   }, [prompt]);
 
   if (loading) return (
-    <div className="flex flex-col items-center justify-center h-full bg-[#1a0f0a] p-8 text-center">
+    <div className="flex flex-col items-center justify-center h-full bg-[#1a0f0a] p-8 text-center text-center">
       <Loader2 className="animate-spin text-[#c58158] mb-2" size={hero ? 40 : 24} />
       <span className="text-[8px] font-black uppercase tracking-[0.4em] text-[#c58158]/40 italic text-center">Assembling Schematic...</span>
     </div>
