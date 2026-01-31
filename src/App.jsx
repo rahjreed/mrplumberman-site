@@ -23,10 +23,12 @@ import {
   ChevronDown,
   Quote,
   Truck,
-  RefreshCcw
+  RefreshCcw,
+  User,
+  Mail
 } from 'lucide-react';
 
-// API Key integrated for Chatbot and Image Generation
+// API Key integrated from Google AI Studio
 const apiKey = "AIzaSyDFL2O357z2caEPOckF9kPQAh7KpDBC6E4";
 
 // --- Recent Purchases Data (50 Locations) ---
@@ -83,7 +85,7 @@ const purchaseData = [
   { city: "Grand Rapids", state: "MI", product: "PRESSURE", time: "Yesterday" }
 ];
 
-// --- Purchase Notification Pill (Subtle, Static Version) ---
+// --- Purchase Notification Pill ---
 const PurchasePill = () => {
   const [index, setIndex] = useState(0);
   const [fade, setFade] = useState(true);
@@ -214,20 +216,79 @@ const testimonials = [
 
 // --- Discount Popup ---
 const DiscountPopup = ({ isOpen, onClose }) => {
+  useEffect(() => {
+    if (isOpen) {
+      const script = document.createElement('script');
+      script.src = "https://f.convertkit.com/ckjs/ck.5.js";
+      script.async = true;
+      document.body.appendChild(script);
+      return () => {
+        if (document.body.contains(script)) {
+          document.body.removeChild(script);
+        }
+      };
+    }
+  }, [isOpen]);
+
   if (!isOpen) return null;
+
   return (
     <div className="fixed inset-0 z-[200] flex items-center justify-center px-4 bg-black/90 backdrop-blur-md animate-in fade-in duration-500">
       <div className="relative w-full max-w-lg bg-[#1a0f0a] border-[4px] border-[#c58158] shadow-[0_0_100px_rgba(197,129,88,0.3)] overflow-hidden rounded-sm p-1">
-        <div className="bg-[#2a1b15] border border-[#c58158]/30 p-8 md:p-12 text-center relative">
+        <div className="bg-[#2a1b15] border border-[#c58158]/30 p-8 md:p-12 text-center relative overflow-hidden">
           <button onClick={onClose} className="absolute top-4 right-4 text-[#c58158] hover:text-[#d4af37] transition-colors p-2 z-10"><X /></button>
-          <div className="relative z-10 space-y-6">
-            <div className="inline-block p-4 bg-[#c58158]/10 rounded-full"><Ticket className="w-12 h-12 text-[#d4af37] rotate-12" /></div>
-            <h2 className="text-4xl font-black italic uppercase tracking-tighter text-white">WANT THE <span className="text-[#d4af37]">BEST DEALS?</span></h2>
-            <p className="text-[#f4e4bc]/60 font-bold uppercase tracking-widest text-xs italic">Join the dispatch list and take <span className="text-white">15% OFF</span> your next haul.</p>
-            <div className="space-y-4 pt-4">
-              <input type="email" placeholder="ENTER DISPATCH EMAIL" className="w-full bg-[#1a0f0a] border-2 border-[#c58158]/30 px-6 py-4 text-xs font-black tracking-widest text-white focus:outline-none focus:border-[#d4af37] italic" />
-              <button onClick={onClose} className="w-full bg-[#c58158] text-[#1a0f0a] py-5 font-black uppercase tracking-[0.3em] text-sm hover:bg-[#d4af37] shadow-[0_8px_0_#8c5a3d] active:translate-y-[8px] active:shadow-none italic">Claim Discount</button>
+          
+          <div className="relative z-10 space-y-6 text-center flex flex-col items-center text-left">
+            <div className="inline-block p-4 bg-[#c58158]/10 rounded-full text-center">
+              <Ticket className="w-12 h-12 text-[#d4af37] rotate-12" />
             </div>
+            <h2 className="text-4xl font-black italic uppercase tracking-tighter text-white">WANT THE <span className="text-[#d4af37]">BEST DEALS?</span></h2>
+            <p className="text-[#f4e4bc]/60 font-bold uppercase tracking-widest text-xs italic text-center">Join the dispatch list and take <span className="text-white">15% OFF</span> your next haul.</p>
+            
+            <form 
+              action="https://app.kit.com/forms/9033723/subscriptions" 
+              className="seva-form formkit-form space-y-4 w-full" 
+              method="post" 
+              data-sv-form="9033723" 
+              data-uid="6b0b0fa093" 
+              data-format="inline" 
+              data-version="5"
+            >
+              <div data-element="fields" className="seva-fields formkit-fields space-y-4 w-full">
+                <div className="formkit-field relative group">
+                  <div className="absolute left-4 top-1/2 -translate-y-1/2 text-[#c58158]">
+                    <User size={16} />
+                  </div>
+                  <input 
+                    className="formkit-input w-full bg-[#1a0f0a] border-2 border-[#c58158]/30 px-12 py-4 text-xs font-black tracking-widest text-white focus:outline-none focus:border-[#d4af37] italic" 
+                    aria-label="First Name" 
+                    name="fields[first_name]" 
+                    placeholder="First Name" 
+                    type="text" 
+                  />
+                </div>
+                <div className="formkit-field relative group">
+                  <div className="absolute left-4 top-1/2 -translate-y-1/2 text-[#c58158]">
+                    <Mail size={16} />
+                  </div>
+                  <input 
+                    className="formkit-input w-full bg-[#1a0f0a] border-2 border-[#c58158]/30 px-12 py-4 text-xs font-black tracking-widest text-white focus:outline-none focus:border-[#d4af37] italic" 
+                    name="email_address" 
+                    aria-label="Email Address" 
+                    placeholder="Email Address" 
+                    required 
+                    type="email" 
+                  />
+                </div>
+                <button 
+                  data-element="submit" 
+                  className="formkit-submit w-full bg-[#c58158] text-[#1a0f0a] py-5 font-black uppercase tracking-[0.3em] text-sm hover:bg-[#d4af37] shadow-[0_8px_0_#8c5a3d] active:translate-y-[8px] active:shadow-none italic transition-all relative"
+                >
+                  <div className="formkit-spinner hidden absolute inset-0 flex items-center justify-center"><div></div><div></div><div></div></div>
+                  <span className="">Claim Discount</span>
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
@@ -251,23 +312,24 @@ const ChatBot = ({ messages, setMessages }) => {
     
     let nudgeInstruction = "";
     if (userMsgCount % 2 === 0) {
-       nudgeInstruction = "\n\nREQUIRED ACTION: Acting as a professional strategist, recommend the correct part (PRESSURE, PRIME TIME, or the OVERHAUL kit) to fix their system leak and tell them to secure it at the Supply Depot below.";
+       nudgeInstruction = "\n\nREQUIRED ACTION: Acting as the expert strategist, identify their 'leak' and recommend the correct part (PRESSURE, PRIME TIME, or OVERHAUL kit) to restore their system. Direct them to the Supply Depot.";
     }
 
-    const systemPrompt = `You are the Lead Strategist for Mr. Plumber Man Nutrition. Tone: Professional tradesman, authoritative, elite. Metaphors: Biology is a plumbing system (pipes, flow, torque).
+    const systemPrompt = `You are the Lead Strategist for Mr. Plumber Man Nutrition. Tone: Professional tradesman, authoritative, helpful. Metaphors: Biology is plumbing (pipes, clogs, torque).
 
-    CRITICAL RULE: LIMIT EVERY RESPONSE TO A MAXIMUM OF 2 SENTENCES. BE EXTREMELY CONCISE.
+    STRICT RULE: MAXIMUM 2 SENTENCES PER RESPONSE. 
 
     KNOWLEDGE:
-    - PRESSURE ($39): Fixes prostate clogs and nightly urination leaks using Standardized Saw Palmetto. 
-    - PRIME TIME ($59): Restores testosterone torque with high-absorption Glycinate/Picolinate. Outperforms mass-market 'Oxide' fillers found in kits like Nugenix.
-    - OVERHAUL COMBO ($97): Ultimate kit. Both formulas for total restoration.
-    - SHIPPING: All orders ship free.
+    - PRESSURE ($39): Fixes prostate clogs and nightly urination leaks using Standardized Saw Palmetto. Standardized extracts guarantee potency compared to mass raw powders.
+    - PRIME TIME ($59): Restores testosterone torque with high-torque Magnesium Glycinate & Zinc Picolinate. Much more bioavailable than cheap Oxide fillers used in Nugenix.
+    - OVERHAUL COMBO ($97): Total restoration kit. 
+    - SHIPPING: Free express shipping sitewide.
+    - SUBSCRIBE & SAVE: 5% discount on refills.
     
     MISSION: 
-    1. Identify the system leak (Urination or performance).
-    2. Edge them towards a solution. Identify the failure and suggest the pro-grade fix. 
-    3. Never tell them to email. Instruct them to go to the Supply Depot.
+    1. Identify the 'leak' (Nightly urination trips vs Sexual performance).
+    2. Edge them towards a purchase by acting as an expert fixing a system failure. 
+    3. Instruct them to go to the Supply Depot. Never tell them to email.
     ${nudgeInstruction}
     
     FORMATTING:
@@ -284,7 +346,7 @@ const ChatBot = ({ messages, setMessages }) => {
       return rawText.replace(/[#*_|]/g, '');
     } catch (e) {
       if (retryCount < 2) return callGemini(userQuery, retryCount + 1);
-      return "The connection is leaking. Secure your haul at the Supply Depot manually.";
+      return "Connection leak detected. Secure your order at the Supply Depot below.";
     }
   };
 
@@ -317,11 +379,11 @@ const ChatBot = ({ messages, setMessages }) => {
           </div>
           <div className="p-4 bg-[#2a1b15] border-t border-[#c58158]/20 flex space-x-2">
             <input value={input} onChange={e => setInput(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleSend()} placeholder="Urination trips or performance torque?" className="flex-grow bg-[#1a0f0a] border border-[#c58158]/30 rounded-full px-4 py-2 text-xs text-white outline-none" />
-            <button onClick={handleSend} className="p-2 bg-[#c58158] rounded-full text-[#1a0f0a]"><Send className="w-4 h-4" /></button>
+            <button onClick={handleSend} className="p-2 bg-[#c58158] rounded-full text-[#1a0f0a] transition-transform hover:scale-110"><Send className="w-4 h-4" /></button>
           </div>
         </div>
       ) : (
-        <button onClick={() => setIsOpen(true)} className="w-14 h-14 bg-[#1a0f0a] border-2 border-[#c58158] rounded-full flex items-center justify-center shadow-2xl group relative">
+        <button onClick={() => setIsOpen(true)} className="w-14 h-14 bg-[#1a0f0a] border-2 border-[#c58158] rounded-full flex items-center justify-center shadow-2xl group relative transition-transform hover:scale-110">
           <div className="absolute inset-0 bg-[#c58158]/10 rounded-full animate-ping group-hover:animate-none" />
           <Wrench className="w-6 h-6 text-[#c58158]" />
         </button>
@@ -337,7 +399,7 @@ const ScrollReveal = ({ children }) => {
   useEffect(() => {
     const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setVisible(true); }, { threshold: 0.1 });
     if (ref.current) obs.observe(ref.current);
-    return () => ref.current && obs.unobserve(ref.current);
+    return () => { if (ref.current) obs.unobserve(ref.current); };
   }, []);
   return <div ref={ref} className={`transition-all duration-1000 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>{children}</div>;
 };
@@ -355,7 +417,7 @@ const App = () => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (!sessionStorage.getItem('mp_pop_v3')) { setShowPopup(true); sessionStorage.setItem('mp_pop_v3', 't'); }
+      if (!sessionStorage.getItem('mp_pop_v5')) { setShowPopup(true); sessionStorage.setItem('mp_pop_v5', 't'); }
     }, 5000);
     return () => clearTimeout(timer);
   }, []);
@@ -380,18 +442,21 @@ const App = () => {
   );
 
   return (
-    <div className="bg-[#1a0f0a] text-[#f4e4bc] font-serif relative overflow-x-hidden">
+    <div className="bg-[#1a0f0a] text-[#f4e4bc] font-serif relative overflow-x-hidden min-h-screen">
       <Header />
       
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center px-4 pt-32 pb-20 overflow-hidden">
-        {/* 70's Style Geometric Wallpaper Layer */}
+      <section className="relative min-h-screen flex items-center justify-center px-4 pt-32 pb-20 overflow-hidden text-left">
+        {/* Updated Industrial Hero Wallpaper Background */}
         <div 
-            className="absolute inset-0 z-0 opacity-20 pointer-events-none"
+            className="absolute inset-0 z-0 pointer-events-none"
             style={{
-                backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c58158' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2v-4h4v-2h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2v-4h4v-2H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"), radial-gradient(circle at center, transparent 0%, #1a0f0a 100%)`,
-                maskImage: 'linear-gradient(to right, transparent 10%, black 90%)',
-                WebkitMaskImage: 'linear-gradient(to right, transparent 10%, black 90%)'
+                backgroundImage: `url("https://images.travelprox.com/mrplumberman/herowall.png")`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                opacity: 0.25,
+                maskImage: 'linear-gradient(to right, transparent 5%, black 95%)',
+                WebkitMaskImage: 'linear-gradient(to right, transparent 5%, black 95%)'
             }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-[#1a0f0a] via-transparent to-[#1a0f0a] z-10" />
@@ -400,19 +465,19 @@ const App = () => {
         <div className="max-w-6xl mx-auto relative z-20 w-full grid lg:grid-cols-2 gap-12 items-center">
           <div className="text-center lg:text-left">
             <ScrollReveal>
-              <div className="flex flex-col items-center lg:items-start">
+              <div className="flex flex-col items-center lg:items-start text-left">
                 <div className="inline-flex items-center space-x-3 px-6 py-2 mb-8 text-[10px] font-black uppercase tracking-[0.5em] text-[#d4af37] border-y border-[#c58158]/30 italic">
                   <Award size={14} /><span>INDUSTRIAL-GRADE VITALITY</span>
                 </div>
-                <h1 className="text-6xl md:text-7xl font-black tracking-tighter mb-8 leading-[0.9] uppercase italic text-white drop-shadow-2xl">MASTER YOUR FLOW.</h1>
-                <div className="space-y-4 max-w-xl">
+                <h1 className="text-6xl md:text-7xl font-black tracking-tighter mb-8 leading-[0.9] uppercase italic text-white drop-shadow-2xl text-left w-full">MASTER YOUR FLOW.</h1>
+                <div className="space-y-4 max-w-xl text-left">
                   <p className="text-xl md:text-2xl text-[#f4e4bc]/70 leading-relaxed font-bold italic">Performance engineered for men who like everything running smoothly.</p>
-                  <div className="flex items-center gap-2 justify-center lg:justify-start text-[#d4af37]">
+                  <div className="flex items-center gap-2 justify-start text-[#d4af37]">
                     <Truck size={14} />
                     <p className="text-sm font-bold uppercase tracking-widest italic">All orders include free express shipping.</p>
                   </div>
                 </div>
-                <div className="mt-12 relative flex items-center justify-center lg:justify-start">
+                <div className="mt-12 relative flex items-center justify-start">
                   <div className="absolute w-40 h-40 bg-[#d4af37]/20 blur-2xl rounded-full -z-10 animate-pulse"></div>
                   <button onClick={() => scrollTo(depotRef)} className="bg-[#c58158] text-[#1a0f0a] px-12 py-5 font-black uppercase tracking-[0.2em] shadow-[0_10px_0_#8c5a3d] hover:translate-y-[2px] active:translate-y-[8px] transition-all flex items-center gap-3 italic">
                     TURN THE PRESSURE UP <ArrowRight size={20} />
@@ -424,19 +489,23 @@ const App = () => {
           <div className="relative group lg:mt-0 mt-12">
             <ScrollReveal>
               <div className="relative aspect-[4/5] md:aspect-square lg:aspect-[4/5] mx-auto max-w-[500px] border-8 border-[#3d291f] shadow-2xl overflow-hidden bg-[#2a1b15]">
-                <GenerateImage prompt="A professional vintage industrial poster illustration of a muscular Black man with dreadlocks, wearing a blue short-sleeve work shirt and dark overalls, holding a large silver wrench over his shoulder, warm copper and mahogany studio lighting, clean lines, high quality character art, brown background, no text" hero />
+                <img 
+                  src="https://images.travelprox.com/mrplumberman/symbol.png" 
+                  alt="Mr. Plumber Man Symbol" 
+                  className="w-full h-full object-cover group-hover:scale-105 transition duration-[2s] ease-out" 
+                />
                 <div className="absolute inset-0 border-[2px] border-[#c58158]/20 m-4 pointer-events-none"></div>
-                <div className="absolute bottom-4 right-4 bg-[#1a0f0a] border-2 border-[#c58158]/40 p-4 rounded-md shadow-xl z-20">
-                  <div className="flex flex-col gap-1 mb-2 text-left text-xs font-bold uppercase tracking-widest">
-                    <span className="text-white italic">PRESSURE</span>
-                    <span className="text-[#d4af37] text-[10px]">Prostate Support</span>
+                <div className="absolute bottom-4 right-4 bg-[#1a0f0a] border-2 border-[#c58158]/40 p-4 rounded-md shadow-xl z-20 text-left">
+                  <div className="flex flex-col gap-1 mb-2 text-xs font-bold uppercase tracking-widest">
+                    <span className="text-white italic leading-none">PRESSURE</span>
+                    <span className="text-[#d4af37] text-[10px] leading-none">Prostate Support</span>
                   </div>
-                  <div className="flex items-center justify-between gap-4 pt-1">
-                    <span className="text-[#c58158] font-black text-lg">$39</span>
+                  <div className="flex items-center justify-between gap-4 pt-1 text-left">
+                    <span className="text-[#c58158] font-black text-lg leading-none">$39</span>
                     <button onClick={() => scrollTo(depotRef)} className="bg-[#c58158] text-[#1a0f0a] px-3 py-1 rounded-sm text-[9px] font-black uppercase tracking-widest italic hover:bg-[#d4af37]">Shop Now</button>
                   </div>
                 </div>
-                <div className="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black/80 to-transparent">
+                <div className="absolute top-0 left-0 w-full p-6 bg-gradient-to-b from-black/80 to-transparent z-10 text-center">
                   <p className="text-[10px] font-black uppercase tracking-[0.4em] text-[#d4af37] italic">"Fix Your Flow Like A Pro"</p>
                 </div>
               </div>
@@ -451,11 +520,11 @@ const App = () => {
       {/* Blueprint Teardown */}
       <section ref={teardownRef} className="px-6 py-24 md:py-40 bg-[#1a0f0a]">
         <ScrollReveal>
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-16 space-y-6">
-              <h2 className="text-xs font-black uppercase tracking-[0.6em] text-[#c58158] font-black">Blueprint Analysis</h2>
-              <h3 className="text-5xl md:text-9xl font-black tracking-tighter uppercase mb-8 leading-none italic text-white">SYSTEM <span className="text-[#d4af37]">TEARDOWN</span>.</h3>
-              <p className="text-[#f4e4bc]/50 text-xl md:text-2xl font-bold max-w-3xl mx-auto leading-relaxed italic uppercase tracking-widest text-center">Nugenix built recognition. Mr. Plumber Man builds results. Engineering always wins over advertising.</p>
+          <div className="max-w-6xl mx-auto text-left">
+            <div className="mb-16 space-y-6 text-center">
+              <h2 className="text-xs font-black uppercase tracking-[0.6em] text-[#c58158] font-black text-center">Blueprint Analysis</h2>
+              <h3 className="text-5xl md:text-9xl font-black tracking-tighter uppercase mb-8 leading-none italic text-white text-center">SYSTEM <span className="text-[#d4af37]">TEARDOWN</span>.</h3>
+              <p className="text-[#f4e4bc]/50 text-xl md:text-2xl font-bold max-w-3xl leading-relaxed italic uppercase tracking-widest mx-auto text-center">Nugenix built recognition. Mr. Plumber Man builds results. Engineering always wins over advertising.</p>
             </div>
             
             <div className="grid grid-cols-4 w-full mb-4 px-10 text-[10px] uppercase tracking-widest text-[#c58158]/60 font-black hidden lg:grid">
@@ -466,9 +535,9 @@ const App = () => {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-0 items-stretch relative">
-              <div className="bg-[#2a1b15]/40 p-10 md:p-14 border-2 border-[#c58158]/10 relative z-10 shadow-lg group grayscale opacity-85 hover:opacity-100 transition-all duration-500">
-                <div className="absolute top-4 right-4 text-[9px] uppercase tracking-widest text-[#c58158]/60 text-right">Mass Market Formula</div>
-                <h4 className="text-xl font-black text-[#c58158] mb-12 flex items-center uppercase tracking-[0.2em] italic opacity-50"><XCircle className="w-6 h-6 mr-3 text-red-900" /> NUGENIX TOTAL-T</h4>
+              <div className="bg-[#2a1b15]/40 p-10 md:p-14 border-2 border-[#c58158]/10 relative z-10 shadow-lg group grayscale opacity-85 hover:opacity-100 transition-all duration-500 text-right">
+                <div className="absolute top-4 right-4 text-[9px] uppercase tracking-widest text-[#c58158]/60 text-left">Mass Market Formula</div>
+                <h4 className="text-xl font-black text-[#c58158] mb-12 flex items-center uppercase tracking-[0.2em] italic opacity-50 justify-end"><XCircle className="w-6 h-6 mr-3 text-red-900" /> NUGENIX TOTAL-T</h4>
                 <div className="space-y-8 italic">
                   {[
                     { l: "Price Comparison", v: "$79+ (Retail Bloat)" },
@@ -478,16 +547,16 @@ const App = () => {
                     { l: "Saw Palmetto", v: "50mg Raw Berries" },
                     { l: "Extract Type", v: "Non-Standardized" }
                   ].map((row, i) => (
-                    <div key={i} className="flex justify-between border-b border-[#c58158]/10 pb-4 text-right">
+                    <div key={i} className="flex justify-between border-b border-[#c58158]/10 pb-4">
                       <p className="text-[10px] text-[#c58158]/60 uppercase font-black tracking-widest text-left">{row.l}</p>
-                      <p className="text-sm text-[#f4e4bc]/40 font-bold uppercase">{row.v}</p>
+                      <p className="text-sm text-[#f4e4bc]/40 font-bold uppercase text-right">{row.v}</p>
                     </div>
                   ))}
                 </div>
               </div>
               
-              <div className="relative bg-[#1a0f0a] p-10 md:p-14 border-[3px] border-[#c58158] shadow-[0_0_100px_rgba(197,129,88,0.15)] z-20 overflow-hidden">
-                <h4 className="text-xl font-black text-white mb-12 flex items-center relative z-10 uppercase tracking-[0.2em] italic"><ShieldCheck className="w-6 h-6 mr-3 text-[#d4af37]" /> MR. PLUMBER MAN</h4>
+              <div className="relative bg-[#1a0f0a] p-10 md:p-14 border-[3px] border-[#c58158] shadow-[0_0_100px_rgba(197,129,88,0.15)] z-20 overflow-hidden text-right">
+                <h4 className="text-xl font-black text-white mb-12 flex items-center relative z-10 uppercase tracking-[0.2em] italic justify-end text-right"><ShieldCheck className="w-6 h-6 mr-3 text-[#d4af37]" /> MR. PLUMBER MAN</h4>
                 <div className="space-y-8 relative z-10 italic">
                   {[
                     { l: "Price Comparison", v: "$59 (Direct Value)" },
@@ -497,9 +566,9 @@ const App = () => {
                     { l: "Saw Palmetto", v: "100mg Standardized" },
                     { l: "Extract Type", v: "Potency Guaranteed" }
                   ].map((row, i) => (
-                    <div key={i} className="flex justify-between border-b border-[#c58158]/20 pb-4 text-right">
+                    <div key={i} className="flex justify-between border-b border-[#c58158]/20 pb-4">
                       <p className="text-[10px] text-[#d4af37] uppercase font-black tracking-widest text-left">{row.l}</p>
-                      <p className="text-sm text-white font-black uppercase">{row.v}</p>
+                      <p className="text-sm text-white font-black uppercase text-right">{row.v}</p>
                     </div>
                   ))}
                 </div>
@@ -510,13 +579,13 @@ const App = () => {
       </section>
 
       {/* Testimonials */}
-      <section ref={testimonialsRef} className="px-6 py-24 md:py-32 bg-[#140b08] border-y border-[#c58158]/10">
+      <section ref={testimonialsRef} className="px-6 py-24 md:py-32 bg-[#140b08] border-y border-[#c58158]/10 text-left">
         <ScrollReveal>
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-20 space-y-4">
-               <h2 className="text-[#c58158] font-black uppercase tracking-[0.5em] text-xs underline decoration-1">Verified Logistics</h2>
-               <h1 className="text-5xl md:text-8xl font-black uppercase tracking-tighter text-white leading-none">THE <span className="text-[#d4af37]">TESTIMONIAL</span> DEPT</h1>
-               <p className="text-[#f4e4bc]/50 font-bold uppercase tracking-widest italic">Real results from tradesmen in the field.</p>
+               <h2 className="text-[#c58158] font-black uppercase tracking-[0.5em] text-xs underline decoration-1 text-center">Verified Logistics</h2>
+               <h1 className="text-5xl md:text-8xl font-black uppercase tracking-tighter text-white leading-none text-center">THE <span className="text-[#d4af37]">TESTIMONIAL</span> DEPT</h1>
+               <p className="text-[#f4e4bc]/50 font-bold uppercase tracking-widest italic text-center">Real results from tradesmen in the field.</p>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -527,9 +596,9 @@ const App = () => {
                     {[...Array(t.rating)].map((_, i) => <Star key={i} size={14} className="fill-[#d4af37] text-[#d4af37]" />)}
                   </div>
                   <p className="text-[#f4e4bc] font-bold italic leading-relaxed text-sm mb-8 relative z-10">"{t.text}"</p>
-                  <div className="mt-auto border-t border-[#c58158]/10 pt-6 text-left">
+                  <div className="mt-auto border-t border-[#c58158]/10 pt-6">
                     <p className="text-[#d4af37] font-black uppercase tracking-widest text-xs italic">{t.name}</p>
-                    <div className="flex justify-between items-center mt-1">
+                    <div className="flex justify-between items-center mt-1 text-left">
                       <p className="text-[#c58158]/60 font-bold uppercase text-[9px] tracking-widest">{t.location}</p>
                       <span className="text-[8px] font-black bg-[#c58158]/10 px-2 py-0.5 border border-[#c58158]/20 text-[#c58158] rounded-full">{t.product}</span>
                     </div>
@@ -542,8 +611,8 @@ const App = () => {
       </section>
 
       {/* Proof Strip */}
-      <section className="bg-[#1a0f0a] py-12 border-y border-[#c58158]/10">
-        <div className="max-w-6xl mx-auto px-6 italic text-center">
+      <section className="bg-[#1a0f0a] py-12 border-y border-[#c58158]/10 text-center">
+        <div className="max-w-6xl mx-auto px-6 italic">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 items-center">
             <div className="flex flex-col items-center gap-3">
               <Star className="w-5 h-5 text-[#d4af37]" />
@@ -566,20 +635,20 @@ const App = () => {
       </section>
 
       {/* Upgrade CTA Bar */}
-      <section className="bg-[#1a0f0a] py-24 px-6 border-b border-[#c58158]/10 italic text-center">
+      <section className="bg-[#1a0f0a] py-24 px-6 border-b border-[#c58158]/10 text-center">
         <ScrollReveal>
           <div className="max-w-4xl mx-auto space-y-10">
-            <h2 className="text-3xl md:text-5xl font-black uppercase text-white tracking-tighter leading-none">STOP BUYING POWDERED FILLER. <br /><span className="text-[#c58158]">UPGRADE YOUR SYSTEM.</span></h2>
+            <h2 className="text-3xl md:text-5xl font-black uppercase text-white tracking-tighter leading-none text-center">STOP BUYING POWDERED FILLER. <br /><span className="text-[#c58158]">UPGRADE YOUR SYSTEM.</span></h2>
             <button onClick={() => scrollTo(depotRef)} className="bg-[#c58158] text-[#1a0f0a] px-12 py-5 font-black uppercase tracking-[0.2em] shadow-[0_10px_0_#8c5a3d] hover:translate-y-[2px] active:translate-y-[8px] transition-all mx-auto">Shop The Supply Depot</button>
           </div>
         </ScrollReveal>
       </section>
 
       {/* Supply Depot */}
-      <section ref={depotRef} className="px-6 py-24 md:py-32 bg-[#140b08]">
-       <div className="max-w-7xl mx-auto italic text-center">
+      <section ref={depotRef} className="px-6 py-24 md:py-32 bg-[#140b08] text-center">
+       <div className="max-w-7xl mx-auto italic">
           <ScrollReveal>
-            <div className="mb-20 space-y-4">
+            <div className="mb-20 space-y-4 text-center">
                <h2 className="text-[#c58158] font-black uppercase tracking-[0.5em] text-xs underline decoration-1">Supply Inventory</h2>
                <h1 className="text-6xl md:text-8xl font-black uppercase tracking-tighter text-white leading-none">THE <span className="text-[#d4af37]">SUPPLY</span> DEPOT</h1>
                <div className="flex items-center gap-2 justify-center text-[#d4af37] animate-pulse">
@@ -588,24 +657,28 @@ const App = () => {
                </div>
             </div>
             
-            <div className="grid md:grid-cols-3 gap-8 text-center">
+            <div className="grid md:grid-cols-3 gap-8">
                {[
-                 { id: 'p', name: "PRESSURE", sub: "Prostate Support", price: 39, img: "Vintage copper supplement bottle, prostate formula", desc: "Clear the lines and restore factory-spec flow rate." },
-                 { id: 't', name: "PRIME TIME", sub: "T-Formula", price: 59, img: "Industrial bronze supplement bottle, testosterone booster", desc: "High-torque energy and maximum drive restoration." },
-                 { id: 'c', name: "THE OVERHAUL", sub: "Combo Pack", price: 97, img: "Two vintage supplement bottles side by side, copper and bronze labels", desc: "The ultimate blueprint. Secure both formulas for total system performance.", tag: "Best Value" }
+                 { id: 'p', name: "PRESSURE", sub: "Prostate Support", price: 39, imgOverride: "https://images.travelprox.com/mrplumberman/pressure.png", desc: "Clear the lines and restore factory-spec flow rate." },
+                 { id: 't', name: "PRIME TIME", sub: "T-Formula", price: 59, imgOverride: "https://images.travelprox.com/mrplumberman/primeheat.png", desc: "High-torque energy and maximum drive restoration." },
+                 { id: 'c', name: "THE OVERHAUL", sub: "Combo Pack", price: 97, imgOverride: "https://images.travelprox.com/mrplumberman/symbol.png", desc: "The ultimate blueprint. Secure both formulas for total system performance.", tag: "Best Value" }
                ].map(p => (
-                 <div key={p.id} className="bg-[#2a1b15]/40 border-2 border-[#c58158]/20 p-8 hover:border-[#d4af37] transition duration-500 flex flex-col items-center group rounded-sm shadow-2xl relative overflow-hidden">
+                 <div key={p.id} className="bg-[#2a1b15]/40 border-2 border-[#c58158]/20 p-8 hover:border-[#d4af37] transition duration-500 flex flex-col items-center group rounded-sm shadow-2xl relative overflow-hidden text-center">
                     {p.tag && (
                       <div className="absolute top-4 left-[-30px] bg-[#d4af37] text-[#1a0f0a] px-10 py-1 text-[8px] font-black uppercase tracking-widest -rotate-45 shadow-lg">
                         {p.tag}
                       </div>
                     )}
                     <div className="w-full aspect-square bg-[#1a0f0a] border border-[#c58158]/20 mb-8 flex items-center justify-center relative shadow-inner overflow-hidden">
-                       <GenerateImage prompt={p.img} />
+                       {p.imgOverride ? (
+                         <img src={p.imgOverride} alt={p.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                       ) : (
+                         <GenerateImage prompt={p.img} />
+                       )}
                     </div>
-                    <h3 className="text-3xl font-black text-white uppercase mb-2 leading-none">{p.name}</h3>
-                    <p className="text-[#d4af37] font-black uppercase tracking-[0.4em] text-[9px] mb-4">{p.sub}</p>
-                    <p className="text-[#f4e4bc]/50 font-bold uppercase tracking-widest text-xs mb-8 italic leading-relaxed h-12">{p.desc}</p>
+                    <h3 className="text-3xl font-black text-white uppercase mb-2 leading-none text-center">{p.name}</h3>
+                    <p className="text-[#d4af37] font-black uppercase tracking-[0.4em] text-[9px] mb-4 text-center">{p.sub}</p>
+                    <p className="text-[#f4e4bc]/50 font-bold uppercase tracking-widest text-xs mb-8 italic leading-relaxed h-12 text-center">{p.desc}</p>
                     
                     <div className="mt-auto w-full space-y-4 pt-6 border-t border-[#c58158]/20 text-center">
                        <div className="flex flex-col items-center gap-1">
@@ -626,13 +699,13 @@ const App = () => {
        </div>
       </section>
 
-      <footer className="bg-[#0f0a08] py-20 px-6 text-center italic border-t border-[#c58158]/10">
+      <footer className="bg-[#0f0a08] py-20 px-6 text-center italic border-t border-[#c58158]/10 text-center">
          <div className="max-w-5xl mx-auto space-y-10">
             <div className="flex flex-col items-center gap-4 opacity-40 grayscale hover:opacity-100 transition-opacity">
               <div className="w-12 h-12 bg-[#c58158] rounded-lg flex items-center justify-center font-black text-[#1a0f0a] shadow-md"><Wrench size={24} /></div>
-              <span className="text-[14px] font-black uppercase tracking-[0.3em] text-[#d4af37] italic">MR. PLUMBER MAN</span>
+              <span className="text-[14px] font-black uppercase tracking-[0.3em] text-[#d4af37] italic text-center">MR. PLUMBER MAN</span>
             </div>
-            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#c58158]/30 leading-relaxed max-w-2xl mx-auto italic">
+            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#c58158]/30 leading-relaxed max-w-2xl mx-auto italic text-center">
                * These statements have not been evaluated by the FDA. This product is not intended to diagnose, treat, cure, or prevent any disease. Comparison based on available label specifications. Nugenix Total-T is a registered trademark of its respective owner.
             </p>
          </div>
@@ -665,14 +738,14 @@ const GenerateImage = ({ prompt, hero = false }) => {
   }, [prompt]);
 
   if (loading) return (
-    <div className="flex flex-col items-center justify-center h-full bg-[#1a0f0a] p-8">
+    <div className="flex flex-col items-center justify-center h-full bg-[#1a0f0a] p-8 text-center">
       <Loader2 className="animate-spin text-[#c58158] mb-2" size={hero ? 40 : 24} />
-      <span className="text-[8px] font-black uppercase tracking-[0.4em] text-[#c58158]/40 italic text-center">Assembling...</span>
+      <span className="text-[8px] font-black uppercase tracking-[0.4em] text-[#c58158]/40 italic">Assembling Schematic...</span>
     </div>
   );
 
   return url ? (
-    <img src={url} alt="Brand Asset" className={`w-full h-full ${hero ? 'object-cover' : 'object-contain mix-blend-screen'}`} />
+    <img src={url} alt="Brand Asset" className={`w-full h-full ${hero ? 'object-cover' : 'object-contain mix-blend-screen'} group-hover:scale-105 transition duration-[2s] ease-out`} />
   ) : (
     <div className="flex items-center justify-center h-full"><Package className="text-[#c58158]/20" size={hero ? 60 : 32} /></div>
   );
