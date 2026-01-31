@@ -106,7 +106,7 @@ const PurchasePill = () => {
 
   return (
     <div className="fixed bottom-6 left-6 z-[90] pointer-events-none">
-      <div className="bg-[#1a0f0a]/90 border border-[#c58158]/30 px-3 py-2 rounded-lg shadow-xl flex items-center gap-3 max-w-[240px] backdrop-blur-sm">
+      <div className="bg-[#1a0f0a]/95 border border-[#c58158]/30 px-3 py-2 rounded-lg shadow-xl flex items-center gap-3 max-w-[240px] backdrop-blur-sm">
         <div className={`transition-opacity duration-500 shrink-0 ${fade ? 'opacity-100' : 'opacity-0'}`}>
           <div className="w-7 h-7 bg-[#c58158]/20 rounded flex items-center justify-center border border-[#c58158]/20">
             <Package size={14} className="text-[#c58158]" />
@@ -214,7 +214,7 @@ const testimonials = [
   }
 ];
 
-// --- Discount Popup ---
+// --- Discount Popup (Integrated with Kit.com) ---
 const DiscountPopup = ({ isOpen, onClose }) => {
   useEffect(() => {
     if (isOpen) {
@@ -238,8 +238,8 @@ const DiscountPopup = ({ isOpen, onClose }) => {
         <div className="bg-[#2a1b15] border border-[#c58158]/30 p-8 md:p-12 text-center relative overflow-hidden">
           <button onClick={onClose} className="absolute top-4 right-4 text-[#c58158] hover:text-[#d4af37] transition-colors p-2 z-10"><X /></button>
           
-          <div className="relative z-10 space-y-6 text-center flex flex-col items-center text-left">
-            <div className="inline-block p-4 bg-[#c58158]/10 rounded-full text-center">
+          <div className="relative z-10 space-y-6 text-center flex flex-col items-center">
+            <div className="inline-block p-4 bg-[#c58158]/10 rounded-full">
               <Ticket className="w-12 h-12 text-[#d4af37] rotate-12" />
             </div>
             <h2 className="text-4xl font-black italic uppercase tracking-tighter text-white">WANT THE <span className="text-[#d4af37]">BEST DEALS?</span></h2>
@@ -247,7 +247,7 @@ const DiscountPopup = ({ isOpen, onClose }) => {
             
             <form 
               action="https://app.kit.com/forms/9033723/subscriptions" 
-              className="seva-form formkit-form space-y-4 w-full" 
+              className="seva-form formkit-form space-y-4 w-full text-left" 
               method="post" 
               data-sv-form="9033723" 
               data-uid="6b0b0fa093" 
@@ -429,9 +429,9 @@ const App = () => {
   const Header = () => (
     <nav className="fixed top-0 left-0 w-full z-[80] p-6">
       <div className="max-w-6xl mx-auto flex justify-between items-center bg-[#2a1b15]/95 backdrop-blur-md border border-[#c58158]/30 rounded-full px-6 py-3 shadow-2xl">
-        <div className="flex items-center space-x-3 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-          <div className="w-8 h-8 bg-[#c58158] rounded-lg flex items-center justify-center font-black text-[#1a0f0a] shadow-md"><Wrench size={18} /></div>
-          <span className="text-[14px] font-black uppercase tracking-tight text-[#d4af37] italic">MR. PLUMBER MAN</span>
+        <div className="flex items-center space-x-4 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+          <Wrench size={18} className="text-[#c58158]" />
+          <img src="https://images.travelprox.com/mrplumberman/plumlogo.png" className="h-6 md:h-7 w-auto object-contain" alt="Mr. Plumber Man" />
         </div>
         <div className="flex gap-6 items-center">
           <button onClick={() => scrollTo(teardownRef)} className="hidden sm:block text-[10px] font-black uppercase tracking-[0.3em] text-[#f4e4bc] hover:text-[#d4af37] transition">The Teardown</button>
@@ -447,7 +447,6 @@ const App = () => {
       
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center px-4 pt-32 pb-20 overflow-hidden text-left">
-        {/* Updated Industrial Hero Wallpaper Background */}
         <div 
             className="absolute inset-0 z-0 pointer-events-none"
             style={{
@@ -466,10 +465,17 @@ const App = () => {
           <div className="text-center lg:text-left">
             <ScrollReveal>
               <div className="flex flex-col items-center lg:items-start text-left">
+                {/* Elevated Word Logo in Hero */}
+                <div className="mb-8 animate-in slide-in-from-left duration-1000">
+                  <img src="https://images.travelprox.com/mrplumberman/plumlogo.png" className="h-16 md:h-24 w-auto object-contain" alt="Mr. Plumber Man Nutrition" />
+                </div>
+                
                 <div className="inline-flex items-center space-x-3 px-6 py-2 mb-8 text-[10px] font-black uppercase tracking-[0.5em] text-[#d4af37] border-y border-[#c58158]/30 italic">
                   <Award size={14} /><span>INDUSTRIAL-GRADE VITALITY</span>
                 </div>
+                
                 <h1 className="text-6xl md:text-7xl font-black tracking-tighter mb-8 leading-[0.9] uppercase italic text-white drop-shadow-2xl text-left w-full">MASTER YOUR FLOW.</h1>
+                
                 <div className="space-y-4 max-w-xl text-left">
                   <p className="text-xl md:text-2xl text-[#f4e4bc]/70 leading-relaxed font-bold italic">Performance engineered for men who like everything running smoothly.</p>
                   <div className="flex items-center gap-2 justify-start text-[#d4af37]">
@@ -477,6 +483,7 @@ const App = () => {
                     <p className="text-sm font-bold uppercase tracking-widest italic">All orders include free express shipping.</p>
                   </div>
                 </div>
+                
                 <div className="mt-12 relative flex items-center justify-start">
                   <div className="absolute w-40 h-40 bg-[#d4af37]/20 blur-2xl rounded-full -z-10 animate-pulse"></div>
                   <button onClick={() => scrollTo(depotRef)} className="bg-[#c58158] text-[#1a0f0a] px-12 py-5 font-black uppercase tracking-[0.2em] shadow-[0_10px_0_#8c5a3d] hover:translate-y-[2px] active:translate-y-[8px] transition-all flex items-center gap-3 italic">
@@ -524,19 +531,17 @@ const App = () => {
             <div className="mb-16 space-y-6 text-center">
               <h2 className="text-xs font-black uppercase tracking-[0.6em] text-[#c58158] font-black text-center">Blueprint Analysis</h2>
               <h3 className="text-5xl md:text-9xl font-black tracking-tighter uppercase mb-8 leading-none italic text-white text-center">SYSTEM <span className="text-[#d4af37]">TEARDOWN</span>.</h3>
-              <p className="text-[#f4e4bc]/50 text-xl md:text-2xl font-bold max-w-3xl leading-relaxed italic uppercase tracking-widest mx-auto text-center">Nugenix built recognition. Mr. Plumber Man builds results. Engineering always wins over advertising.</p>
+              <p className="text-[#f4e4bc]/50 text-xl md:text-2xl font-bold max-w-3xl leading-relaxed italic uppercase tracking-widest mx-auto text-center text-center">Nugenix built recognition. Mr. Plumber Man builds results. Engineering always wins over advertising.</p>
             </div>
-            
             <div className="grid grid-cols-4 w-full mb-4 px-10 text-[10px] uppercase tracking-widest text-[#c58158]/60 font-black hidden lg:grid">
               <span>Formula Type</span>
               <span>Mineral Form</span>
               <span>Herbal Standardization</span>
               <span>Dose Strength</span>
             </div>
-
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-0 items-stretch relative">
               <div className="bg-[#2a1b15]/40 p-10 md:p-14 border-2 border-[#c58158]/10 relative z-10 shadow-lg group grayscale opacity-85 hover:opacity-100 transition-all duration-500 text-right">
-                <div className="absolute top-4 right-4 text-[9px] uppercase tracking-widest text-[#c58158]/60 text-left">Mass Market Formula</div>
+                <div className="absolute top-4 left-4 text-[9px] uppercase tracking-widest text-[#c58158]/60 text-left">Mass Market Formula</div>
                 <h4 className="text-xl font-black text-[#c58158] mb-12 flex items-center uppercase tracking-[0.2em] italic opacity-50 justify-end"><XCircle className="w-6 h-6 mr-3 text-red-900" /> NUGENIX TOTAL-T</h4>
                 <div className="space-y-8 italic">
                   {[
@@ -554,7 +559,6 @@ const App = () => {
                   ))}
                 </div>
               </div>
-              
               <div className="relative bg-[#1a0f0a] p-10 md:p-14 border-[3px] border-[#c58158] shadow-[0_0_100px_rgba(197,129,88,0.15)] z-20 overflow-hidden text-right">
                 <h4 className="text-xl font-black text-white mb-12 flex items-center relative z-10 uppercase tracking-[0.2em] italic justify-end text-right"><ShieldCheck className="w-6 h-6 mr-3 text-[#d4af37]" /> MR. PLUMBER MAN</h4>
                 <div className="space-y-8 relative z-10 italic">
@@ -588,23 +592,47 @@ const App = () => {
                <p className="text-[#f4e4bc]/50 font-bold uppercase tracking-widest italic text-center">Real results from tradesmen in the field.</p>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {testimonials.map((t, idx) => (
-                <div key={idx} className="bg-[#2a1b15]/40 border-2 border-[#c58158]/20 p-8 flex flex-col hover:border-[#d4af37] transition duration-300 relative rounded-sm shadow-xl">
-                  <div className="absolute top-4 right-4 opacity-10"><Quote size={40} className="text-[#c58158]" /></div>
-                  <div className="flex gap-1 mb-6">
-                    {[...Array(t.rating)].map((_, i) => <Star key={i} size={14} className="fill-[#d4af37] text-[#d4af37]" />)}
+            <div className="flex flex-col gap-12">
+               {/* Shift 1: Testimonials 1-4 */}
+               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                 {testimonials.slice(0, 4).map((t, idx) => (
+                   <TestimonialCard key={idx} testimonial={t} />
+                 ))}
+               </div>
+
+               {/* Famous Quote 1 */}
+               <div className="py-12 border-y-2 border-[#c58158]/20 relative overflow-hidden bg-[#2a1b15]/20 px-8">
+                  <div className="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none" style={{ backgroundImage: `url("https://www.transparenttextures.com/patterns/carbon-fibre.png")` }}></div>
+                  <div className="max-w-4xl mx-auto text-center relative z-10">
+                     <Quote className="text-[#d4af37] w-10 h-10 mx-auto mb-6 opacity-40" />
+                     <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tighter text-white leading-[0.95] mb-6">"Take care of your body. It's the only place you have to live."</h2>
+                     <p className="text-[#c58158] font-black uppercase tracking-[0.4em] text-xs">— Jim Rohn, Vitality Strategist</p>
                   </div>
-                  <p className="text-[#f4e4bc] font-bold italic leading-relaxed text-sm mb-8 relative z-10">"{t.text}"</p>
-                  <div className="mt-auto border-t border-[#c58158]/10 pt-6">
-                    <p className="text-[#d4af37] font-black uppercase tracking-widest text-xs italic">{t.name}</p>
-                    <div className="flex justify-between items-center mt-1 text-left">
-                      <p className="text-[#c58158]/60 font-bold uppercase text-[9px] tracking-widest">{t.location}</p>
-                      <span className="text-[8px] font-black bg-[#c58158]/10 px-2 py-0.5 border border-[#c58158]/20 text-[#c58158] rounded-full">{t.product}</span>
-                    </div>
+               </div>
+
+               {/* Shift 2: Testimonials 5-8 */}
+               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                 {testimonials.slice(4, 8).map((t, idx) => (
+                   <TestimonialCard key={idx} testimonial={t} />
+                 ))}
+               </div>
+
+               {/* Cheeky Quote 2 */}
+               <div className="py-12 border-y-2 border-[#c58158]/20 relative overflow-hidden bg-[#2a1b15]/20 px-8">
+                  <div className="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none" style={{ backgroundImage: `url("https://www.transparenttextures.com/patterns/carbon-fibre.png")` }}></div>
+                  <div className="max-w-4xl mx-auto text-center relative z-10">
+                     <Quote className="text-[#d4af37] w-10 h-10 mx-auto mb-6 opacity-40" />
+                     <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tighter text-[#d4af37] leading-[0.95] mb-6">"Clear pipes and high torque. Because a man's performance shouldn't have a 'Closed for Maintenance' sign."</h2>
+                     <p className="text-white font-black uppercase tracking-[0.4em] text-xs">— The Plumber's Secret to Domestic Harmony</p>
                   </div>
-                </div>
-              ))}
+               </div>
+
+               {/* Shift 3: Testimonials 9-12 */}
+               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                 {testimonials.slice(8, 12).map((t, idx) => (
+                   <TestimonialCard key={idx} testimonial={t} />
+                 ))}
+               </div>
             </div>
           </div>
         </ScrollReveal>
@@ -639,7 +667,7 @@ const App = () => {
         <ScrollReveal>
           <div className="max-w-4xl mx-auto space-y-10">
             <h2 className="text-3xl md:text-5xl font-black uppercase text-white tracking-tighter leading-none text-center">STOP BUYING POWDERED FILLER. <br /><span className="text-[#c58158]">UPGRADE YOUR SYSTEM.</span></h2>
-            <button onClick={() => scrollTo(depotRef)} className="bg-[#c58158] text-[#1a0f0a] px-12 py-5 font-black uppercase tracking-[0.2em] shadow-[0_10px_0_#8c5a3d] hover:translate-y-[2px] active:translate-y-[8px] transition-all mx-auto">Shop The Supply Depot</button>
+            <button onClick={() => scrollTo(depotRef)} className="bg-[#c58158] text-[#1a0f0a] px-12 py-5 font-black uppercase tracking-[0.2em] shadow-[0_10px_0_#8c5a3d] hover:translate-y-[2px] active:translate-y-[8px] transition-all mx-auto text-center flex justify-center items-center">Shop The Supply Depot</button>
           </div>
         </ScrollReveal>
       </section>
@@ -649,8 +677,8 @@ const App = () => {
        <div className="max-w-7xl mx-auto italic">
           <ScrollReveal>
             <div className="mb-20 space-y-4 text-center">
-               <h2 className="text-[#c58158] font-black uppercase tracking-[0.5em] text-xs underline decoration-1">Supply Inventory</h2>
-               <h1 className="text-6xl md:text-8xl font-black uppercase tracking-tighter text-white leading-none">THE <span className="text-[#d4af37]">SUPPLY</span> DEPOT</h1>
+               <h2 className="text-[#c58158] font-black uppercase tracking-[0.5em] text-xs underline decoration-1 text-center">Supply Inventory</h2>
+               <h1 className="text-6xl md:text-8xl font-black uppercase tracking-tighter text-white leading-none text-center text-center">THE <span className="text-[#d4af37]">SUPPLY</span> DEPOT</h1>
                <div className="flex items-center gap-2 justify-center text-[#d4af37] animate-pulse">
                  <Truck size={16} />
                  <span className="text-[10px] font-black uppercase tracking-[0.4em]">All orders include free express shipping</span>
@@ -670,18 +698,14 @@ const App = () => {
                       </div>
                     )}
                     <div className="w-full aspect-square bg-[#1a0f0a] border border-[#c58158]/20 mb-8 flex items-center justify-center relative shadow-inner overflow-hidden">
-                       {p.imgOverride ? (
-                         <img src={p.imgOverride} alt={p.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-                       ) : (
-                         <GenerateImage prompt={p.img} />
-                       )}
+                       <img src={p.imgOverride} alt={p.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                     </div>
                     <h3 className="text-3xl font-black text-white uppercase mb-2 leading-none text-center">{p.name}</h3>
                     <p className="text-[#d4af37] font-black uppercase tracking-[0.4em] text-[9px] mb-4 text-center">{p.sub}</p>
                     <p className="text-[#f4e4bc]/50 font-bold uppercase tracking-widest text-xs mb-8 italic leading-relaxed h-12 text-center">{p.desc}</p>
                     
                     <div className="mt-auto w-full space-y-4 pt-6 border-t border-[#c58158]/20 text-center">
-                       <div className="flex flex-col items-center gap-1">
+                       <div className="flex flex-col items-center gap-1 text-center">
                           <p className="text-3xl font-black italic text-white">${p.price}</p>
                           <span className="text-[8px] text-[#c58158] font-black uppercase tracking-widest">Free Express Shipping</span>
                        </div>
@@ -700,12 +724,11 @@ const App = () => {
       </section>
 
       <footer className="bg-[#0f0a08] py-20 px-6 text-center italic border-t border-[#c58158]/10 text-center">
-         <div className="max-w-5xl mx-auto space-y-10">
-            <div className="flex flex-col items-center gap-4 opacity-40 grayscale hover:opacity-100 transition-opacity">
-              <div className="w-12 h-12 bg-[#c58158] rounded-lg flex items-center justify-center font-black text-[#1a0f0a] shadow-md"><Wrench size={24} /></div>
-              <span className="text-[14px] font-black uppercase tracking-[0.3em] text-[#d4af37] italic text-center">MR. PLUMBER MAN</span>
+         <div className="max-w-5xl mx-auto space-y-10 flex flex-col items-center">
+            <div className="opacity-40 grayscale hover:opacity-100 transition-opacity mb-4">
+              <img src="https://images.travelprox.com/mrplumberman/plumlogo.png" className="h-10 w-auto" alt="Mr. Plumber Man Logo" />
             </div>
-            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#c58158]/30 leading-relaxed max-w-2xl mx-auto italic text-center">
+            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#c58158]/30 leading-relaxed max-w-2xl mx-auto italic text-center text-center">
                * These statements have not been evaluated by the FDA. This product is not intended to diagnose, treat, cure, or prevent any disease. Comparison based on available label specifications. Nugenix Total-T is a registered trademark of its respective owner.
             </p>
          </div>
@@ -718,6 +741,24 @@ const App = () => {
     </div>
   );
 };
+
+// --- Sub-component for individual Testimonial Cards ---
+const TestimonialCard = ({ testimonial }) => (
+  <div className="bg-[#2a1b15]/40 border-2 border-[#c58158]/20 p-8 flex flex-col hover:border-[#d4af37] transition duration-300 relative rounded-sm shadow-xl h-full">
+    <div className="absolute top-4 right-4 opacity-10"><Quote size={40} className="text-[#c58158]" /></div>
+    <div className="flex gap-1 mb-6">
+      {[...Array(testimonial.rating)].map((_, i) => <Star key={i} size={14} className="fill-[#d4af37] text-[#d4af37]" />)}
+    </div>
+    <p className="text-[#f4e4bc] font-bold italic leading-relaxed text-sm mb-8 relative z-10">"{testimonial.text}"</p>
+    <div className="mt-auto border-t border-[#c58158]/10 pt-6">
+      <p className="text-[#d4af37] font-black uppercase tracking-widest text-xs italic">{testimonial.name}</p>
+      <div className="flex justify-between items-center mt-1">
+        <p className="text-[#c58158]/60 font-bold uppercase text-[9px] tracking-widest">{testimonial.location}</p>
+        <span className="text-[8px] font-black bg-[#c58158]/10 px-2 py-0.5 border border-[#c58158]/20 text-[#c58158] rounded-full">{testimonial.product}</span>
+      </div>
+    </div>
+  </div>
+);
 
 const GenerateImage = ({ prompt, hero = false }) => {
   const [url, setUrl] = useState(null);
@@ -738,7 +779,7 @@ const GenerateImage = ({ prompt, hero = false }) => {
   }, [prompt]);
 
   if (loading) return (
-    <div className="flex flex-col items-center justify-center h-full bg-[#1a0f0a] p-8 text-center">
+    <div className="flex flex-col items-center justify-center h-full bg-[#1a0f0a] p-8 text-center text-center">
       <Loader2 className="animate-spin text-[#c58158] mb-2" size={hero ? 40 : 24} />
       <span className="text-[8px] font-black uppercase tracking-[0.4em] text-[#c58158]/40 italic">Assembling Schematic...</span>
     </div>
