@@ -28,8 +28,8 @@ import {
   Mail
 } from 'lucide-react';
 
-// API Key integrated from Google AI Studio
-const apiKey = "AIzaSyDFL2O357z2caEPOckF9kPQAh7KpDBC6E4";
+// API Key set to empty string per environment security protocols
+const apiKey = "";
 
 // --- Recent Purchases Data (50 Locations) ---
 const purchaseData = [
@@ -214,7 +214,7 @@ const testimonials = [
   }
 ];
 
-// --- Discount Popup (Integrated with Kit.com) ---
+// --- Discount Popup ---
 const DiscountPopup = ({ isOpen, onClose }) => {
   useEffect(() => {
     if (isOpen) {
@@ -364,7 +364,7 @@ const ChatBot = ({ messages, setMessages }) => {
   return (
     <div className="fixed bottom-6 right-6 z-[100]">
       {isOpen ? (
-        <div className="w-[320px] md:w-[380px] h-[500px] bg-[#1a0f0a] border-2 border-[#c58158]/50 rounded-[32px] shadow-2xl flex flex-col overflow-hidden animate-in slide-in-from-bottom-4">
+        <div className="w-[320px] md:w-[380px] h-[500px] bg-[#1a0f0a] border-2 border-[#c58158]/50 rounded-[32px] shadow-2xl flex flex-col overflow-hidden animate-in slide-in-from-bottom-4 text-left">
           <div className="p-5 bg-[#2a1b15] border-b border-[#c58158]/20 flex justify-between items-center text-white font-black italic text-xs tracking-widest uppercase">
             <span>Flow Dispatch</span>
             <button onClick={() => setIsOpen(false)}><Minimize2 className="w-4 h-4" /></button>
@@ -531,7 +531,7 @@ const App = () => {
             <div className="mb-16 space-y-6 text-center">
               <h2 className="text-xs font-black uppercase tracking-[0.6em] text-[#c58158] font-black text-center">Blueprint Analysis</h2>
               <h3 className="text-5xl md:text-9xl font-black tracking-tighter uppercase mb-8 leading-none italic text-white text-center">SYSTEM <span className="text-[#d4af37]">TEARDOWN</span>.</h3>
-              <p className="text-[#f4e4bc]/50 text-xl md:text-2xl font-bold max-w-3xl leading-relaxed italic uppercase tracking-widest mx-auto text-center text-center">Nugenix built recognition. Mr. Plumber Man builds results. Engineering always wins over advertising.</p>
+              <p className="text-[#f4e4bc]/50 text-xl md:text-2xl font-bold max-w-3xl leading-relaxed italic uppercase tracking-widest mx-auto text-center">Nugenix built recognition. Mr. Plumber Man builds results. Engineering always wins over advertising.</p>
             </div>
             <div className="grid grid-cols-4 w-full mb-4 px-10 text-[10px] uppercase tracking-widest text-[#c58158]/60 font-black hidden lg:grid">
               <span>Formula Type</span>
@@ -541,7 +541,7 @@ const App = () => {
             </div>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-0 items-stretch relative">
               <div className="bg-[#2a1b15]/40 p-10 md:p-14 border-2 border-[#c58158]/10 relative z-10 shadow-lg group grayscale opacity-85 hover:opacity-100 transition-all duration-500 text-right">
-                <div className="absolute top-4 left-4 text-[9px] uppercase tracking-widest text-[#c58158]/60 text-left">Mass Market Formula</div>
+                <div className="absolute top-4 right-4 text-[9px] uppercase tracking-widest text-[#c58158]/60 text-left">Mass Market Formula</div>
                 <h4 className="text-xl font-black text-[#c58158] mb-12 flex items-center uppercase tracking-[0.2em] italic opacity-50 justify-end"><XCircle className="w-6 h-6 mr-3 text-red-900" /> NUGENIX TOTAL-T</h4>
                 <div className="space-y-8 italic">
                   {[
@@ -552,7 +552,7 @@ const App = () => {
                     { l: "Saw Palmetto", v: "50mg Raw Berries" },
                     { l: "Extract Type", v: "Non-Standardized" }
                   ].map((row, i) => (
-                    <div key={i} className="flex justify-between border-b border-[#c58158]/10 pb-4">
+                    <div key={i} className="flex justify-between border-b border-[#c58158]/10 pb-4 text-right">
                       <p className="text-[10px] text-[#c58158]/60 uppercase font-black tracking-widest text-left">{row.l}</p>
                       <p className="text-sm text-[#f4e4bc]/40 font-bold uppercase text-right">{row.v}</p>
                     </div>
@@ -570,7 +570,7 @@ const App = () => {
                     { l: "Saw Palmetto", v: "100mg Standardized" },
                     { l: "Extract Type", v: "Potency Guaranteed" }
                   ].map((row, i) => (
-                    <div key={i} className="flex justify-between border-b border-[#c58158]/20 pb-4">
+                    <div key={i} className="flex justify-between border-b border-[#c58158]/20 pb-4 text-right">
                       <p className="text-[10px] text-[#d4af37] uppercase font-black tracking-widest text-left">{row.l}</p>
                       <p className="text-sm text-white font-black uppercase text-right">{row.v}</p>
                     </div>
@@ -605,8 +605,8 @@ const App = () => {
                   <div className="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none" style={{ backgroundImage: `url("https://www.transparenttextures.com/patterns/carbon-fibre.png")` }}></div>
                   <div className="max-w-4xl mx-auto text-center relative z-10">
                      <Quote className="text-[#d4af37] w-10 h-10 mx-auto mb-6 opacity-40" />
-                     <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tighter text-white leading-[0.95] mb-6">"Take care of your body. It's the only place you have to live."</h2>
-                     <p className="text-[#c58158] font-black uppercase tracking-[0.4em] text-xs">— Jim Rohn, Vitality Strategist</p>
+                     <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tighter text-white leading-[0.95] mb-6 text-center">"Take care of your body. It's the only place you have to live."</h2>
+                     <p className="text-[#c58158] font-black uppercase tracking-[0.4em] text-xs text-center">— Jim Rohn, Vitality Strategist</p>
                   </div>
                </div>
 
@@ -622,8 +622,8 @@ const App = () => {
                   <div className="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none" style={{ backgroundImage: `url("https://www.transparenttextures.com/patterns/carbon-fibre.png")` }}></div>
                   <div className="max-w-4xl mx-auto text-center relative z-10">
                      <Quote className="text-[#d4af37] w-10 h-10 mx-auto mb-6 opacity-40" />
-                     <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tighter text-[#d4af37] leading-[0.95] mb-6">"Clear pipes and high torque. Because a man's performance shouldn't have a 'Closed for Maintenance' sign."</h2>
-                     <p className="text-white font-black uppercase tracking-[0.4em] text-xs">— The Plumber's Secret to Domestic Harmony</p>
+                     <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tighter text-[#d4af37] leading-[0.95] mb-6 text-center">"Clear pipes and high torque. Because a man's performance shouldn't have a 'Closed for Maintenance' sign."</h2>
+                     <p className="text-white font-black uppercase tracking-[0.4em] text-xs text-center">— The Plumber's Secret to Domestic Harmony</p>
                   </div>
                </div>
 
@@ -678,7 +678,7 @@ const App = () => {
           <ScrollReveal>
             <div className="mb-20 space-y-4 text-center">
                <h2 className="text-[#c58158] font-black uppercase tracking-[0.5em] text-xs underline decoration-1 text-center">Supply Inventory</h2>
-               <h1 className="text-6xl md:text-8xl font-black uppercase tracking-tighter text-white leading-none text-center text-center">THE <span className="text-[#d4af37]">SUPPLY</span> DEPOT</h1>
+               <h1 className="text-6xl md:text-8xl font-black uppercase tracking-tighter text-white leading-none text-center">THE <span className="text-[#d4af37]">SUPPLY</span> DEPOT</h1>
                <div className="flex items-center gap-2 justify-center text-[#d4af37] animate-pulse">
                  <Truck size={16} />
                  <span className="text-[10px] font-black uppercase tracking-[0.4em]">All orders include free express shipping</span>
@@ -728,7 +728,7 @@ const App = () => {
             <div className="opacity-40 grayscale hover:opacity-100 transition-opacity mb-4">
               <img src="https://images.travelprox.com/mrplumberman/plumlogo.png" className="h-10 w-auto" alt="Mr. Plumber Man Logo" />
             </div>
-            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#c58158]/30 leading-relaxed max-w-2xl mx-auto italic text-center text-center">
+            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#c58158]/30 leading-relaxed max-w-2xl mx-auto italic text-center">
                * These statements have not been evaluated by the FDA. This product is not intended to diagnose, treat, cure, or prevent any disease. Comparison based on available label specifications. Nugenix Total-T is a registered trademark of its respective owner.
             </p>
          </div>
@@ -744,7 +744,7 @@ const App = () => {
 
 // --- Sub-component for individual Testimonial Cards ---
 const TestimonialCard = ({ testimonial }) => (
-  <div className="bg-[#2a1b15]/40 border-2 border-[#c58158]/20 p-8 flex flex-col hover:border-[#d4af37] transition duration-300 relative rounded-sm shadow-xl h-full">
+  <div className="bg-[#2a1b15]/40 border-2 border-[#c58158]/20 p-8 flex flex-col hover:border-[#d4af37] transition duration-300 relative rounded-sm shadow-xl h-full text-left">
     <div className="absolute top-4 right-4 opacity-10"><Quote size={40} className="text-[#c58158]" /></div>
     <div className="flex gap-1 mb-6">
       {[...Array(testimonial.rating)].map((_, i) => <Star key={i} size={14} className="fill-[#d4af37] text-[#d4af37]" />)}
@@ -752,7 +752,7 @@ const TestimonialCard = ({ testimonial }) => (
     <p className="text-[#f4e4bc] font-bold italic leading-relaxed text-sm mb-8 relative z-10">"{testimonial.text}"</p>
     <div className="mt-auto border-t border-[#c58158]/10 pt-6">
       <p className="text-[#d4af37] font-black uppercase tracking-widest text-xs italic">{testimonial.name}</p>
-      <div className="flex justify-between items-center mt-1">
+      <div className="flex justify-between items-center mt-1 text-left">
         <p className="text-[#c58158]/60 font-bold uppercase text-[9px] tracking-widest">{testimonial.location}</p>
         <span className="text-[8px] font-black bg-[#c58158]/10 px-2 py-0.5 border border-[#c58158]/20 text-[#c58158] rounded-full">{testimonial.product}</span>
       </div>
