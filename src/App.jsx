@@ -214,7 +214,7 @@ const testimonials = [
   }
 ];
 
-// --- Discount Popup ---
+// --- Discount Popup (Integrated with Kit.com) ---
 const DiscountPopup = ({ isOpen, onClose }) => {
   useEffect(() => {
     if (isOpen) {
@@ -234,7 +234,7 @@ const DiscountPopup = ({ isOpen, onClose }) => {
 
   return (
     <div className="fixed inset-0 z-[200] flex items-center justify-center px-4 bg-black/90 backdrop-blur-md animate-in fade-in duration-500">
-      <div className="relative w-full max-w-lg bg-[#1a0f0a] border-[4px] border-[#c58158] shadow-[0_0_100px_rgba(197,129,88,0.3)] overflow-hidden rounded-sm p-1">
+      <div className="relative w-full max-w-lg bg-[#1a0f0a] border-[4px] border-[#c58158] shadow-[0_0_100px_rgba(197,129,88,0.3)] overflow-hidden rounded-sm p-1 text-left">
         <div className="bg-[#2a1b15] border border-[#c58158]/30 p-8 md:p-12 text-center relative overflow-hidden">
           <button onClick={onClose} className="absolute top-4 right-4 text-[#c58158] hover:text-[#d4af37] transition-colors p-2 z-10"><X /></button>
           
@@ -247,7 +247,7 @@ const DiscountPopup = ({ isOpen, onClose }) => {
             
             <form 
               action="https://app.kit.com/forms/9033723/subscriptions" 
-              className="seva-form formkit-form space-y-4 w-full text-left" 
+              className="seva-form formkit-form space-y-4 w-full" 
               method="post" 
               data-sv-form="9033723" 
               data-uid="6b0b0fa093" 
@@ -465,7 +465,6 @@ const App = () => {
           <div className="text-center lg:text-left">
             <ScrollReveal>
               <div className="flex flex-col items-center lg:items-start text-left">
-                {/* Elevated Word Logo in Hero */}
                 <div className="mb-8 animate-in slide-in-from-left duration-1000">
                   <img src="https://images.travelprox.com/mrplumberman/plumlogo.png" className="h-16 md:h-24 w-auto object-contain" alt="Mr. Plumber Man Nutrition" />
                 </div>
@@ -486,7 +485,7 @@ const App = () => {
                 
                 <div className="mt-12 relative flex items-center justify-start">
                   <div className="absolute w-40 h-40 bg-[#d4af37]/20 blur-2xl rounded-full -z-10 animate-pulse"></div>
-                  <button onClick={() => scrollTo(depotRef)} className="bg-[#c58158] text-[#1a0f0a] px-12 py-5 font-black uppercase tracking-[0.2em] shadow-[0_10px_0_#8c5a3d] hover:translate-y-[2px] active:translate-y-[8px] transition-all flex items-center gap-3 italic">
+                  <button onClick={() => scrollTo(depotRef)} className="bg-[#c58158] text-[#1a0f0a] px-12 py-5 font-black uppercase tracking-[0.2em] shadow-[0_10px_0_#8c5a3d] rounded-lg hover:translate-y-[2px] active:translate-y-[8px] transition-all flex items-center gap-3 italic">
                     TURN THE PRESSURE UP <ArrowRight size={20} />
                   </button>
                 </div>
@@ -533,7 +532,7 @@ const App = () => {
               <h3 className="text-5xl md:text-9xl font-black tracking-tighter uppercase mb-8 leading-none italic text-white text-center">SYSTEM <span className="text-[#d4af37]">TEARDOWN</span>.</h3>
               <p className="text-[#f4e4bc]/50 text-xl md:text-2xl font-bold max-w-3xl leading-relaxed italic uppercase tracking-widest mx-auto text-center">Nugenix built recognition. Mr. Plumber Man builds results. Engineering always wins over advertising.</p>
             </div>
-            <div className="grid grid-cols-4 w-full mb-4 px-10 text-[10px] uppercase tracking-widest text-[#c58158]/60 font-black hidden lg:grid">
+            <div className="grid grid-cols-4 w-full mb-4 px-10 text-[10px] uppercase tracking-widest text-[#c58158]/60 font-black hidden lg:grid text-left">
               <span>Formula Type</span>
               <span>Mineral Form</span>
               <span>Herbal Standardization</span>
@@ -552,7 +551,7 @@ const App = () => {
                     { l: "Saw Palmetto", v: "50mg Raw Berries" },
                     { l: "Extract Type", v: "Non-Standardized" }
                   ].map((row, i) => (
-                    <div key={i} className="flex justify-between border-b border-[#c58158]/10 pb-4 text-right">
+                    <div key={i} className="flex justify-between border-b border-[#c58158]/10 pb-4">
                       <p className="text-[10px] text-[#c58158]/60 uppercase font-black tracking-widest text-left">{row.l}</p>
                       <p className="text-sm text-[#f4e4bc]/40 font-bold uppercase text-right">{row.v}</p>
                     </div>
@@ -570,7 +569,7 @@ const App = () => {
                     { l: "Saw Palmetto", v: "100mg Standardized" },
                     { l: "Extract Type", v: "Potency Guaranteed" }
                   ].map((row, i) => (
-                    <div key={i} className="flex justify-between border-b border-[#c58158]/20 pb-4 text-right">
+                    <div key={i} className="flex justify-between border-b border-[#c58158]/20 pb-4">
                       <p className="text-[10px] text-[#d4af37] uppercase font-black tracking-widest text-left">{row.l}</p>
                       <p className="text-sm text-white font-black uppercase text-right">{row.v}</p>
                     </div>
@@ -582,7 +581,7 @@ const App = () => {
         </ScrollReveal>
       </section>
 
-      {/* Testimonials */}
+      {/* Testimonials - Broken up with quotes for breathing room */}
       <section ref={testimonialsRef} className="px-6 py-24 md:py-32 bg-[#140b08] border-y border-[#c58158]/10 text-left">
         <ScrollReveal>
           <div className="max-w-6xl mx-auto">
@@ -640,7 +639,7 @@ const App = () => {
 
       {/* Proof Strip */}
       <section className="bg-[#1a0f0a] py-12 border-y border-[#c58158]/10 text-center">
-        <div className="max-w-6xl mx-auto px-6 italic">
+        <div className="max-w-6xl mx-auto px-6 italic text-center">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 items-center">
             <div className="flex flex-col items-center gap-3">
               <Star className="w-5 h-5 text-[#d4af37]" />
@@ -663,11 +662,12 @@ const App = () => {
       </section>
 
       {/* Upgrade CTA Bar */}
-      <section className="bg-[#1a0f0a] py-24 px-6 border-b border-[#c58158]/10 text-center">
+      <section className="bg-[#1a0f0a] py-24 px-6 border-b border-[#c58158]/10 italic text-center">
         <ScrollReveal>
           <div className="max-w-4xl mx-auto space-y-10">
             <h2 className="text-3xl md:text-5xl font-black uppercase text-white tracking-tighter leading-none text-center">STOP BUYING POWDERED FILLER. <br /><span className="text-[#c58158]">UPGRADE YOUR SYSTEM.</span></h2>
-            <button onClick={() => scrollTo(depotRef)} className="bg-[#c58158] text-[#1a0f0a] px-12 py-5 font-black uppercase tracking-[0.2em] shadow-[0_10px_0_#8c5a3d] hover:translate-y-[2px] active:translate-y-[8px] transition-all mx-auto text-center flex justify-center items-center">Shop The Supply Depot</button>
+            {/* UPGRADE CTA BUTTON: Rounding updated to rounded-lg to match hero CTA and dispatch ticker */}
+            <button onClick={() => scrollTo(depotRef)} className="bg-[#c58158] text-[#1a0f0a] px-12 py-5 font-black uppercase tracking-[0.2em] shadow-[0_10px_0_#8c5a3d] rounded-lg hover:translate-y-[2px] active:translate-y-[8px] transition-all mx-auto text-center flex justify-center items-center">Shop The Supply Depot</button>
           </div>
         </ScrollReveal>
       </section>
@@ -684,7 +684,6 @@ const App = () => {
                  <span className="text-[10px] font-black uppercase tracking-[0.4em]">All orders include free express shipping</span>
                </div>
             </div>
-            
             <div className="grid md:grid-cols-3 gap-8">
                {[
                  { id: 'p', name: "PRESSURE", sub: "Prostate Support", price: 39, imgOverride: "https://images.travelprox.com/mrplumberman/pressure.png", desc: "Clear the lines and restore factory-spec flow rate." },
@@ -702,8 +701,7 @@ const App = () => {
                     </div>
                     <h3 className="text-3xl font-black text-white uppercase mb-2 leading-none text-center">{p.name}</h3>
                     <p className="text-[#d4af37] font-black uppercase tracking-[0.4em] text-[9px] mb-4 text-center">{p.sub}</p>
-                    <p className="text-[#f4e4bc]/50 font-bold uppercase tracking-widest text-xs mb-8 italic leading-relaxed h-12 text-center">{p.desc}</p>
-                    
+                    <p className="text-[#f4e4bc]/50 font-bold uppercase tracking-widest text-xs mb-8 italic leading-relaxed h-12 text-center text-center">{p.desc}</p>
                     <div className="mt-auto w-full space-y-4 pt-6 border-t border-[#c58158]/20 text-center">
                        <div className="flex flex-col items-center gap-1 text-center">
                           <p className="text-3xl font-black italic text-white">${p.price}</p>
@@ -711,7 +709,7 @@ const App = () => {
                        </div>
                        <div className="space-y-3">
                          <button className="w-full bg-[#c58158] text-[#1a0f0a] py-4 font-black uppercase tracking-widest text-xs hover:bg-[#d4af37] shadow-[0_6px_0_#8c5a3d] active:translate-y-[6px] transition-all">Add To Kit</button>
-                         <button className="w-full border border-[#c58158]/40 bg-transparent text-[#d4af37] py-2 font-black uppercase tracking-[0.3em] text-[9px] hover:bg-[#c58158]/10 transition-all italic flex items-center justify-center gap-2">
+                         <button className="w-full border border-[#c58158]/40 bg-transparent text-[#d4af37] py-2 font-black uppercase tracking-[0.3em] text-[9px] hover:bg-[#c58158]/10 transition-all italic flex items-center justify-center gap-2 text-center">
                            <RefreshCcw size={10} /> Subscribe & Save 5%
                          </button>
                        </div>
@@ -724,7 +722,7 @@ const App = () => {
       </section>
 
       <footer className="bg-[#0f0a08] py-20 px-6 text-center italic border-t border-[#c58158]/10 text-center">
-         <div className="max-w-5xl mx-auto space-y-10 flex flex-col items-center">
+         <div className="max-w-5xl mx-auto space-y-10 flex flex-col items-center text-center">
             <div className="opacity-40 grayscale hover:opacity-100 transition-opacity mb-4">
               <img src="https://images.travelprox.com/mrplumberman/plumlogo.png" className="h-10 w-auto" alt="Mr. Plumber Man Logo" />
             </div>
@@ -779,9 +777,9 @@ const GenerateImage = ({ prompt, hero = false }) => {
   }, [prompt]);
 
   if (loading) return (
-    <div className="flex flex-col items-center justify-center h-full bg-[#1a0f0a] p-8 text-center text-center">
+    <div className="flex flex-col items-center justify-center h-full bg-[#1a0f0a] p-8 text-center">
       <Loader2 className="animate-spin text-[#c58158] mb-2" size={hero ? 40 : 24} />
-      <span className="text-[8px] font-black uppercase tracking-[0.4em] text-[#c58158]/40 italic">Assembling Schematic...</span>
+      <span className="text-[8px] font-black uppercase tracking-[0.4em] text-[#c58158]/40 italic text-center">Assembling Schematic...</span>
     </div>
   );
 
