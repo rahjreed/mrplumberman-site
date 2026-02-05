@@ -18,8 +18,8 @@ export default async function handler(req, res) {
           quantity: 1,
         },
       ],
-      success_url: 'https://yourdomain.com/success',
-      cancel_url: 'https://yourdomain.com/cancel',
+      success_url: 'https://www.mrplumberman.com',
+      cancel_url: 'https://www.mrplumberman.com',
     });
 
     res.status(200).json({ url: session.url });
