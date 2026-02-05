@@ -26,8 +26,30 @@ import {
 /**
  * MR. PLUMBER MAN NUTRITION - PRODUCTION SCHEMATIC
  * Fully Restored Edition with State-Based Routing.
- * Update: Restored Name field and 15% incentive in DiscountPopup with post-submit reveal.
+ * Update: Added "Sharp Glare" sweep animation to liquid-glass buttons.
  */
+
+// --- GLOBAL STYLES FOR GLARE ---
+const GlareStyles = () => (
+  <style dangerouslySetInnerHTML={{ __html: `
+    @keyframes glare-sweep {
+      0% { left: -100%; opacity: 0; }
+      20% { opacity: 0.5; }
+      50% { left: 150%; opacity: 0; }
+      100% { left: 150%; opacity: 0; }
+    }
+    .btn-glare-overlay {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      width: 40px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.7), transparent);
+      transform: skewX(-25deg);
+      animation: glare-sweep 4s infinite ease-in-out;
+      pointer-events: none;
+    }
+  `}} />
+);
 
 // --- SHARED DATA ---
 const testimonials = [
@@ -137,7 +159,10 @@ const ChatBot = ({ messages, setMessages }) => {
           </div>
           <div className="p-4 bg-[#2a1b15] border-t border-[#c58158]/20 flex space-x-2">
             <input value={input} onChange={e => setInput(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleSend()} placeholder="Ask the boss..." className="flex-grow bg-[#1a0f0a] border border-[#c58158]/30 rounded-full px-4 py-2 text-xs text-white outline-none" />
-            <button onClick={handleSend} className="p-2 bg-[#c58158] rounded-full text-[#1a0f0a] transition-transform hover:scale-110 active:scale-95 shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)]"><Send className="w-4 h-4" /></button>
+            <button onClick={handleSend} className="relative overflow-hidden p-2 bg-[#c58158] rounded-full text-[#1a0f0a] transition-transform hover:scale-110 active:scale-95 shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)]">
+              <Send className="w-4 h-4 relative z-10" />
+              <div className="btn-glare-overlay" />
+            </button>
           </div>
         </div>
       ) : (
@@ -164,11 +189,13 @@ const DiscountPopup = ({ isOpen, onClose }) => {
                   <div className="w-16 h-16 bg-[#d4af37]/20 border border-[#d4af37]/40 rounded-full flex items-center justify-center text-[#d4af37]"><CheckCircle2 size={32} /></div>
                   <h2 className="text-3xl font-black italic uppercase tracking-tighter text-white">SYSTEM CLEAR</h2>
                   <p className="text-[#f4e4bc]/60 font-bold uppercase tracking-widest text-xs italic">Your parts discount has been unlocked.</p>
-                  <div className="bg-[#1a0f0a] border-2 border-dashed border-[#c58158] p-6 rounded-md w-full text-center">
-                    <p className="text-[10px] text-[#c58158] font-black uppercase tracking-[0.4em] mb-2 italic">Your Discount Code</p>
+                  <div className="bg-[#1a0f0a] border-2 border-dashed border-[#c58158] p-6 rounded-md w-full text-center relative overflow-hidden">
                     <p className="text-4xl font-black text-white italic tracking-widest select-all uppercase">Plumber26</p>
                   </div>
-                  <button onClick={onClose} className="relative overflow-hidden bg-gradient-to-b from-[#d4af37] to-[#c58158] text-[#1a0f0a] px-8 py-4 font-black uppercase tracking-widest text-xs shadow-[0_6px_0_#8c5a3d,inset_0_1px_1px_rgba(255,255,255,0.4)] hover:translate-y-[2px] transition-all italic">Back to Depot</button>
+                  <button onClick={onClose} className="relative overflow-hidden bg-gradient-to-b from-[#d4af37] to-[#c58158] text-[#1a0f0a] px-8 py-4 font-black uppercase tracking-widest text-xs shadow-[0_6px_0_#8c5a3d,inset_0_1px_1px_rgba(255,255,255,0.4)] hover:translate-y-[2px] transition-all italic">
+                    <span className="relative z-10">Back to Depot</span>
+                    <div className="btn-glare-overlay" />
+                  </button>
                </div>
             ) : (
               <>
@@ -178,7 +205,10 @@ const DiscountPopup = ({ isOpen, onClose }) => {
                 <form onSubmit={(e) => { e.preventDefault(); setIsSubmitted(true); }} className="space-y-4 w-full">
                   <input className="w-full bg-[#1a0f0a] border-2 border-[#c58158]/30 px-6 py-4 text-xs font-black tracking-widest text-white focus:outline-none italic focus:border-[#d4af37] transition-colors" placeholder="First Name" type="text" required />
                   <input className="w-full bg-[#1a0f0a] border-2 border-[#c58158]/30 px-6 py-4 text-xs font-black tracking-widest text-white focus:outline-none italic focus:border-[#d4af37] transition-colors" placeholder="Email Address" required type="email" />
-                  <button type="submit" className="group relative w-full overflow-hidden bg-gradient-to-b from-[#d4af37] to-[#c58158] text-[#1a0f0a] py-5 font-black uppercase tracking-[0.3em] text-sm hover:brightness-110 shadow-[0_8px_0_#8c5a3d,inset_0_1px_2px_rgba(255,255,255,0.6)] active:translate-y-[8px] active:shadow-none transition-all italic">Claim Discount</button>
+                  <button type="submit" className="group relative w-full overflow-hidden bg-gradient-to-b from-[#d4af37] to-[#c58158] text-[#1a0f0a] py-5 font-black uppercase tracking-[0.3em] text-sm hover:brightness-110 shadow-[0_8px_0_#8c5a3d,inset_0_1px_2px_rgba(255,255,255,0.6)] active:translate-y-[8px] active:shadow-none transition-all italic">
+                    <span className="relative z-10">Claim Discount</span>
+                    <div className="btn-glare-overlay" />
+                  </button>
                 </form>
               </>
             )}
@@ -227,7 +257,10 @@ const HomeView = ({ navigate }) => {
           </div>
           <div className="flex gap-4 items-center">
             <button onClick={() => scrollTo(reviewsRef)} className="hidden md:block text-[10px] font-black uppercase tracking-[0.3em] text-[#f4e4bc] hover:text-[#d4af37] transition">Report</button>
-            <button onClick={() => scrollTo(depotRef)} className="relative overflow-hidden bg-gradient-to-b from-[#d4af37] to-[#c58158] text-[#1a0f0a] px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-widest shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)] hover:brightness-110 transition italic">Supply Depot</button>
+            <button onClick={() => scrollTo(depotRef)} className="relative overflow-hidden bg-gradient-to-b from-[#d4af37] to-[#c58158] text-[#1a0f0a] px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-widest shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)] hover:brightness-110 transition italic group">
+               <span className="relative z-10">Supply Depot</span>
+               <div className="btn-glare-overlay" />
+            </button>
           </div>
         </div>
       </nav>
@@ -244,8 +277,9 @@ const HomeView = ({ navigate }) => {
               <h1 className="text-[9.5vw] lg:text-7xl xl:text-8xl 2xl:text-9xl font-black tracking-tight mb-8 leading-[0.95] uppercase italic text-white drop-shadow-2xl">READY WHEN <br className="hidden lg:block" /> <span className="text-[#d4af37] whitespace-nowrap">IT COUNTS.</span></h1>
               <p className="text-xl sm:text-2xl lg:text-3xl text-[#f4e4bc]/80 leading-relaxed font-bold italic mb-10">We keep them pipes pipin' and them thangs thangin'.</p>
               <button onClick={() => scrollTo(depotRef)} className="relative group overflow-hidden bg-gradient-to-b from-[#d4af37] via-[#c58158] to-[#8c5a3d] text-[#1a0f0a] px-10 sm:px-16 py-5 lg:py-6 font-black uppercase tracking-widest shadow-[0_10px_0_#3d291f,inset_0_1px_2px_rgba(255,255,255,0.6)] rounded-lg hover:translate-y-[2px] transition-all flex items-center gap-3 italic text-lg">
-                TURN THE PRESSURE UP <ArrowRight size={24} />
+                <span className="relative z-10 flex items-center gap-3">TURN THE PRESSURE UP <ArrowRight size={24} /></span>
                 <div className="absolute top-0 left-0 right-0 h-[40%] bg-white/20 blur-[1px] rounded-t-lg" />
+                <div className="btn-glare-overlay" />
               </button>
             </ScrollReveal>
           </div>
@@ -253,9 +287,16 @@ const HomeView = ({ navigate }) => {
             <ScrollReveal>
               <div className="relative aspect-[4/5] w-full max-w-[500px] border-8 border-[#3d291f] shadow-2xl overflow-hidden bg-[#2a1b15]">
                 <img src="https://images.travelprox.com/mrplumberman/symbol.png" alt="Symbol" className="w-full h-full object-cover group-hover:scale-105 transition duration-[3s] ease-out" />
+                <div className="absolute inset-0 border-[2px] border-[#c58158]/20 m-4 pointer-events-none" />
                 <div className="absolute bottom-5 right-5 bg-[#1a0f0a] border-2 border-[#c58158]/40 p-5 rounded-md shadow-2xl z-20 backdrop-blur-md">
                   <div className="flex flex-col gap-1 mb-2 text-[10px] font-black uppercase tracking-widest leading-tight"><span className="text-white italic">PRESSURE</span><span className="text-[#d4af37]">Prostate Support</span></div>
-                  <div className="flex items-center justify-between gap-6 pt-1"><span className="text-[#c58158] font-black text-xl leading-none">$39</span><button onClick={() => scrollTo(depotRef)} className="bg-gradient-to-b from-[#d4af37] to-[#c58158] text-[#1a0f0a] px-4 py-1.5 rounded-sm text-[10px] font-black uppercase tracking-widest shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)]">Shop Now</button></div>
+                  <div className="flex items-center justify-between gap-6 pt-1">
+                    <span className="text-[#c58158] font-black text-xl leading-none">$39</span>
+                    <button onClick={() => scrollTo(depotRef)} className="relative overflow-hidden bg-gradient-to-b from-[#d4af37] to-[#c58158] text-[#1a0f0a] px-4 py-1.5 rounded-sm text-[10px] font-black uppercase tracking-widest shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)] hover:brightness-110 italic">
+                       <span className="relative z-10">Shop Now</span>
+                       <div className="btn-glare-overlay" />
+                    </button>
+                  </div>
                 </div>
               </div>
             </ScrollReveal>
@@ -278,7 +319,7 @@ const HomeView = ({ navigate }) => {
           <div className="max-w-7xl mx-auto text-center">
             <div className="mb-16 space-y-4">
               <h2 className="text-[#c58158] font-black uppercase tracking-[0.6em] text-[10px] underline underline-offset-8">Industrial Diagnostics</h2>
-              <h1 className="text-[9.5vw] lg:text-7xl xl:text-8xl font-black tracking-tight text-white leading-none uppercase italic">SYSTEM <span className="text-[#d4af37]">TROUBLESHOOTING</span></h1>
+              <h1 className="text-[9.5vw] lg:text-7xl xl:text-8xl font-black tracking-tight text-white leading-none uppercase italic">SYSTEM <span className="text-[#d4af37]">TROUBLE SHOOTING</span></h1>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
               {[
@@ -384,7 +425,10 @@ const HomeView = ({ navigate }) => {
              </div>
              <h3 className="text-3xl sm:text-6xl lg:text-8xl font-black tracking-tight uppercase mb-12 leading-none italic text-white">THE SHOP <span className="text-[#d4af37]">GUARANTEE</span>.</h3>
              <p className="text-lg sm:text-3xl text-[#f4e4bc]/60 font-bold max-w-3xl mx-auto leading-relaxed italic uppercase tracking-widest mb-16">If you change your mind on a kit, we'll take it back. Full refund on unopened product within 30 days. No clogs in the process.</p>
-             <button onClick={() => scrollTo(depotRef)} className="relative overflow-hidden bg-gradient-to-b from-[#d4af37] to-[#c58158] text-[#1a0f0a] px-14 py-6 font-black uppercase tracking-widest text-sm shadow-[0_10px_0_#3d291f,inset_0_1px_1px_rgba(255,255,255,0.4)] rounded-lg hover:translate-y-[2px] transition-all italic">Visit The Supply Depot</button>
+             <button onClick={() => scrollTo(depotRef)} className="relative overflow-hidden bg-gradient-to-b from-[#d4af37] to-[#c58158] text-[#1a0f0a] px-14 py-6 font-black uppercase tracking-widest text-sm shadow-[0_10px_0_#3d291f,inset_0_1px_1px_rgba(255,255,255,0.4)] rounded-lg hover:translate-y-[2px] transition-all italic">
+                <span className="relative z-10">Visit The Supply Depot</span>
+                <div className="btn-glare-overlay" />
+             </button>
           </div>
         </ScrollReveal>
       </section>
@@ -417,8 +461,11 @@ const HomeView = ({ navigate }) => {
                       <span className="text-[10px] text-[#c58158] font-black uppercase tracking-widest">Free Express Shipping</span>
                     </div>
                     <button onClick={() => handlePurchase(p.id)} disabled={isPurchasing === p.id} className="relative w-full overflow-hidden bg-gradient-to-b from-[#d4af37] to-[#c58158] text-[#1a0f0a] py-4 font-black uppercase tracking-widest text-xs hover:brightness-110 shadow-[0_8px_0_#3d291f,inset_0_1px_1px_rgba(255,255,255,0.4)] active:translate-y-[8px] transition-all flex items-center justify-center gap-3">
-                      {isPurchasing === p.id ? <Loader2 size={16} className="animate-spin" /> : <Package size={16} />}
-                      {isPurchasing === p.id ? 'Processing...' : 'Add To Kit'}
+                      <span className="relative z-10 flex items-center gap-3">
+                        {isPurchasing === p.id ? <Loader2 size={16} className="animate-spin" /> : <Package size={16} />}
+                        {isPurchasing === p.id ? 'Processing...' : 'Add To Kit'}
+                      </span>
+                      <div className="btn-glare-overlay" />
                     </button>
                     <button className="w-full border border-[#c58158]/40 bg-transparent text-[#d4af37] py-2 font-black uppercase tracking-[0.3em] text-[9px] hover:bg-[#c58158]/10 transition-all italic flex items-center justify-center gap-2">
                         <RefreshCcw size={12} /> Subscribe & Save 10%
@@ -464,8 +511,9 @@ const ThankYouView = ({ navigate }) => {
           </div>
         </div>
         <button onClick={() => navigate('home')} className="relative group overflow-hidden bg-gradient-to-b from-[#d4af37] to-[#c58158] text-[#1a0f0a] px-12 py-5 font-black uppercase tracking-widest shadow-[0_8px_0_#3d291f,inset_0_1px_2px_rgba(255,255,255,0.6)] rounded-lg hover:translate-y-[2px] transition-all flex items-center gap-3 italic mx-auto">
-          <HomeIcon size={20} /> RETURN TO DEPOT
+          <span className="relative z-10 flex items-center gap-3"><HomeIcon size={20} /> RETURN TO DEPOT</span>
           <div className="absolute top-0 left-0 right-0 h-[40%] bg-white/20 blur-[1px] rounded-t-lg" />
+          <div className="btn-glare-overlay" />
         </button>
       </div>
     </div>
@@ -485,6 +533,7 @@ const App = () => {
 
   return (
     <div className="bg-[#1a0f0a] text-[#f4e4bc] font-serif relative overflow-x-hidden min-h-screen selection:bg-[#d4af37] selection:text-[#1a0f0a]">
+      <GlareStyles />
       {currentPage === 'thank-you' ? <ThankYouView navigate={navigate} /> : <HomeView navigate={navigate} />}
       <ChatBot messages={chatMessages} setMessages={setChatMessages} />
     </div>
