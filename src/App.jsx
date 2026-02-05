@@ -26,7 +26,7 @@ import {
 /**
  * MR. PLUMBER MAN NUTRITION - PRODUCTION SCHEMATIC
  * Fully Restored Edition with State-Based Routing.
- * All sections (Diagnostics, Teardown, Field Reports) are back online.
+ * Update: Restored Name field and 15% incentive in DiscountPopup with post-submit reveal.
  */
 
 // --- SHARED DATA ---
@@ -163,8 +163,10 @@ const DiscountPopup = ({ isOpen, onClose }) => {
                <div className="animate-in zoom-in-95 duration-500 flex flex-col items-center space-y-6 py-4">
                   <div className="w-16 h-16 bg-[#d4af37]/20 border border-[#d4af37]/40 rounded-full flex items-center justify-center text-[#d4af37]"><CheckCircle2 size={32} /></div>
                   <h2 className="text-3xl font-black italic uppercase tracking-tighter text-white">SYSTEM CLEAR</h2>
+                  <p className="text-[#f4e4bc]/60 font-bold uppercase tracking-widest text-xs italic">Your parts discount has been unlocked.</p>
                   <div className="bg-[#1a0f0a] border-2 border-dashed border-[#c58158] p-6 rounded-md w-full text-center">
-                    <p className="text-4xl font-black text-white italic tracking-widest uppercase">Plumber26</p>
+                    <p className="text-[10px] text-[#c58158] font-black uppercase tracking-[0.4em] mb-2 italic">Your Discount Code</p>
+                    <p className="text-4xl font-black text-white italic tracking-widest select-all uppercase">Plumber26</p>
                   </div>
                   <button onClick={onClose} className="relative overflow-hidden bg-gradient-to-b from-[#d4af37] to-[#c58158] text-[#1a0f0a] px-8 py-4 font-black uppercase tracking-widest text-xs shadow-[0_6px_0_#8c5a3d,inset_0_1px_1px_rgba(255,255,255,0.4)] hover:translate-y-[2px] transition-all italic">Back to Depot</button>
                </div>
@@ -172,8 +174,10 @@ const DiscountPopup = ({ isOpen, onClose }) => {
               <>
                 <Ticket className="w-12 h-12 text-[#d4af37] rotate-12" />
                 <h2 className="text-3xl md:text-4xl font-black italic uppercase tracking-tighter text-white">WANT THE <span className="text-[#d4af37]">BEST DEALS?</span></h2>
+                <p className="text-[#f4e4bc]/60 font-bold uppercase tracking-widest text-xs italic">Join the dispatch list and take <span className="text-white">15% OFF</span> your first haul.</p>
                 <form onSubmit={(e) => { e.preventDefault(); setIsSubmitted(true); }} className="space-y-4 w-full">
-                  <input className="w-full bg-[#1a0f0a] border-2 border-[#c58158]/30 px-6 py-4 text-xs font-black tracking-widest text-white focus:outline-none italic" placeholder="Email Address" required type="email" />
+                  <input className="w-full bg-[#1a0f0a] border-2 border-[#c58158]/30 px-6 py-4 text-xs font-black tracking-widest text-white focus:outline-none italic focus:border-[#d4af37] transition-colors" placeholder="First Name" type="text" required />
+                  <input className="w-full bg-[#1a0f0a] border-2 border-[#c58158]/30 px-6 py-4 text-xs font-black tracking-widest text-white focus:outline-none italic focus:border-[#d4af37] transition-colors" placeholder="Email Address" required type="email" />
                   <button type="submit" className="group relative w-full overflow-hidden bg-gradient-to-b from-[#d4af37] to-[#c58158] text-[#1a0f0a] py-5 font-black uppercase tracking-[0.3em] text-sm hover:brightness-110 shadow-[0_8px_0_#8c5a3d,inset_0_1px_2px_rgba(255,255,255,0.6)] active:translate-y-[8px] active:shadow-none transition-all italic">Claim Discount</button>
                 </form>
               </>
@@ -371,11 +375,13 @@ const HomeView = ({ navigate }) => {
         </ScrollReveal>
       </section>
 
-      {/* RESTORED Shop Guarantee */}
+      {/* RESTORED Shop Guarantee with BOUNCING PACKAGE */}
       <section className="bg-[#1a0f0a] py-16 sm:py-32 relative overflow-hidden text-center px-10">
         <ScrollReveal>
           <div className="max-w-4xl mx-auto relative z-10">
-             <div className="w-20 h-20 bg-[#c58158]/10 border-2 border-[#c58158] rounded-full flex items-center justify-center mx-auto mb-10 text-[#c58158]"><Package size={40} /></div>
+             <div className="w-20 h-20 bg-[#c58158]/10 border-2 border-[#c58158] rounded-full flex items-center justify-center mx-auto mb-10 text-[#c58158]">
+               <Package size={40} className="animate-bounce" /> 
+             </div>
              <h3 className="text-3xl sm:text-6xl lg:text-8xl font-black tracking-tight uppercase mb-12 leading-none italic text-white">THE SHOP <span className="text-[#d4af37]">GUARANTEE</span>.</h3>
              <p className="text-lg sm:text-3xl text-[#f4e4bc]/60 font-bold max-w-3xl mx-auto leading-relaxed italic uppercase tracking-widest mb-16">If you change your mind on a kit, we'll take it back. Full refund on unopened product within 30 days. No clogs in the process.</p>
              <button onClick={() => scrollTo(depotRef)} className="relative overflow-hidden bg-gradient-to-b from-[#d4af37] to-[#c58158] text-[#1a0f0a] px-14 py-6 font-black uppercase tracking-widest text-sm shadow-[0_10px_0_#3d291f,inset_0_1px_1px_rgba(255,255,255,0.4)] rounded-lg hover:translate-y-[2px] transition-all italic">Visit The Supply Depot</button>
