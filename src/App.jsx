@@ -26,10 +26,10 @@ import {
 /**
  * MR. PLUMBER MAN NUTRITION - PRODUCTION SCHEMATIC
  * Fully Restored Edition with State-Based Routing.
- * Update: Added "Sharp Glare" sweep animation to liquid-glass buttons.
+ * Update: Popup logic modified to trigger 3 seconds after scrolling begins.
  */
 
-// --- GLOBAL STYLES FOR GLARE ---
+// --- GLOBAL STYLES FOR ANIMATIONS ---
 const GlareStyles = () => (
   <style dangerouslySetInnerHTML={{ __html: `
     @keyframes glare-sweep {
@@ -37,6 +37,10 @@ const GlareStyles = () => (
       20% { opacity: 0.5; }
       50% { left: 150%; opacity: 0; }
       100% { left: 150%; opacity: 0; }
+    }
+    @keyframes ticker-scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
     }
     .btn-glare-overlay {
       position: absolute;
@@ -47,6 +51,14 @@ const GlareStyles = () => (
       transform: skewX(-25deg);
       animation: glare-sweep 4s infinite ease-in-out;
       pointer-events: none;
+    }
+    .animate-ticker {
+      display: flex;
+      width: fit-content;
+      animation: ticker-scroll 90s linear infinite;
+    }
+    .ticker-pause:hover .animate-ticker {
+      animation-play-state: paused;
     }
   `}} />
 );
@@ -227,14 +239,28 @@ const HomeView = ({ navigate }) => {
   const depotRef = useRef(null);
   const reviewsRef = useRef(null);
 
+  // TRIGGER POPUP 3 SECONDS AFTER SCROLLING STARTS
   useEffect(() => {
-    const timer = setTimeout(() => {
-      if (!sessionStorage.getItem('mp_pop_v6')) { 
-        setShowPopup(true); 
-        sessionStorage.setItem('mp_pop_v6', 't'); 
+    const hasShown = sessionStorage.getItem('mp_pop_v6');
+    if (hasShown) return;
+
+    let scrollTimer = null;
+
+    const handleFirstScroll = () => {
+      if (!scrollTimer) {
+        scrollTimer = setTimeout(() => {
+          setShowPopup(true);
+          sessionStorage.setItem('mp_pop_v6', 't');
+          window.removeEventListener('scroll', handleFirstScroll);
+        }, 3000); // 3 seconds after scrolling detected
       }
-    }, 5000);
-    return () => clearTimeout(timer);
+    };
+
+    window.addEventListener('scroll', handleFirstScroll);
+    return () => {
+      window.removeEventListener('scroll', handleFirstScroll);
+      if (scrollTimer) clearTimeout(scrollTimer);
+    };
   }, []);
 
   const handlePurchase = (productId) => {
@@ -246,6 +272,42 @@ const HomeView = ({ navigate }) => {
   };
 
   const scrollTo = (ref) => ref.current?.scrollIntoView({ behavior: 'smooth' });
+
+  // Ticker content repeated for infinite loop
+  const tickerContent = (
+    <div className="flex items-center gap-12 sm:gap-24 px-6 sm:px-12">
+      <div className="flex items-center gap-3">
+        <MapPin size={16} className="text-[#c58158]" />
+        <span className="text-[#f4e4bc] text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] italic whitespace-nowrap">Recently purchased by customers across the U.S.</span>
+      </div>
+      <div className="w-1.5 h-1.5 bg-[#c58158]/40 rounded-full" />
+      <div className="flex items-center gap-3">
+        <Shield size={16} className="text-[#d4af37]" />
+        <span className="text-[#d4af37] text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] italic whitespace-nowrap">System Flow Secured Nationwide</span>
+      </div>
+      <div className="w-1.5 h-1.5 bg-[#c58158]/40 rounded-full" />
+      <div className="flex items-center gap-3">
+        <Wrench size={16} className="text-[#c58158]" />
+        <span className="text-[#f4e4bc] text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] italic whitespace-nowrap">Become a pipe master.</span>
+      </div>
+      <div className="w-1.5 h-1.5 bg-[#c58158]/40 rounded-full" />
+      <div className="flex items-center gap-3">
+        <Droplets size={16} className="text-[#d4af37]" />
+        <span className="text-[#d4af37] text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] italic whitespace-nowrap">Minimize bathroom urgency.</span>
+      </div>
+      <div className="w-1.5 h-1.5 bg-[#c58158]/40 rounded-full" />
+      <div className="flex items-center gap-3">
+        <Zap size={16} className="text-[#c58158]" />
+        <span className="text-[#f4e4bc] text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] italic whitespace-nowrap">Increase system duration.</span>
+      </div>
+      <div className="w-1.5 h-1.5 bg-[#c58158]/40 rounded-full" />
+      <div className="flex items-center gap-3">
+        <Activity size={16} className="text-[#d4af37]" />
+        <span className="text-[#d4af37] text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] italic whitespace-nowrap">Improve system function.</span>
+      </div>
+      <div className="w-1.5 h-1.5 bg-[#c58158]/40 rounded-full" />
+    </div>
+  );
 
   return (
     <>
@@ -274,13 +336,23 @@ const HomeView = ({ navigate }) => {
             <ScrollReveal>
               <div className="mb-6 lg:mb-10"><img src="https://images.travelprox.com/mrplumberman/plumlogo.png" className="h-16 sm:h-20 lg:h-32 w-auto object-contain mx-auto lg:mx-0" alt="Logo" /></div>
               <div className="inline-flex items-center space-x-3 px-6 py-2 mb-6 lg:mb-10 text-[10px] font-black uppercase tracking-[0.4em] text-[#d4af37] border-y border-[#c58158]/30 italic mx-auto lg:mx-0"><span>INDUSTRIAL-GRADE VITALITY</span></div>
-              <h1 className="text-[9.5vw] lg:text-7xl xl:text-8xl 2xl:text-9xl font-black tracking-tight mb-8 leading-[0.95] uppercase italic text-white drop-shadow-2xl">READY WHEN <br className="hidden lg:block" /> <span className="text-[#d4af37] whitespace-nowrap">IT COUNTS.</span></h1>
+              <h1 className="text-[9.5vw] lg:text-7xl xl:text-8xl 2xl:text-9xl font-black tracking-tight mb-8 leading-[0.95] uppercase italic text-white drop-shadow-2xl">
+                READY WHEN <br className="hidden lg:block" /> 
+                <span className="text-[#d4af37] whitespace-nowrap">IT COUNTS.</span>
+              </h1>
               <p className="text-xl sm:text-2xl lg:text-3xl text-[#f4e4bc]/80 leading-relaxed font-bold italic mb-10">We keep them pipes pipin' and them thangs thangin'.</p>
-              <button onClick={() => scrollTo(depotRef)} className="relative group overflow-hidden bg-gradient-to-b from-[#d4af37] via-[#c58158] to-[#8c5a3d] text-[#1a0f0a] px-10 sm:px-16 py-5 lg:py-6 font-black uppercase tracking-widest shadow-[0_10px_0_#3d291f,inset_0_1px_2px_rgba(255,255,255,0.6)] rounded-lg hover:translate-y-[2px] transition-all flex items-center gap-3 italic text-lg">
-                <span className="relative z-10 flex items-center gap-3">TURN THE PRESSURE UP <ArrowRight size={24} /></span>
-                <div className="absolute top-0 left-0 right-0 h-[40%] bg-white/20 blur-[1px] rounded-t-lg" />
-                <div className="btn-glare-overlay" />
-              </button>
+              
+              <div className="w-full flex justify-center lg:justify-start">
+                <button 
+                  onClick={() => scrollTo(depotRef)} 
+                  className="relative group overflow-hidden bg-gradient-to-b from-[#d4af37] via-[#c58158] to-[#8c5a3d] text-[#1a0f0a] px-10 sm:px-14 py-5 lg:py-6 font-black uppercase tracking-widest shadow-[0_10px_0_#3d291f,inset_0_1px_2px_rgba(255,255,255,0.6)] rounded-lg hover:translate-y-[2px] transition-all inline-flex items-center justify-center gap-4 italic text-base sm:text-lg min-w-[280px] sm:min-w-0"
+                >
+                  <span className="relative z-10 leading-none">TURN THE PRESSURE UP</span>
+                  <ArrowRight size={24} className="relative z-10 group-hover:translate-x-2 transition-transform shrink-0" />
+                  <div className="absolute top-0 left-0 right-0 h-[40%] bg-white/20 blur-[1px] rounded-t-lg" />
+                  <div className="btn-glare-overlay" />
+                </button>
+              </div>
             </ScrollReveal>
           </div>
           <div className="relative group lg:mt-0 flex justify-center lg:justify-end">
@@ -292,7 +364,7 @@ const HomeView = ({ navigate }) => {
                   <div className="flex flex-col gap-1 mb-2 text-[10px] font-black uppercase tracking-widest leading-tight"><span className="text-white italic">PRESSURE</span><span className="text-[#d4af37]">Prostate Support</span></div>
                   <div className="flex items-center justify-between gap-6 pt-1">
                     <span className="text-[#c58158] font-black text-xl leading-none">$39</span>
-                    <button onClick={() => scrollTo(depotRef)} className="relative overflow-hidden bg-gradient-to-b from-[#d4af37] to-[#c58158] text-[#1a0f0a] px-4 py-1.5 rounded-sm text-[10px] font-black uppercase tracking-widest shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)] hover:brightness-110 italic">
+                    <button onClick={() => scrollTo(depotRef)} className="relative overflow-hidden bg-gradient-to-b from-[#d4af37] to-[#c58158] text-[#1a0f0a] px-4 py-1.5 rounded-sm text-[10px] font-black uppercase tracking-widest italic shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)] hover:brightness-110">
                        <span className="relative z-10">Shop Now</span>
                        <div className="btn-glare-overlay" />
                     </button>
@@ -304,16 +376,17 @@ const HomeView = ({ navigate }) => {
         </div>
       </section>
 
-      {/* Trust Bar */}
-      <div className="w-full bg-[#140b08] border-y border-[#c58158]/30 py-6 relative overflow-hidden px-8">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-center gap-6 md:gap-16 relative z-10">
-          <div className="flex items-center gap-4"><MapPin size={18} className="text-[#c58158]" /><p className="text-[#f4e4bc] text-[10px] sm:text-xs font-black uppercase tracking-[0.2em] italic">Recently purchased by customers across the U.S.</p></div>
-          <div className="hidden md:block w-px h-8 bg-[#c58158]/20"></div>
-          <div className="flex items-center gap-4"><Shield size={18} className="text-[#d4af37]" /><p className="text-[#d4af37] text-[10px] sm:text-xs font-black uppercase tracking-[0.2em] italic">System Flow Secured Nationwide</p></div>
+      {/* Trust Bar - TICKER SPEED CALIBRATED TO HALF SPEED */}
+      <div className="w-full bg-[#140b08] border-y border-[#c58158]/30 py-4 relative overflow-hidden ticker-pause">
+        <div className="animate-ticker">
+          {tickerContent}
+          {tickerContent}
+          {tickerContent}
+          {tickerContent}
         </div>
       </div>
 
-      {/* RESTORED Diagnostics */}
+      {/* Diagnostics */}
       <section className="px-6 py-24 bg-[#1a0f0a] border-b border-[#c58158]/10">
         <ScrollReveal>
           <div className="max-w-7xl mx-auto text-center">
@@ -345,7 +418,7 @@ const HomeView = ({ navigate }) => {
         </ScrollReveal>
       </section>
 
-      {/* RESTORED Teardown */}
+      {/* Teardown */}
       <section className="px-8 py-24 bg-[#1a0f0a]">
         <ScrollReveal>
           <div className="max-w-7xl mx-auto">
@@ -377,7 +450,7 @@ const HomeView = ({ navigate }) => {
         </ScrollReveal>
       </section>
 
-      {/* RESTORED Full Field Report Section */}
+      {/* Field Report Section */}
       <section ref={reviewsRef} className="px-6 py-24 bg-[#140b08] border-y border-[#c58158]/10">
         <ScrollReveal>
           <div className="max-w-7xl mx-auto text-center">
@@ -416,7 +489,7 @@ const HomeView = ({ navigate }) => {
         </ScrollReveal>
       </section>
 
-      {/* RESTORED Shop Guarantee with BOUNCING PACKAGE */}
+      {/* Shop Guarantee */}
       <section className="bg-[#1a0f0a] py-16 sm:py-32 relative overflow-hidden text-center px-10">
         <ScrollReveal>
           <div className="max-w-4xl mx-auto relative z-10">
@@ -510,7 +583,10 @@ const ThankYouView = ({ navigate }) => {
             <span>Estimated Install: 3-5 Business Days</span>
           </div>
         </div>
-        <button onClick={() => navigate('home')} className="relative group overflow-hidden bg-gradient-to-b from-[#d4af37] to-[#c58158] text-[#1a0f0a] px-12 py-5 font-black uppercase tracking-widest shadow-[0_8px_0_#3d291f,inset_0_1px_2px_rgba(255,255,255,0.6)] rounded-lg hover:translate-y-[2px] transition-all flex items-center gap-3 italic mx-auto">
+        <button 
+          onClick={() => navigate('home')} 
+          className="relative group overflow-hidden bg-gradient-to-b from-[#d4af37] to-[#c58158] text-[#1a0f0a] px-12 py-5 font-black uppercase tracking-widest shadow-[0_8px_0_#3d291f,inset_0_1px_2px_rgba(255,255,255,0.6)] rounded-lg hover:translate-y-[2px] transition-all flex items-center justify-center gap-3 italic mx-auto"
+        >
           <span className="relative z-10 flex items-center gap-3"><HomeIcon size={20} /> RETURN TO DEPOT</span>
           <div className="absolute top-0 left-0 right-0 h-[40%] bg-white/20 blur-[1px] rounded-t-lg" />
           <div className="btn-glare-overlay" />
