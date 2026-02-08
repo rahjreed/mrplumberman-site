@@ -18,8 +18,9 @@ export default async function handler(req, res) {
           quantity: 1,
         },
       ],
-      success_url: 'https://www.mrplumberman.com',
-      cancel_url: 'https://www.mrplumberman.com',
+      success_url: 'https://www.mrplumberman.com/thank-you?session_id={CHECKOUT_SESSION_ID}',
+cancel_url: 'https://www.mrplumberman.com/?canceled=true',
+
     });
 
     res.status(200).json({ url: session.url });
