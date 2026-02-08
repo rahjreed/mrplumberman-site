@@ -26,7 +26,7 @@ import {
 /**
  * MR. PLUMBER MAN NUTRITION - PRODUCTION SCHEMATIC
  * Fully Restored Edition with State-Based Routing.
- * Update: Popup logic modified to trigger 3 seconds after scrolling begins.
+ * Update: Re-designed DiscountPopup to mirror reference layout (20% OFF).
  */
 
 // --- GLOBAL STYLES FOR ANIMATIONS ---
@@ -55,7 +55,7 @@ const GlareStyles = () => (
     .animate-ticker {
       display: flex;
       width: fit-content;
-      animation: ticker-scroll 90s linear infinite;
+      animation: ticker-scroll 180s linear infinite;
     }
     .ticker-pause:hover .animate-ticker {
       animation-play-state: paused;
@@ -187,45 +187,86 @@ const ChatBot = ({ messages, setMessages }) => {
   );
 };
 
+// --- UPDATED DISCOUNT POPUP (MIRRORING CHARLOTTE'S WEB LAYOUT) ---
 const DiscountPopup = ({ isOpen, onClose }) => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   if (!isOpen) return null;
+
   return (
-    <div className="fixed inset-0 z-[200] flex items-center justify-center px-4 bg-black/90 backdrop-blur-sm animate-in fade-in duration-500">
-      <div className="relative w-full max-w-lg bg-[#1a0f0a] border-[4px] border-[#c58158] shadow-2xl rounded-sm p-1">
-        <div className="bg-[#2a1b15] border border-[#c58158]/30 p-8 md:p-12 text-center relative overflow-hidden">
-          <button onClick={onClose} className="absolute top-4 right-4 text-[#c58158] hover:text-[#d4af37] transition-colors p-2 z-10"><X /></button>
-          <div className="relative z-10 space-y-6 flex flex-col items-center">
-            {isSubmitted ? (
-               <div className="animate-in zoom-in-95 duration-500 flex flex-col items-center space-y-6 py-4">
-                  <div className="w-16 h-16 bg-[#d4af37]/20 border border-[#d4af37]/40 rounded-full flex items-center justify-center text-[#d4af37]"><CheckCircle2 size={32} /></div>
-                  <h2 className="text-3xl font-black italic uppercase tracking-tighter text-white">SYSTEM CLEAR</h2>
-                  <p className="text-[#f4e4bc]/60 font-bold uppercase tracking-widest text-xs italic">Your parts discount has been unlocked.</p>
-                  <div className="bg-[#1a0f0a] border-2 border-dashed border-[#c58158] p-6 rounded-md w-full text-center relative overflow-hidden">
-                    <p className="text-4xl font-black text-white italic tracking-widest select-all uppercase">Plumber26</p>
-                  </div>
-                  <button onClick={onClose} className="relative overflow-hidden bg-gradient-to-b from-[#d4af37] to-[#c58158] text-[#1a0f0a] px-8 py-4 font-black uppercase tracking-widest text-xs shadow-[0_6px_0_#8c5a3d,inset_0_1px_1px_rgba(255,255,255,0.4)] hover:translate-y-[2px] transition-all italic">
-                    <span className="relative z-10">Back to Depot</span>
-                    <div className="btn-glare-overlay" />
-                  </button>
-               </div>
-            ) : (
-              <>
-                <Ticket className="w-12 h-12 text-[#d4af37] rotate-12" />
-                <h2 className="text-3xl md:text-4xl font-black italic uppercase tracking-tighter text-white">WANT THE <span className="text-[#d4af37]">BEST DEALS?</span></h2>
-                <p className="text-[#f4e4bc]/60 font-bold uppercase tracking-widest text-xs italic">Join the dispatch list and take <span className="text-white">15% OFF</span> your first haul.</p>
-                <form onSubmit={(e) => { e.preventDefault(); setIsSubmitted(true); }} className="space-y-4 w-full">
-                  <input className="w-full bg-[#1a0f0a] border-2 border-[#c58158]/30 px-6 py-4 text-xs font-black tracking-widest text-white focus:outline-none italic focus:border-[#d4af37] transition-colors" placeholder="First Name" type="text" required />
-                  <input className="w-full bg-[#1a0f0a] border-2 border-[#c58158]/30 px-6 py-4 text-xs font-black tracking-widest text-white focus:outline-none italic focus:border-[#d4af37] transition-colors" placeholder="Email Address" required type="email" />
-                  <button type="submit" className="group relative w-full overflow-hidden bg-gradient-to-b from-[#d4af37] to-[#c58158] text-[#1a0f0a] py-5 font-black uppercase tracking-[0.3em] text-sm hover:brightness-110 shadow-[0_8px_0_#8c5a3d,inset_0_1px_2px_rgba(255,255,255,0.6)] active:translate-y-[8px] active:shadow-none transition-all italic">
-                    <span className="relative z-10">Claim Discount</span>
-                    <div className="btn-glare-overlay" />
-                  </button>
-                </form>
-              </>
-            )}
+    <div className="fixed inset-0 z-[200] flex items-center justify-center px-4 bg-[#1a0f0a]/80 backdrop-blur-md animate-in fade-in duration-500">
+      <div className="relative w-full max-w-[420px] bg-[#2a1b15] border-2 border-[#c58158] rounded-[40px] shadow-2xl overflow-hidden p-8 sm:p-12 text-center animate-in zoom-in-95 duration-500">
+        {/* Close Button */}
+        <button onClick={onClose} className="absolute top-6 right-6 text-[#c58158] hover:text-[#d4af37] transition-colors p-1">
+          <X size={24} />
+        </button>
+
+        {isSubmitted ? (
+          <div className="animate-in zoom-in-95 duration-500 flex flex-col items-center space-y-6">
+            <div className="w-16 h-16 bg-[#d4af37]/20 border border-[#d4af37]/40 rounded-full flex items-center justify-center text-[#d4af37]">
+              <CheckCircle2 size={32} />
+            </div>
+            <h2 className="text-3xl font-black italic uppercase tracking-tighter text-white leading-tight">SYSTEM CLEAR</h2>
+            <p className="text-[#f4e4bc]/60 font-bold uppercase tracking-widest text-xs italic">Your parts discount is unlocked:</p>
+            <div className="bg-[#1a0f0a] border-2 border-dashed border-[#c58158] p-6 rounded-2xl w-full text-center">
+              <p className="text-4xl font-black text-white italic tracking-widest uppercase">Plumber20</p>
+            </div>
+            <button 
+              onClick={onClose} 
+              className="relative group overflow-hidden w-full bg-gradient-to-b from-[#d4af37] to-[#c58158] text-[#1a0f0a] py-4 rounded-full font-black uppercase tracking-widest text-xs shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)] hover:brightness-110 transition-all italic"
+            >
+              <span className="relative z-10">Back to Depot</span>
+              <div className="btn-glare-overlay" />
+            </button>
           </div>
-        </div>
+        ) : (
+          <div className="flex flex-col items-center">
+            {/* Logo */}
+            <img src="https://images.travelprox.com/mrplumberman/plumlogo.png" className="h-10 w-auto mb-8 grayscale brightness-125" alt="Logo" />
+            
+            {/* Header */}
+            <div className="space-y-2 mb-8">
+              <p className="text-[#d4af37] font-black uppercase tracking-[0.2em] text-[10px] sm:text-xs">For a Limited-Time Only</p>
+              <h2 className="text-3xl sm:text-4xl font-black text-white leading-none uppercase italic">
+                Enjoy 20% Off <br /> <span className="text-[#d4af37]">Your Purchase!</span>
+              </h2>
+            </div>
+
+            {/* Form */}
+            <form onSubmit={(e) => { e.preventDefault(); setIsSubmitted(true); }} className="w-full space-y-4 mb-6">
+              <div className="space-y-3">
+                <input 
+                  className="w-full bg-white border-2 border-[#c58158]/30 px-6 py-4 rounded-full text-sm font-bold text-[#1a0f0a] placeholder-[#1a0f0a]/40 focus:outline-none focus:border-[#d4af37] transition-colors" 
+                  placeholder="Enter your first name" 
+                  type="text" 
+                  required 
+                />
+                <input 
+                  className="w-full bg-white border-2 border-[#c58158]/30 px-6 py-4 rounded-full text-sm font-bold text-[#1a0f0a] placeholder-[#1a0f0a]/40 focus:outline-none focus:border-[#d4af37] transition-colors" 
+                  placeholder="Enter your email address" 
+                  required 
+                  type="email" 
+                />
+              </div>
+              <button 
+                type="submit" 
+                className="group relative w-full overflow-hidden bg-gradient-to-b from-[#1a0f0a] to-black text-white border border-[#c58158]/40 py-5 rounded-full font-black uppercase tracking-[0.1em] text-sm hover:brightness-125 shadow-lg transition-all italic"
+              >
+                <span className="relative z-10">SIGN UP FOR 20% OFF</span>
+                <div className="btn-glare-overlay" />
+              </button>
+            </form>
+
+            {/* Footer Links */}
+            <button onClick={onClose} className="text-[#f4e4bc]/60 font-black uppercase tracking-widest text-[10px] sm:text-xs hover:text-[#d4af37] transition-colors mb-6">
+              No, thanks
+            </button>
+
+            {/* Disclaimer */}
+            <p className="text-[9px] text-[#f4e4bc]/30 uppercase tracking-tighter leading-tight max-w-[280px]">
+              *By entering your email, you agree to receive dispatch updates and marketing intel from Mr. Plumber Man. Opt-out anytime in your control panel.
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -252,7 +293,7 @@ const HomeView = ({ navigate }) => {
           setShowPopup(true);
           sessionStorage.setItem('mp_pop_v6', 't');
           window.removeEventListener('scroll', handleFirstScroll);
-        }, 3000); // 3 seconds after scrolling detected
+        }, 3000); 
       }
     };
 
@@ -273,7 +314,6 @@ const HomeView = ({ navigate }) => {
 
   const scrollTo = (ref) => ref.current?.scrollIntoView({ behavior: 'smooth' });
 
-  // Ticker content repeated for infinite loop
   const tickerContent = (
     <div className="flex items-center gap-12 sm:gap-24 px-6 sm:px-12">
       <div className="flex items-center gap-3">
@@ -376,7 +416,7 @@ const HomeView = ({ navigate }) => {
         </div>
       </section>
 
-      {/* Trust Bar - TICKER SPEED CALIBRATED TO HALF SPEED */}
+      {/* Trust Bar */}
       <div className="w-full bg-[#140b08] border-y border-[#c58158]/30 py-4 relative overflow-hidden ticker-pause">
         <div className="animate-ticker">
           {tickerContent}
@@ -418,7 +458,7 @@ const HomeView = ({ navigate }) => {
         </ScrollReveal>
       </section>
 
-      {/* Teardown */}
+      {/* Teardown Section */}
       <section className="px-8 py-24 bg-[#1a0f0a]">
         <ScrollReveal>
           <div className="max-w-7xl mx-auto">
@@ -457,31 +497,25 @@ const HomeView = ({ navigate }) => {
             <div className="mb-16 space-y-4">
               <h2 className="text-[#c58158] font-black uppercase tracking-[0.5em] text-[10px] underline underline-offset-8">Verified Field Ops</h2>
               <h1 className="text-[9.5vw] lg:text-7xl xl:text-8xl font-black tracking-tight text-white leading-none italic uppercase">THE <span className="text-[#d4af37]">FIELD REPORT</span></h1>
-              <p className="text-[#f4e4bc]/50 font-bold uppercase tracking-widest text-sm sm:text-lg italic max-w-2xl mx-auto">Unedited status reports from the workshop floor.</p>
             </div>
-            
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-left mb-16">
               {testimonials.slice(0, 4).map((t, idx) => <TestimonialCard key={idx} testimonial={t} />)}
             </div>
-
             <div className="py-20 border-y-2 border-[#c58158]/20 bg-[#2a1b15]/20 px-8 mb-16 relative overflow-hidden">
                <div className="absolute inset-0 z-0 pointer-events-none opacity-[0.1]" style={{ backgroundImage: `url("https://images.travelprox.com/mrplumberman/herowall.png")`, backgroundSize: 'cover' }} />
                <Quote className="text-[#d4af37] w-12 h-12 mx-auto mb-8 opacity-40 relative z-10" />
                <h2 className="text-3xl lg:text-5xl font-black uppercase italic tracking-tight text-white leading-tight mb-8 relative z-10">"Take care of your body. It's the only place you have to live."</h2>
                <p className="text-[#c58158] font-black uppercase tracking-[0.4em] text-xs relative z-10">— Jim Rohn, Vitality Strategist</p>
             </div>
-
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-left mb-16">
               {testimonials.slice(4, 8).map((t, idx) => <TestimonialCard key={idx} testimonial={t} />)}
             </div>
-
             <div className="py-20 border-y-2 border-[#c58158]/20 bg-[#2a1b15]/20 px-8 mb-16 relative overflow-hidden">
               <div className="absolute inset-0 z-0 pointer-events-none opacity-[0.1]" style={{ backgroundImage: `url("https://images.travelprox.com/mrplumberman/herowall.png")`, backgroundSize: 'cover' }} />
               <Quote className="text-[#d4af37] w-12 h-12 mx-auto mb-8 opacity-40 relative z-10" />
               <h2 className="text-3xl lg:text-5xl font-black uppercase italic tracking-tight text-[#d4af37] leading-tight mb-8 relative z-10">"Clear pipes and high torque. Because a man's performance shouldn't have a 'Closed for Maintenance' sign."</h2>
               <p className="text-white font-black uppercase tracking-[0.4em] text-xs relative z-10">— The Plumber's Secret to Domestic Harmony</p>
             </div>
-
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-left">
               {testimonials.slice(8, 12).map((t, idx) => <TestimonialCard key={idx} testimonial={t} />)}
             </div>
