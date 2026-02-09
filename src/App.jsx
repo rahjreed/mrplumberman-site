@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+               import React, { useState, useEffect, useRef } from 'react';
 import { 
   CheckCircle2, 
   ArrowRight, 
@@ -26,7 +26,7 @@ import {
 /**
  * MR. PLUMBER MAN NUTRITION - PRODUCTION SCHEMATIC
  * Fully Restored Edition with State-Based Routing.
- * Update: Re-designed DiscountPopup to mirror reference layout (20% OFF).
+ * Update: Catchphrase now selects once per refresh; removed constant rotation.
  */
 
 // --- GLOBAL STYLES FOR ANIMATIONS ---
@@ -41,6 +41,10 @@ const GlareStyles = () => (
     @keyframes ticker-scroll {
       0% { transform: translateX(0); }
       100% { transform: translateX(-50%); }
+    }
+    @keyframes phrase-entry {
+      0% { opacity: 0; transform: translateY(10px); }
+      100% { opacity: 1; transform: translateY(0); }
     }
     .btn-glare-overlay {
       position: absolute;
@@ -60,6 +64,9 @@ const GlareStyles = () => (
     .ticker-pause:hover .animate-ticker {
       animation-play-state: paused;
     }
+    .animate-phrase {
+      animation: phrase-entry 1s ease-out forwards;
+    }
   `}} />
 );
 
@@ -77,6 +84,12 @@ const testimonials = [
   { name: "Tony G.", location: "Atlanta, GA", text: "Total overhaul. Flow is clear and drive is back where it should be. Everything is running smoother.", product: "COMBO", rating: 5 },
   { name: "Larry B.", location: "Miami, FL", text: "Was a bit skeptical at first but the nightly bathroom interruptions have slowed down significantly. Can't argue with results.", product: "PRESSURE", rating: 4 },
   { name: "Kev J.", location: "Las Vegas, NV", text: "Engine is running smoother. It's just basic good maintenance for the body. I'll be sticking with the subscription.", product: "COMBO", rating: 5 }
+];
+
+const heroPhrases = [
+  "We keep them pipes pipin' and them thangs thangin'.",
+  "They call me Mr. Pluma' Man they call me Mr. Pluma'.",
+  "Mr. Plumber Plumber' mmm... I'm Mr Plumber Plumber'"
 ];
 
 // --- SHARED COMPONENTS ---
@@ -187,7 +200,6 @@ const ChatBot = ({ messages, setMessages }) => {
   );
 };
 
-// --- UPDATED DISCOUNT POPUP (MIRRORING CHARLOTTE'S WEB LAYOUT) ---
 const DiscountPopup = ({ isOpen, onClose }) => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   if (!isOpen) return null;
@@ -195,7 +207,6 @@ const DiscountPopup = ({ isOpen, onClose }) => {
   return (
     <div className="fixed inset-0 z-[200] flex items-center justify-center px-4 bg-[#1a0f0a]/80 backdrop-blur-md animate-in fade-in duration-500">
       <div className="relative w-full max-w-[420px] bg-[#2a1b15] border-2 border-[#c58158] rounded-[40px] shadow-2xl overflow-hidden p-8 sm:p-12 text-center animate-in zoom-in-95 duration-500">
-        {/* Close Button */}
         <button onClick={onClose} className="absolute top-6 right-6 text-[#c58158] hover:text-[#d4af37] transition-colors p-1">
           <X size={24} />
         </button>
@@ -220,18 +231,13 @@ const DiscountPopup = ({ isOpen, onClose }) => {
           </div>
         ) : (
           <div className="flex flex-col items-center">
-            {/* Logo */}
             <img src="https://images.travelprox.com/mrplumberman/plumlogo.png" className="h-10 w-auto mb-8 grayscale brightness-125" alt="Logo" />
-            
-            {/* Header */}
             <div className="space-y-2 mb-8">
               <p className="text-[#d4af37] font-black uppercase tracking-[0.2em] text-[10px] sm:text-xs">For a Limited-Time Only</p>
               <h2 className="text-3xl sm:text-4xl font-black text-white leading-none uppercase italic">
                 Enjoy 20% Off <br /> <span className="text-[#d4af37]">Your Purchase!</span>
               </h2>
             </div>
-
-            {/* Form */}
             <form onSubmit={(e) => { e.preventDefault(); setIsSubmitted(true); }} className="w-full space-y-4 mb-6">
               <div className="space-y-3">
                 <input 
@@ -255,13 +261,9 @@ const DiscountPopup = ({ isOpen, onClose }) => {
                 <div className="btn-glare-overlay" />
               </button>
             </form>
-
-            {/* Footer Links */}
             <button onClick={onClose} className="text-[#f4e4bc]/60 font-black uppercase tracking-widest text-[10px] sm:text-xs hover:text-[#d4af37] transition-colors mb-6">
               No, thanks
             </button>
-
-            {/* Disclaimer */}
             <p className="text-[9px] text-[#f4e4bc]/30 uppercase tracking-tighter leading-tight max-w-[280px]">
               *By entering your email, you agree to receive dispatch updates and marketing intel from Mr. Plumber Man. Opt-out anytime in your control panel.
             </p>
@@ -277,16 +279,15 @@ const DiscountPopup = ({ isOpen, onClose }) => {
 const HomeView = ({ navigate }) => {
   const [showPopup, setShowPopup] = useState(false);
   const [isPurchasing, setIsPurchasing] = useState(null); 
+  // Initial state picks a phrase at random once per load
+  const [phraseIndex] = useState(() => Math.floor(Math.random() * heroPhrases.length));
   const depotRef = useRef(null);
   const reviewsRef = useRef(null);
 
-  // TRIGGER POPUP 3 SECONDS AFTER SCROLLING STARTS
   useEffect(() => {
     const hasShown = sessionStorage.getItem('mp_pop_v6');
     if (hasShown) return;
-
     let scrollTimer = null;
-
     const handleFirstScroll = () => {
       if (!scrollTimer) {
         scrollTimer = setTimeout(() => {
@@ -296,7 +297,6 @@ const HomeView = ({ navigate }) => {
         }, 3000); 
       }
     };
-
     window.addEventListener('scroll', handleFirstScroll);
     return () => {
       window.removeEventListener('scroll', handleFirstScroll);
@@ -380,7 +380,13 @@ const HomeView = ({ navigate }) => {
                 READY WHEN <br className="hidden lg:block" /> 
                 <span className="text-[#d4af37] whitespace-nowrap">IT COUNTS.</span>
               </h1>
-              <p className="text-xl sm:text-2xl lg:text-3xl text-[#f4e4bc]/80 leading-relaxed font-bold italic mb-10">We keep them pipes pipin' and them thangs thangin'.</p>
+              
+              {/* Static Catchphrase selected once per load */}
+              <div className="min-h-[80px] sm:min-h-[100px] mb-10 flex items-center justify-center lg:justify-start overflow-hidden">
+                <p className="animate-phrase text-xl sm:text-2xl lg:text-3xl text-[#f4e4bc]/80 leading-relaxed font-bold italic">
+                  {heroPhrases[phraseIndex]}
+                </p>
+              </div>
               
               <div className="w-full flex justify-center lg:justify-start">
                 <button 
@@ -532,7 +538,7 @@ const HomeView = ({ navigate }) => {
              </div>
              <h3 className="text-3xl sm:text-6xl lg:text-8xl font-black tracking-tight uppercase mb-12 leading-none italic text-white">THE SHOP <span className="text-[#d4af37]">GUARANTEE</span>.</h3>
              <p className="text-lg sm:text-3xl text-[#f4e4bc]/60 font-bold max-w-3xl mx-auto leading-relaxed italic uppercase tracking-widest mb-16">If you change your mind on a kit, we'll take it back. Full refund on unopened product within 30 days. No clogs in the process.</p>
-             <button onClick={() => scrollTo(depotRef)} className="relative overflow-hidden bg-gradient-to-b from-[#d4af37] to-[#c58158] text-[#1a0f0a] px-14 py-6 font-black uppercase tracking-widest text-sm shadow-[0_10px_0_#3d291f,inset_0_1px_1px_rgba(255,255,255,0.4)] rounded-lg hover:translate-y-[2px] transition-all italic">
+             <button onClick={() => scrollTo(depotRef)} className="relative overflow-hidden bg-gradient-to-b from-[#d4af37] to-[#c58158] text-[#1a0f0a] px-14 py-6 font-black uppercase tracking-widest text-sm shadow-[0_10px_0_#3d291f,inset_0_1px_1px_rgba(255,255,255,0.4)] rounded-lg hover:translate-y-[2px] transition-all italic text-center">
                 <span className="relative z-10">Visit The Supply Depot</span>
                 <div className="btn-glare-overlay" />
              </button>
@@ -574,7 +580,7 @@ const HomeView = ({ navigate }) => {
                       </span>
                       <div className="btn-glare-overlay" />
                     </button>
-                    <button className="w-full border border-[#c58158]/40 bg-transparent text-[#d4af37] py-2 font-black uppercase tracking-[0.3em] text-[9px] hover:bg-[#c58158]/10 transition-all italic flex items-center justify-center gap-2">
+                    <button className="w-full border border-[#c58158]/40 bg-transparent text-[#d4af37] py-2 font-black uppercase tracking-[0.3em] text-[9px] hover:bg-[#c58158]/10 transition-all italic flex items-center justify-center gap-2 text-center">
                         <RefreshCcw size={12} /> Subscribe & Save 10%
                     </button>
                   </div>
@@ -600,7 +606,7 @@ const HomeView = ({ navigate }) => {
 
 const ThankYouView = ({ navigate }) => {
   return (
-    <div className="min-h-screen bg-[#1a0f0a] flex items-center justify-center px-6 relative overflow-hidden">
+    <div className="min-h-screen bg-[#1a0f0a] flex items-center justify-center px-6 relative overflow-hidden text-center">
       <div className="absolute inset-0 z-0 pointer-events-none opacity-[0.1]" style={{ backgroundImage: `url("https://images.travelprox.com/mrplumberman/herowall.png")`, backgroundSize: 'cover' }} />
       <div className="max-w-2xl w-full relative z-10 text-center space-y-10 animate-in zoom-in-95 duration-700">
         <div className="w-24 h-24 bg-gradient-to-b from-[#d4af37] to-[#c58158] rounded-full mx-auto flex items-center justify-center text-[#1a0f0a] shadow-[0_0_50px_rgba(197,129,88,0.3),inset_0_2px_4px_rgba(255,255,255,0.6)]">
@@ -619,7 +625,7 @@ const ThankYouView = ({ navigate }) => {
         </div>
         <button 
           onClick={() => navigate('home')} 
-          className="relative group overflow-hidden bg-gradient-to-b from-[#d4af37] to-[#c58158] text-[#1a0f0a] px-12 py-5 font-black uppercase tracking-widest shadow-[0_8px_0_#3d291f,inset_0_1px_2px_rgba(255,255,255,0.6)] rounded-lg hover:translate-y-[2px] transition-all flex items-center justify-center gap-3 italic mx-auto"
+          className="relative group overflow-hidden bg-gradient-to-b from-[#d4af37] to-[#c58158] text-[#1a0f0a] px-12 py-5 font-black uppercase tracking-widest shadow-[0_8px_0_#3d291f,inset_0_1px_2px_rgba(255,255,255,0.6)] rounded-lg hover:translate-y-[2px] transition-all flex items-center justify-center gap-3 italic mx-auto text-center"
         >
           <span className="relative z-10 flex items-center gap-3"><HomeIcon size={20} /> RETURN TO DEPOT</span>
           <div className="absolute top-0 left-0 right-0 h-[40%] bg-white/20 blur-[1px] rounded-t-lg" />
