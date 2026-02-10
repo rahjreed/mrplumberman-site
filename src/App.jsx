@@ -28,7 +28,6 @@ import {
 /**
  * MR. PLUMBER MAN NUTRITION - PRODUCTION SCHEMATIC
  * Fully Integrated: Stripe Checkout, Multi-Page Routing, and Premium Industrial UI.
- * Update: Professional Legal Disclaimer and High-Contrast Policy Links.
  */
 
 // --- GLOBAL STYLES FOR ANIMATIONS ---
@@ -196,10 +195,10 @@ const DiscountPopup = ({ isOpen, onClose }) => {
 
 const HomeView = ({ navigate, isPurchasing, handlePurchase }) => {
   const [showPopup, setShowPopup] = useState(false);
+  const [phraseIndex] = useState(() => Math.floor(Math.random() * heroPhrases.length));
   const depotRef = useRef(null);
   const reviewsRef = useRef(null);
 
-  // TRIGGER POPUP 3 SECONDS AFTER SCROLLING STARTS
   useEffect(() => {
     const hasShown = sessionStorage.getItem('mp_pop_v6');
     if (hasShown) return;
@@ -307,11 +306,7 @@ const HomeView = ({ navigate, isPurchasing, handlePurchase }) => {
                   <div className="flex flex-col gap-1 mb-2 text-[10px] font-black uppercase tracking-widest leading-tight"><span className="text-white italic">PRESSURE</span><span className="text-[#d4af37]">Prostate Support</span></div>
                   <div className="flex items-center justify-between gap-6 pt-1">
                     <span className="text-[#c58158] font-black text-xl leading-none">$39</span>
-                    <button onClick={() => scrollTo(depotRef)} className="relative overflow-hidden bg-gradient-to-b from-[#d4af37] to-[#c58158] text-[#1a0f0a] px-4 py-1.5 rounded-sm text-[10px] font-black uppercase tracking-widest shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)] hover:brightness-110">
-                       <span className="relative z-10 text-[9px]">Shop Now</span>
-                       <div className="btn-glare-overlay" />
-                    </button>
-                  </div>
+                    <button onClick={() => scrollTo(depotRef)} className="relative overflow-hidden bg-gradient-to-b from-[#d4af37] to-[#c58158] text-[#1a0f0a] px-4 py-1.5 rounded-sm text-[10px] font-black uppercase tracking-widest shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)] hover:brightness-110 italic italic"><span className="relative z-10">Shop Now</span><div className="btn-glare-overlay" /></button></div>
                 </div>
               </div>
             </ScrollReveal>
@@ -467,15 +462,15 @@ const HomeView = ({ navigate, isPurchasing, handlePurchase }) => {
                       <p className="text-4xl font-black italic text-white mb-1">${p.price}</p>
                       <span className="text-[10px] text-[#c58158] font-black uppercase tracking-widest">Free Express Shipping</span>
                     </div>
-                    <button onClick={() => handlePurchase(p.priceId, p.id)} disabled={isPurchasing === p.id} className="relative w-full overflow-hidden bg-gradient-to-b from-[#d4af37] to-[#c58158] text-[#1a0f0a] py-4 font-black uppercase tracking-widest text-xs hover:brightness-110 shadow-[0_8px_0_#3d291f,inset_0_1px_1px_rgba(255,255,255,0.4)] active:translate-y-[8px] transition-all flex items-center justify-center gap-3">
+                    <button onClick={() => handlePurchase(p.priceId, p.id, "payment")} disabled={isPurchasing === p.id} className="relative w-full overflow-hidden bg-gradient-to-b from-[#d4af37] to-[#c58158] text-[#1a0f0a] py-4 font-black uppercase tracking-widest text-xs hover:brightness-110 shadow-[0_8px_0_#3d291f,inset_0_1px_1px_rgba(255,255,255,0.4)] active:translate-y-[8px] transition-all flex items-center justify-center gap-3">
                       <span className="relative z-10 flex items-center gap-3">
                         {isPurchasing === p.id ? <Loader2 size={16} className="animate-spin" /> : <Package size={16} />}
                         {isPurchasing === p.id ? 'Processing...' : 'Add To Kit'}
                       </span>
                       <div className="btn-glare-overlay" />
                     </button>
-                    <button onClick={() => handlePurchase(p.subPriceId, p.id + '_sub')} disabled={isPurchasing === p.id + '_sub'} className="relative w-full border border-[#c58158]/40 bg-transparent text-[#d4af37] py-2 font-black uppercase tracking-[0.3em] text-[9px] hover:bg-[#c58158]/10 transition-all italic flex items-center justify-center gap-2 overflow-hidden text-center">
-                      <span className="relative z-10 flex items-center gap-2">{isPurchasing === p.id + '_sub' ? <Loader2 size={12} className="animate-spin" /> : <RefreshCcw size={12} />} Subscribe & Save 10%</span>
+                    <button onClick={() => handlePurchase(p.subPriceId, p.id, "subscription")} disabled={isPurchasing === p.id} className="relative w-full border border-[#c58158]/40 bg-transparent text-[#d4af37] py-2 font-black uppercase tracking-[0.3em] text-[9px] hover:bg-[#c58158]/10 transition-all italic flex items-center justify-center gap-2 overflow-hidden text-center">
+                      <span className="relative z-10 flex items-center gap-2">{isPurchasing === p.id ? <Loader2 size={12} className="animate-spin" /> : <RefreshCcw size={12} />} Subscribe & Save 10%</span>
                       <div className="btn-glare-overlay opacity-30" />
                     </button>
                   </div>
@@ -488,10 +483,8 @@ const HomeView = ({ navigate, isPurchasing, handlePurchase }) => {
 
       {/* REFINED FOOTER */}
       <footer className="bg-[#0f0a08] py-16 px-6 lg:px-10 border-t border-[#c58158]/10 text-center flex flex-col items-center">
-        {/* Brand Lockup */}
         <img src="https://images.travelprox.com/mrplumberman/plumlogo.png" className="h-10 w-auto mb-8 opacity-40 grayscale" alt="Logo" />
         
-        {/* Support & Secure Checkout Indicators */}
         <div className="flex flex-col md:flex-row items-center gap-6 mb-10">
           <div className="flex items-center gap-2 text-[#c58158]/60">
             <Lock size={14} className="text-[#d4af37]" />
@@ -504,23 +497,21 @@ const HomeView = ({ navigate, isPurchasing, handlePurchase }) => {
           </div>
         </div>
 
-        {/* FDA Disclaimer: Standard Professional Wording */}
+        {/* FDA Disclaimer: Professional wording */}
         <div className="max-w-3xl mx-auto mb-10 p-6 border border-[#c58158]/20 rounded-sm bg-[#1a0f0a]/50">
-          <p className="text-[10px] font-bold uppercase tracking-wider text-[#c58158]/80 leading-relaxed italic font-sans">
+          <p className="text-[10px] font-bold uppercase tracking-wider text-[#c58158]/80 leading-relaxed italic font-sans text-center">
             * These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease. Consult with a physician before use if you have a medical condition or are taking medication.
           </p>
         </div>
 
-        {/* Legal & Trust Anchors: Increased Visibility */}
         <div className="flex flex-wrap justify-center gap-x-8 gap-y-4 mb-8">
-          <a href="/privacy" className="text-[10px] font-black text-[#c58158]/70 hover:text-[#d4af37] uppercase tracking-[0.2em] transition-colors italic">Privacy Policy</a>
-          <a href="/terms" className="text-[10px] font-black text-[#c58158]/70 hover:text-[#d4af37] uppercase tracking-[0.2em] transition-colors italic">Terms of Service</a>
-          <a href="/shipping" className="text-[10px] font-black text-[#c58158]/70 hover:text-[#d4af37] uppercase tracking-[0.2em] transition-colors italic">Shipping Info</a>
+          <a href="/privacy" className="text-[11px] font-black text-[#c58158]/80 hover:text-[#d4af37] uppercase tracking-[0.2em] transition-colors italic">Privacy Policy</a>
+          <a href="/terms" className="text-[11px] font-black text-[#c58158]/80 hover:text-[#d4af37] uppercase tracking-[0.2em] transition-colors italic">Terms of Service</a>
+          <a href="/shipping" className="text-[11px] font-black text-[#c58158]/80 hover:text-[#d4af37] uppercase tracking-[0.2em] transition-colors italic">Shipping Info</a>
         </div>
 
         <p className="text-[9px] text-[#c58158]/20 tracking-widest uppercase mb-4 italic">© 2024 MR. PLUMBER MAN NUTRITION. ALL SYSTEMS SECURED.</p>
         
-        {/* Designer Credit: Minimalist */}
         <div className="mt-4">
           <a href="https://callistadigital.com" target="_blank" rel="noopener noreferrer" className="text-[8px] text-[#c58158]/15 hover:text-[#d4af37]/30 transition-colors uppercase tracking-[0.3em] font-black italic">
             Website Design by Callista Digital
@@ -574,13 +565,13 @@ const App = () => {
   const [isPurchasing, setIsPurchasing] = useState(null);
 
   // HANDLE STRIPE PRODUCTION PURCHASE
-  const handlePurchase = async (priceId, productId) => {
+  const handlePurchase = async (priceId, productId, type) => {
     setIsPurchasing(productId);
     try {
       const res = await fetch("/api/create-checkout-session", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ priceId })
+        body: JSON.stringify({ priceId, type })
       });
       const data = await res.json();
       if (data?.url) {
