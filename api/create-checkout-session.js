@@ -12,12 +12,17 @@ export default async function handler(req, res) {
 
     const session = await stripe.checkout.sessions.create({
       mode: mode === "subscription" ? "subscription" : "payment",
+
+      // ✅ THIS LINE ENABLES COUPON FIELD
+      allow_promotion_codes: true,
+
       line_items: [
         {
           price: priceId,
           quantity: 1,
         },
       ],
+
       success_url:
         "https://www.mrplumberman.com/thank-you?session_id={CHECKOUT_SESSION_ID}",
       cancel_url: "https://www.mrplumberman.com/?canceled=true",
