@@ -28,6 +28,7 @@ import {
 /**
  * MR. PLUMBER MAN NUTRITION - PRODUCTION SCHEMATIC
  * Fully Integrated: Stripe Checkout, Multi-Page Routing, and Premium Industrial UI.
+ * Update: Synchronized API keys and payload structure for production Stripe flow.
  */
 
 // --- GLOBAL STYLES FOR ANIMATIONS ---
@@ -199,6 +200,7 @@ const HomeView = ({ navigate, isPurchasing, handlePurchase }) => {
   const depotRef = useRef(null);
   const reviewsRef = useRef(null);
 
+  // TRIGGER POPUP 3 SECONDS AFTER SCROLLING STARTS
   useEffect(() => {
     const hasShown = sessionStorage.getItem('mp_pop_v6');
     if (hasShown) return;
@@ -438,17 +440,17 @@ const HomeView = ({ navigate, isPurchasing, handlePurchase }) => {
                 { 
                   id: 'p', name: "PRESSURE", sub: "Prostate Support", price: 39, 
                   img: "https://images.travelprox.com/mrplumberman/pressure.png", desc: "Clear the lines and restore factory-spec flow rate.",
-                  priceId: 'price_1SwvOSKFN6WMOhlF5xerUfID', subPriceId: 'price_1SwvhCKFN6WMOhlFqFQiSYH6_subscription'
+                  priceId: 'price_1SwvOSKFN6WMOhlF5xerUfID', subPriceId: 'price_1SwvhCKFN6WMOhlFqFQiSYH6'
                 },
                 { 
                   id: 't', name: "PRIME TIME", sub: "T-Formula", price: 59, 
                   img: "https://images.travelprox.com/mrplumberman/primeheat.png", desc: "High-torque energy and maximum drive restoration.",
-                  priceId: 'price_1SwvR8KFN6WMOhlFXD9hxqXi', subPriceId: 'price_1SwvkOKFN6WMOhlFRkxiPaPq_subscription'
+                  priceId: 'price_1SwvR8KFN6WMOhlFXD9hxqXi', subPriceId: 'price_1SwvkOKFN6WMOhlFRkxiPaPq'
                 },
                 { 
                   id: 'c', name: "THE OVERHAUL", sub: "Combo Pack", price: 97, 
                   img: "https://images.travelprox.com/mrplumberman/symbol.png", desc: "The ultimate blueprint. Secure both formulas.", tag: "Best Value",
-                  priceId: 'price_1SwvX4KFN6WMOhlFXU8Bs0lt', subPriceId: 'price_1SwvmEKFN6WMOhlFzNkPcl3U_subscription'
+                  priceId: 'price_1SwvX4KFN6WMOhlFXU8Bs0lt', subPriceId: 'price_1SwvmEKFN6WMOhlFzNkPcl3U'
                 }
               ].map(p => (
                 <div key={p.id} className="bg-[#2a1b15]/40 border-2 border-[#c58158]/20 p-8 hover:border-[#d4af37] transition duration-500 flex flex-col items-center group relative rounded-sm shadow-2xl">
@@ -462,15 +464,17 @@ const HomeView = ({ navigate, isPurchasing, handlePurchase }) => {
                       <p className="text-4xl font-black italic text-white mb-1">${p.price}</p>
                       <span className="text-[10px] text-[#c58158] font-black uppercase tracking-widest">Free Express Shipping</span>
                     </div>
-                    <button onClick={() => handlePurchase(p.priceId, p.id, "payment")} disabled={isPurchasing === p.id} className="relative w-full overflow-hidden bg-gradient-to-b from-[#d4af37] to-[#c58158] text-[#1a0f0a] py-4 font-black uppercase tracking-widest text-xs hover:brightness-110 shadow-[0_8px_0_#3d291f,inset_0_1px_1px_rgba(255,255,255,0.4)] active:translate-y-[8px] transition-all flex items-center justify-center gap-3">
+                    
+                    <button onClick={() => handlePurchase(p.priceId, p.id, "payment")} disabled={isPurchasing === p.id} className="relative w-full overflow-hidden bg-gradient-to-b from-[#d4af37] to-[#c58158] text-[#1a0f0a] py-4 font-black uppercase tracking-widest text-xs hover:brightness-110 shadow-[0_8px_0_#3d291f,inset_0_1px_2px_rgba(255,255,255,0.4)] active:translate-y-[8px] transition-all flex items-center justify-center gap-3">
                       <span className="relative z-10 flex items-center gap-3">
                         {isPurchasing === p.id ? <Loader2 size={16} className="animate-spin" /> : <Package size={16} />}
                         {isPurchasing === p.id ? 'Processing...' : 'Add To Kit'}
                       </span>
                       <div className="btn-glare-overlay" />
                     </button>
-                    <button onClick={() => handlePurchase(p.subPriceId, p.id, "subscription")} disabled={isPurchasing === p.id} className="relative w-full border border-[#c58158]/40 bg-transparent text-[#d4af37] py-2 font-black uppercase tracking-[0.3em] text-[9px] hover:bg-[#c58158]/10 transition-all italic flex items-center justify-center gap-2 overflow-hidden text-center">
-                      <span className="relative z-10 flex items-center gap-2">{isPurchasing === p.id ? <Loader2 size={12} className="animate-spin" /> : <RefreshCcw size={12} />} Subscribe & Save 10%</span>
+
+                    <button onClick={() => handlePurchase(p.subPriceId, p.id + '_sub', "subscription")} disabled={isPurchasing === p.id + '_sub'} className="relative w-full border border-[#c58158]/40 bg-transparent text-[#d4af37] py-2 font-black uppercase tracking-[0.3em] text-[9px] hover:bg-[#c58158]/10 transition-all italic flex items-center justify-center gap-2 overflow-hidden text-center">
+                      <span className="relative z-10 flex items-center gap-2">{isPurchasing === p.id + '_sub' ? <Loader2 size={12} className="animate-spin" /> : <RefreshCcw size={12} />} Subscribe & Save 10%</span>
                       <div className="btn-glare-overlay opacity-30" />
                     </button>
                   </div>
@@ -481,7 +485,7 @@ const HomeView = ({ navigate, isPurchasing, handlePurchase }) => {
         </div>
       </section>
 
-      {/* REFINED FOOTER */}
+      {/* FOOTER */}
       <footer className="bg-[#0f0a08] py-16 px-6 lg:px-10 border-t border-[#c58158]/10 text-center flex flex-col items-center">
         <img src="https://images.travelprox.com/mrplumberman/plumlogo.png" className="h-10 w-auto mb-8 opacity-40 grayscale" alt="Logo" />
         
@@ -497,7 +501,6 @@ const HomeView = ({ navigate, isPurchasing, handlePurchase }) => {
           </div>
         </div>
 
-        {/* FDA Disclaimer: Professional wording */}
         <div className="max-w-3xl mx-auto mb-10 p-6 border border-[#c58158]/20 rounded-sm bg-[#1a0f0a]/50">
           <p className="text-[10px] font-bold uppercase tracking-wider text-[#c58158]/80 leading-relaxed italic font-sans text-center">
             * These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease. Consult with a physician before use if you have a medical condition or are taking medication.
@@ -571,7 +574,7 @@ const App = () => {
       const res = await fetch("/api/create-checkout-session", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ priceId, type })
+        body: JSON.stringify({ priceId, mode: type })
       });
       const data = await res.json();
       if (data?.url) {
