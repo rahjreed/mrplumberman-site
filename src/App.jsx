@@ -1,4 +1,4 @@
- import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
   CheckCircle2, 
   ArrowRight, 
@@ -24,9 +24,8 @@ import {
 } from 'lucide-react';
 
 /**
- * MR. PLUMBER MAN NUTRITION - PRODUCTION SCHEMATIC
- * Fully Restored Edition with State-Based Routing.
- * Update: Stripe Checkout integration in handlePurchase.
+ * MR. PLUMBER MAN NUTRITION - FINAL PRODUCTION SCHEMATIC
+ * Fully Integrated: Stripe Checkout, Multi-Page Routing, and Premium Industrial UI.
  */
 
 // --- GLOBAL STYLES FOR ANIMATIONS ---
@@ -50,8 +49,8 @@ const GlareStyles = () => (
       position: absolute;
       top: 0;
       height: 100%;
-      width: 40px;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.7), transparent);
+      width: 60px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
       transform: skewX(-25deg);
       animation: glare-sweep 4s infinite ease-in-out;
       pointer-events: none;
@@ -67,6 +66,9 @@ const GlareStyles = () => (
     .animate-phrase {
       animation: phrase-entry 1s ease-out forwards;
     }
+    .scrollbar-hide::-webkit-scrollbar {
+      display: none;
+    }
   `}} />
 );
 
@@ -80,10 +82,10 @@ const testimonials = [
   { name: "Gary H.", location: "Denver, CO", text: "Gym torque is up slightly, but I mostly just feel less cranky in the mornings. Shipping was surprisingly fast.", product: "PRIME TIME", rating: 4 },
   { name: "Steve P.", location: "Nashville, TN", text: "Flow is steady, system is quiet at night. Good buy for any guy over 40.", product: "PRESSURE", rating: 5 },
   { name: "Mark S.", location: "Baltimore, MD", text: "Checked the labels and the forms are legit. No cheap oxide fillers. System feels properly maintained since starting the Combo kit.", product: "COMBO", rating: 5 },
-  { name: "Paul R.", location: "Tucson, AZ", text: "Not sure if it's the sleep or the minerals but I have more focus on the job. Decent value for money.", product: "PRIME TIME", rating: 4 },
+  { name: "Paul R.", location: "Tucson, AZ", text: "Not sure if it's the sleep or the minerals but I have focus on the job. Decent value for money.", product: "PRIME TIME", rating: 4 },
   { name: "Tony G.", location: "Atlanta, GA", text: "Total overhaul. Flow is clear and drive is back where it should be. Everything is running smoother.", product: "COMBO", rating: 5 },
   { name: "Larry B.", location: "Miami, FL", text: "Was a bit skeptical at first but the nightly bathroom interruptions have slowed down significantly. Can't argue with results.", product: "PRESSURE", rating: 4 },
-  { name: "Kev J.", location: "Las Vegas, NV", text: "Engine is running smoother. It's just basic good maintenance for the body. I'll be sticking with the subscription.", product: "COMBO", rating: 5 }
+  { name: "Kev J.", location: "Las Vegas, NV", text: "Engine is running smoother. It's just basic good maintenance for the body.", product: "COMBO", rating: 5 }
 ];
 
 const heroPhrases = [
@@ -232,12 +234,14 @@ const DiscountPopup = ({ isOpen, onClose }) => {
         ) : (
           <div className="flex flex-col items-center">
             <img src="https://images.travelprox.com/mrplumberman/plumlogo.png" className="h-10 w-auto mb-8 grayscale brightness-125" alt="Logo" />
+            
             <div className="space-y-2 mb-8">
               <p className="text-[#d4af37] font-black uppercase tracking-[0.2em] text-[10px] sm:text-xs">For a Limited-Time Only</p>
               <h2 className="text-3xl sm:text-4xl font-black text-white leading-none uppercase italic">
                 Enjoy 20% Off <br /> <span className="text-[#d4af37]">Your Purchase!</span>
               </h2>
             </div>
+
             <form onSubmit={(e) => { e.preventDefault(); setIsSubmitted(true); }} className="w-full space-y-4 mb-6">
               <div className="space-y-3">
                 <input 
@@ -261,9 +265,11 @@ const DiscountPopup = ({ isOpen, onClose }) => {
                 <div className="btn-glare-overlay" />
               </button>
             </form>
+
             <button onClick={onClose} className="text-[#f4e4bc]/60 font-black uppercase tracking-widest text-[10px] sm:text-xs hover:text-[#d4af37] transition-colors mb-6">
               No, thanks
             </button>
+
             <p className="text-[9px] text-[#f4e4bc]/30 uppercase tracking-tighter leading-tight max-w-[280px]">
               *By entering your email, you agree to receive dispatch updates and marketing intel from Mr. Plumber Man. Opt-out anytime in your control panel.
             </p>
@@ -276,9 +282,8 @@ const DiscountPopup = ({ isOpen, onClose }) => {
 
 // --- PAGES ---
 
-const HomeView = ({ navigate }) => {
+const HomeView = ({ navigate, isPurchasing, handlePurchase }) => {
   const [showPopup, setShowPopup] = useState(false);
-  const [isPurchasing, setIsPurchasing] = useState(null); 
   const [phraseIndex] = useState(() => Math.floor(Math.random() * heroPhrases.length));
   const depotRef = useRef(null);
   const reviewsRef = useRef(null);
@@ -303,65 +308,21 @@ const HomeView = ({ navigate }) => {
     };
   }, []);
 
-  // UPDATED handlePurchase: PRODUCTION STRIPE FLOW
-  const handlePurchase = async (priceId, productId) => {
-    setIsPurchasing(productId);
-
-    try {
-      const res = await fetch("/api/create-checkout-session", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ priceId })
-      });
-
-      const data = await res.json();
-
-      if (data?.url) {
-        window.location.href = data.url;
-        return;
-      }
-
-      setIsPurchasing(null);
-      alert("Checkout link missing. Stripe session failed.");
-    } catch (e) {
-      setIsPurchasing(null);
-      alert("Checkout error. Try again.");
-    }
-  };
-
   const scrollTo = (ref) => ref.current?.scrollIntoView({ behavior: 'smooth' });
 
   const tickerContent = (
     <div className="flex items-center gap-12 sm:gap-24 px-6 sm:px-12">
-      <div className="flex items-center gap-3">
-        <MapPin size={16} className="text-[#c58158]" />
-        <span className="text-[#f4e4bc] text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] italic whitespace-nowrap">Recently purchased by customers across the U.S.</span>
-      </div>
+      <div className="flex items-center gap-3"><MapPin size={16} className="text-[#c58158]" /><span className="text-[#f4e4bc] text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] italic whitespace-nowrap">Recently purchased by customers across the U.S.</span></div>
       <div className="w-1.5 h-1.5 bg-[#c58158]/40 rounded-full" />
-      <div className="flex items-center gap-3">
-        <Shield size={16} className="text-[#d4af37]" />
-        <span className="text-[#d4af37] text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] italic whitespace-nowrap">System Flow Secured Nationwide</span>
-      </div>
+      <div className="flex items-center gap-3"><Shield size={16} className="text-[#d4af37]" /><span className="text-[#d4af37] text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] italic whitespace-nowrap">System Flow Secured Nationwide</span></div>
       <div className="w-1.5 h-1.5 bg-[#c58158]/40 rounded-full" />
-      <div className="flex items-center gap-3">
-        <Wrench size={16} className="text-[#c58158]" />
-        <span className="text-[#f4e4bc] text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] italic whitespace-nowrap">Become a pipe master.</span>
-      </div>
+      <div className="flex items-center gap-3"><Wrench size={16} className="text-[#c58158]" /><span className="text-[#f4e4bc] text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] italic whitespace-nowrap">Become a pipe master.</span></div>
       <div className="w-1.5 h-1.5 bg-[#c58158]/40 rounded-full" />
-      <div className="flex items-center gap-3">
-        <Droplets size={16} className="text-[#d4af37]" />
-        <span className="text-[#d4af37] text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] italic whitespace-nowrap">Minimize bathroom urgency.</span>
-      </div>
+      <div className="flex items-center gap-3"><Droplets size={16} className="text-[#d4af37]" /><span className="text-[#d4af37] text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] italic whitespace-nowrap">Minimize bathroom urgency.</span></div>
       <div className="w-1.5 h-1.5 bg-[#c58158]/40 rounded-full" />
-      <div className="flex items-center gap-3">
-        <Zap size={16} className="text-[#c58158]" />
-        <span className="text-[#f4e4bc] text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] italic whitespace-nowrap">Increase system duration.</span>
-      </div>
+      <div className="flex items-center gap-3"><Zap size={16} className="text-[#c58158]" /><span className="text-[#f4e4bc] text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] italic whitespace-nowrap">Increase system duration.</span></div>
       <div className="w-1.5 h-1.5 bg-[#c58158]/40 rounded-full" />
-      <div className="flex items-center gap-3">
-        <Activity size={16} className="text-[#d4af37]" />
-        <span className="text-[#d4af37] text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] italic whitespace-nowrap">Improve system function.</span>
-      </div>
+      <div className="flex items-center gap-3"><Activity size={16} className="text-[#d4af37]" /><span className="text-[#d4af37] text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] italic whitespace-nowrap">Improve system function.</span></div>
       <div className="w-1.5 h-1.5 bg-[#c58158]/40 rounded-full" />
     </div>
   );
@@ -397,10 +358,8 @@ const HomeView = ({ navigate }) => {
                 READY WHEN <br className="hidden lg:block" /> 
                 <span className="text-[#d4af37] whitespace-nowrap">IT COUNTS.</span>
               </h1>
-              <div className="min-h-[80px] sm:min-h-[100px] mb-10 flex items-center justify-center lg:justify-start overflow-hidden">
-                <p className="animate-phrase text-xl sm:text-2xl lg:text-3xl text-[#f4e4bc]/80 leading-relaxed font-bold italic">
-                  {heroPhrases[phraseIndex]}
-                </p>
+              <div className="min-h-[80px] sm:min-h-[100px] mb-10 flex items-center justify-center lg:justify-start overflow-hidden text-xl sm:text-2xl lg:text-3xl text-[#f4e4bc]/80 leading-relaxed font-bold italic">
+                <p className="animate-phrase">{heroPhrases[phraseIndex]}</p>
               </div>
               <div className="w-full flex justify-center lg:justify-start">
                 <button 
@@ -436,7 +395,7 @@ const HomeView = ({ navigate }) => {
         </div>
       </section>
 
-      {/* Trust Bar */}
+      {/* Trust Bar Ticker */}
       <div className="w-full bg-[#140b08] border-y border-[#c58158]/30 py-4 relative overflow-hidden ticker-pause">
         <div className="animate-ticker">
           {tickerContent}
@@ -478,7 +437,7 @@ const HomeView = ({ navigate }) => {
         </ScrollReveal>
       </section>
 
-      {/* Teardown Section */}
+      {/* Blueprint Analysis */}
       <section className="px-8 py-24 bg-[#1a0f0a]">
         <ScrollReveal>
           <div className="max-w-7xl mx-auto">
@@ -570,15 +529,25 @@ const HomeView = ({ navigate }) => {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
               {[
-                { id: 'p', name: "PRESSURE", sub: "Prostate Support", price: 39, img: "https://images.travelprox.com/mrplumberman/pressure.png", desc: "Clear the lines and restore factory-spec flow rate." },
-                { id: 't', name: "PRIME TIME", sub: "T-Formula", price: 59, img: "https://images.travelprox.com/mrplumberman/primeheat.png", desc: "High-torque energy and maximum drive restoration." },
-                { id: 'c', name: "THE OVERHAUL", sub: "Combo Pack", price: 97, img: "https://images.travelprox.com/mrplumberman/symbol.png", desc: "The ultimate blueprint. Secure both formulas.", tag: "Best Value" }
+                { 
+                  id: 'p', name: "PRESSURE", sub: "Prostate Support", price: 39, 
+                  img: "https://images.travelprox.com/mrplumberman/pressure.png", desc: "Clear the lines and restore factory-spec flow rate.",
+                  priceId: 'price_1SwvOSKFN6WMOhlF5xerUfID', subPriceId: 'price_1SwvhCKFN6WMOhlFqFQiSYH6'
+                },
+                { 
+                  id: 't', name: "PRIME TIME", sub: "T-Formula", price: 59, 
+                  img: "https://images.travelprox.com/mrplumberman/primeheat.png", desc: "High-torque energy and maximum drive restoration.",
+                  priceId: 'price_1SwvR8KFN6WMOhlFXD9hxqXi', subPriceId: 'price_1SwvkOKFN6WMOhlFRkxiPaPq'
+                },
+                { 
+                  id: 'c', name: "THE OVERHAUL", sub: "Combo Pack", price: 97, 
+                  img: "https://images.travelprox.com/mrplumberman/symbol.png", desc: "The ultimate blueprint. Secure both formulas.", tag: "Best Value",
+                  priceId: 'price_1SwvX4KFN6WMOhlFXU8Bs0lt', subPriceId: 'price_1SwvmEKFN6WMOhlFzNkPcl3U'
+                }
               ].map(p => (
                 <div key={p.id} className="bg-[#2a1b15]/40 border-2 border-[#c58158]/20 p-8 hover:border-[#d4af37] transition duration-500 flex flex-col items-center group relative rounded-sm shadow-2xl">
                   {p.tag && (<div className="absolute top-4 left-[-30px] bg-[#d4af37] text-[#1a0f0a] px-10 py-1 text-[8px] font-black uppercase tracking-widest -rotate-45 shadow-lg z-20">{p.tag}</div>)}
-                  <div className="w-full aspect-square bg-[#1a0f0a] border border-[#c58158]/20 mb-8 flex items-center justify-center relative overflow-hidden">
-                    <img src={p.img} alt={p.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[2s]" />
-                  </div>
+                  <div className="w-full aspect-square bg-[#1a0f0a] border border-[#c58158]/20 mb-8 flex items-center justify-center relative overflow-hidden"><img src={p.img} alt={p.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[2s]" /></div>
                   <h3 className="text-3xl font-black text-white uppercase mb-2 leading-none italic">{p.name}</h3>
                   <p className="text-[#d4af37] font-black uppercase tracking-[0.4em] text-[10px] mb-4">{p.sub}</p>
                   <p className="text-sm text-[#f4e4bc]/50 font-bold uppercase tracking-widest mb-10 italic leading-relaxed text-center">{p.desc}</p>
@@ -587,15 +556,16 @@ const HomeView = ({ navigate }) => {
                       <p className="text-4xl font-black italic text-white mb-1">${p.price}</p>
                       <span className="text-[10px] text-[#c58158] font-black uppercase tracking-widest">Free Express Shipping</span>
                     </div>
-                    <button onClick={() => handlePurchase(p.id, p.id)} disabled={isPurchasing === p.id} className="relative w-full overflow-hidden bg-gradient-to-b from-[#d4af37] to-[#c58158] text-[#1a0f0a] py-4 font-black uppercase tracking-widest text-xs hover:brightness-110 shadow-[0_8px_0_#3d291f,inset_0_1px_1px_rgba(255,255,255,0.4)] active:translate-y-[8px] transition-all flex items-center justify-center gap-3">
+                    <button onClick={() => handlePurchase(p.priceId, p.id)} disabled={isPurchasing === p.id} className="relative w-full overflow-hidden bg-gradient-to-b from-[#d4af37] to-[#c58158] text-[#1a0f0a] py-4 font-black uppercase tracking-widest text-xs hover:brightness-110 shadow-[0_8px_0_#3d291f,inset_0_1px_1px_rgba(255,255,255,0.4)] active:translate-y-[8px] transition-all flex items-center justify-center gap-3">
                       <span className="relative z-10 flex items-center gap-3">
                         {isPurchasing === p.id ? <Loader2 size={16} className="animate-spin" /> : <Package size={16} />}
                         {isPurchasing === p.id ? 'Processing...' : 'Add To Kit'}
                       </span>
                       <div className="btn-glare-overlay" />
                     </button>
-                    <button className="w-full border border-[#c58158]/40 bg-transparent text-[#d4af37] py-2 font-black uppercase tracking-[0.3em] text-[9px] hover:bg-[#c58158]/10 transition-all italic flex items-center justify-center gap-2 text-center">
-                        <RefreshCcw size={12} /> Subscribe & Save 10%
+                    <button onClick={() => handlePurchase(p.subPriceId, p.id + '_sub')} disabled={isPurchasing === p.id + '_sub'} className="relative w-full border border-[#c58158]/40 bg-transparent text-[#d4af37] py-2 font-black uppercase tracking-[0.3em] text-[9px] hover:bg-[#c58158]/10 transition-all italic flex items-center justify-center gap-2 overflow-hidden">
+                      <span className="relative z-10 flex items-center gap-2">{isPurchasing === p.id + '_sub' ? <Loader2 size={12} className="animate-spin" /> : <RefreshCcw size={12} />} Subscribe & Save 10%</span>
+                      <div className="btn-glare-overlay opacity-30" />
                     </button>
                   </div>
                 </div>
@@ -610,7 +580,7 @@ const HomeView = ({ navigate }) => {
         <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#c58158]/30 leading-relaxed max-w-3xl mx-auto italic">
           * These statements have not been evaluated by the FDA. This product is not intended to diagnose, treat, cure, or prevent any disease.
         </p>
-        <p className="text-[9px] text-[#c58158]/20 tracking-widest">© 2024 MR. PLUMBER MAN NUTRITION. ALL SYSTEMS SECURED.</p>
+        <p className="text-[9px] text-[#c58158]/20 tracking-widest mt-8">© 2024 MR. PLUMBER MAN NUTRITION. ALL SYSTEMS SECURED.</p>
       </footer>
 
       <DiscountPopup isOpen={showPopup} onClose={() => setShowPopup(false)} />
@@ -654,7 +624,30 @@ const ThankYouView = ({ navigate }) => {
 
 const App = () => {
   const [currentPage, setCurrentPage] = useState('home');
+  const [isPurchasing, setIsPurchasing] = useState(null);
   const [chatMessages, setChatMessages] = useState([{ role: 'assistant', text: "Systems check. To get the right specs for your haul, tell me what's leaking." }]);
+
+  // HANDLE STRIPE PRODUCTION PURCHASE
+  const handlePurchase = async (priceId, productId) => {
+    setIsPurchasing(productId);
+    try {
+      const res = await fetch("/api/create-checkout-session", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ priceId })
+      });
+      const data = await res.json();
+      if (data?.url) {
+        window.location.href = data.url;
+        return;
+      }
+      setIsPurchasing(null);
+      alert("Checkout link missing. Stripe session failed.");
+    } catch (e) {
+      setIsPurchasing(null);
+      alert("Checkout error. Try again.");
+    }
+  };
 
   const navigate = (page) => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -664,7 +657,15 @@ const App = () => {
   return (
     <div className="bg-[#1a0f0a] text-[#f4e4bc] font-serif relative overflow-x-hidden min-h-screen selection:bg-[#d4af37] selection:text-[#1a0f0a]">
       <GlareStyles />
-      {currentPage === 'thank-you' ? <ThankYouView navigate={navigate} /> : <HomeView navigate={navigate} />}
+      {currentPage === 'thank-you' ? (
+        <ThankYouView navigate={navigate} />
+      ) : (
+        <HomeView 
+          navigate={navigate} 
+          isPurchasing={isPurchasing} 
+          handlePurchase={handlePurchase} 
+        />
+      )}
       <ChatBot messages={chatMessages} setMessages={setChatMessages} />
     </div>
   );
