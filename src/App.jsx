@@ -1,4 +1,4 @@
-               import React, { useState, useEffect, useRef } from 'react';
+ import React, { useState, useEffect, useRef } from 'react';
 import { 
   CheckCircle2, 
   ArrowRight, 
@@ -26,7 +26,7 @@ import {
 /**
  * MR. PLUMBER MAN NUTRITION - PRODUCTION SCHEMATIC
  * Fully Restored Edition with State-Based Routing.
- * Update: Catchphrase now selects once per refresh; removed constant rotation.
+ * Update: Stripe Checkout integration in handlePurchase.
  */
 
 // --- GLOBAL STYLES FOR ANIMATIONS ---
@@ -279,7 +279,6 @@ const DiscountPopup = ({ isOpen, onClose }) => {
 const HomeView = ({ navigate }) => {
   const [showPopup, setShowPopup] = useState(false);
   const [isPurchasing, setIsPurchasing] = useState(null); 
-  // Initial state picks a phrase at random once per load
   const [phraseIndex] = useState(() => Math.floor(Math.random() * heroPhrases.length));
   const depotRef = useRef(null);
   const reviewsRef = useRef(null);
@@ -304,12 +303,30 @@ const HomeView = ({ navigate }) => {
     };
   }, []);
 
-  const handlePurchase = (productId) => {
+  // UPDATED handlePurchase: PRODUCTION STRIPE FLOW
+  const handlePurchase = async (priceId, productId) => {
     setIsPurchasing(productId);
-    setTimeout(() => {
+
+    try {
+      const res = await fetch("/api/create-checkout-session", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ priceId })
+      });
+
+      const data = await res.json();
+
+      if (data?.url) {
+        window.location.href = data.url;
+        return;
+      }
+
       setIsPurchasing(null);
-      navigate('thank-you'); 
-    }, 1500);
+      alert("Checkout link missing. Stripe session failed.");
+    } catch (e) {
+      setIsPurchasing(null);
+      alert("Checkout error. Try again.");
+    }
   };
 
   const scrollTo = (ref) => ref.current?.scrollIntoView({ behavior: 'smooth' });
@@ -380,14 +397,11 @@ const HomeView = ({ navigate }) => {
                 READY WHEN <br className="hidden lg:block" /> 
                 <span className="text-[#d4af37] whitespace-nowrap">IT COUNTS.</span>
               </h1>
-              
-              {/* Static Catchphrase selected once per load */}
               <div className="min-h-[80px] sm:min-h-[100px] mb-10 flex items-center justify-center lg:justify-start overflow-hidden">
                 <p className="animate-phrase text-xl sm:text-2xl lg:text-3xl text-[#f4e4bc]/80 leading-relaxed font-bold italic">
                   {heroPhrases[phraseIndex]}
                 </p>
               </div>
-              
               <div className="w-full flex justify-center lg:justify-start">
                 <button 
                   onClick={() => scrollTo(depotRef)} 
@@ -573,7 +587,7 @@ const HomeView = ({ navigate }) => {
                       <p className="text-4xl font-black italic text-white mb-1">${p.price}</p>
                       <span className="text-[10px] text-[#c58158] font-black uppercase tracking-widest">Free Express Shipping</span>
                     </div>
-                    <button onClick={() => handlePurchase(p.id)} disabled={isPurchasing === p.id} className="relative w-full overflow-hidden bg-gradient-to-b from-[#d4af37] to-[#c58158] text-[#1a0f0a] py-4 font-black uppercase tracking-widest text-xs hover:brightness-110 shadow-[0_8px_0_#3d291f,inset_0_1px_1px_rgba(255,255,255,0.4)] active:translate-y-[8px] transition-all flex items-center justify-center gap-3">
+                    <button onClick={() => handlePurchase(p.id, p.id)} disabled={isPurchasing === p.id} className="relative w-full overflow-hidden bg-gradient-to-b from-[#d4af37] to-[#c58158] text-[#1a0f0a] py-4 font-black uppercase tracking-widest text-xs hover:brightness-110 shadow-[0_8px_0_#3d291f,inset_0_1px_1px_rgba(255,255,255,0.4)] active:translate-y-[8px] transition-all flex items-center justify-center gap-3">
                       <span className="relative z-10 flex items-center gap-3">
                         {isPurchasing === p.id ? <Loader2 size={16} className="animate-spin" /> : <Package size={16} />}
                         {isPurchasing === p.id ? 'Processing...' : 'Add To Kit'}
