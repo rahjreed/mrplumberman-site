@@ -28,7 +28,7 @@ import {
 /**
  * MR. PLUMBER MAN NUTRITION - PRODUCTION SCHEMATIC
  * Fully Integrated: Stripe Checkout, Multi-Page Routing, and Premium Industrial UI.
- * Update: Synchronized API keys and payload structure for production Stripe flow.
+ * Update: Added Sticky Discount Badge and unlocked state synchronization.
  */
 
 // --- GLOBAL STYLES FOR ANIMATIONS ---
@@ -133,9 +133,15 @@ const TestimonialCard = ({ testimonial }) => (
   </div>
 );
 
-const DiscountPopup = ({ isOpen, onClose }) => {
+const DiscountPopup = ({ isOpen, onClose, onUnlock }) => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   if (!isOpen) return null;
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setIsSubmitted(true);
+    onUnlock(); // Trigger the floating badge
+  };
 
   return (
     <div className="fixed inset-0 z-[200] flex items-center justify-center px-4 bg-[#1a0f0a]/80 backdrop-blur-md animate-in fade-in duration-500">
@@ -171,7 +177,7 @@ const DiscountPopup = ({ isOpen, onClose }) => {
                 Enjoy 20% Off <br /> <span className="text-[#d4af37]">Your Purchase!</span>
               </h2>
             </div>
-            <form onSubmit={(e) => { e.preventDefault(); setIsSubmitted(true); }} className="w-full space-y-4 mb-6">
+            <form onSubmit={handleSubmit} className="w-full space-y-4 mb-6">
               <div className="space-y-3">
                 <input className="w-full bg-white border-2 border-[#c58158]/30 px-6 py-4 rounded-full text-sm font-bold text-[#1a0f0a] placeholder-[#1a0f0a]/40 focus:outline-none focus:border-[#d4af37]" placeholder="Enter your first name" type="text" required />
                 <input className="w-full bg-white border-2 border-[#c58158]/30 px-6 py-4 rounded-full text-sm font-bold text-[#1a0f0a] placeholder-[#1a0f0a]/40 focus:outline-none focus:border-[#d4af37]" placeholder="Enter your email address" required type="email" />
@@ -192,9 +198,47 @@ const DiscountPopup = ({ isOpen, onClose }) => {
   );
 };
 
+const DiscountBadge = () => {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = () => {
+    // Standard clipboard API with fallback handling
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText('PLUMBER20').then(() => {
+        setCopied(true);
+        setTimeout(() => setCopied(false), 1500);
+      });
+    } else {
+      // Manual fallback for older environments/iframes
+      const textArea = document.createElement("textarea");
+      textArea.value = "PLUMBER20";
+      document.body.appendChild(textArea);
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        setCopied(true);
+        setTimeout(() => setCopied(false), 1500);
+      } catch (err) {}
+      document.body.removeChild(textArea);
+    }
+  };
+
+  return (
+    <button 
+      onClick={handleCopy}
+      className="fixed bottom-6 right-6 z-[150] bg-[#1a0f0a] border-2 border-[#d4af37] rounded-full px-5 py-3 flex items-center gap-3 shadow-[0_0_20px_rgba(212,175,55,0.2)] hover:shadow-[0_0_25px_rgba(212,175,55,0.4)] hover:scale-105 active:scale-95 transition-all animate-in slide-in-from-bottom-10"
+    >
+      <Ticket className="w-4 h-4 text-[#d4af37]" />
+      <span className="text-[10px] font-black uppercase tracking-widest text-white italic">
+        {copied ? "COPIED!" : "PLUMBER20 ACTIVE — 20% OFF"}
+      </span>
+    </button>
+  );
+};
+
 // --- PAGES ---
 
-const HomeView = ({ navigate, isPurchasing, handlePurchase }) => {
+const HomeView = ({ navigate, isPurchasing, handlePurchase, onUnlockDiscount }) => {
   const [showPopup, setShowPopup] = useState(false);
   const [phraseIndex] = useState(() => Math.floor(Math.random() * heroPhrases.length));
   const depotRef = useRef(null);
@@ -363,7 +407,7 @@ const HomeView = ({ navigate, isPurchasing, handlePurchase }) => {
                 </div>
               </div>
               <div className="bg-[#1a0f0a] p-10 lg:p-16 border-[3px] border-[#c58158] shadow-[0_0_100px_rgba(197,129,88,0.15)] z-20">
-                <h4 className="text-xl lg:text-2xl font-black text-white mb-12 flex items-center uppercase tracking-[0.2em] italic"><ShieldCheck className="w-6 h-6 mr-3 text-[#d4af37]" /> PRIME TIME</h4>
+                <h4 className="text-xl lg:text-2xl font-black text-white mb-12 flex items-center uppercase italic tracking-[0.2em]"><ShieldCheck className="w-6 h-6 mr-3 text-[#d4af37]" /> PRIME TIME</h4>
                 <div className="space-y-6">
                   {[{ l: "Price Comparison", v: "$59 (Direct Value)" }, { l: "Magnesium Form", v: "Glycinate (High Torque)" }, { l: "Zinc Form", v: "Picolinate (Bioavailable)" }, { l: "Tongkat Ali", v: "200mg Standardized" }, { l: "Saw Palmetto", v: "100mg Standardized" }, { l: "Extract Type", v: "Potency Guaranteed" }].map((row, i) => (
                     <div key={i} className="flex justify-between border-b border-[#c58158]/20 pb-4"><p className="text-[10px] text-[#d4af37] uppercase font-black tracking-widest">{row.l}</p><p className="text-sm text-white font-black uppercase">{row.v}</p></div>
@@ -465,7 +509,7 @@ const HomeView = ({ navigate, isPurchasing, handlePurchase }) => {
                       <span className="text-[10px] text-[#c58158] font-black uppercase tracking-widest">Free Express Shipping</span>
                     </div>
                     
-                    <button onClick={() => handlePurchase(p.priceId, p.id, "payment")} disabled={isPurchasing === p.id} className="relative w-full overflow-hidden bg-gradient-to-b from-[#d4af37] to-[#c58158] text-[#1a0f0a] py-4 font-black uppercase tracking-widest text-xs hover:brightness-110 shadow-[0_8px_0_#3d291f,inset_0_1px_2px_rgba(255,255,255,0.4)] active:translate-y-[8px] transition-all flex items-center justify-center gap-3">
+                    <button onClick={() => handlePurchase(p.priceId, p.id, "payment")} disabled={isPurchasing === p.id} className="relative w-full overflow-hidden bg-gradient-to-b from-[#d4af37] to-[#c58158] text-[#1a0f0a] py-4 font-black uppercase tracking-widest text-xs hover:brightness-110 shadow-[0_8px_0_#3d291f,inset_0_1px_1px_rgba(255,255,255,0.4)] active:translate-y-[8px] transition-all flex items-center justify-center gap-3">
                       <span className="relative z-10 flex items-center gap-3">
                         {isPurchasing === p.id ? <Loader2 size={16} className="animate-spin" /> : <Package size={16} />}
                         {isPurchasing === p.id ? 'Processing...' : 'Add To Kit'}
@@ -522,7 +566,7 @@ const HomeView = ({ navigate, isPurchasing, handlePurchase }) => {
         </div>
       </footer>
 
-      <DiscountPopup isOpen={showPopup} onClose={() => setShowPopup(false)} />
+      <DiscountPopup isOpen={showPopup} onClose={() => setShowPopup(false)} onUnlock={() => onUnlockDiscount()} />
     </>
   );
 };
@@ -566,6 +610,7 @@ const ThankYouView = ({ navigate }) => {
 const App = () => {
   const [currentPage, setCurrentPage] = useState('home');
   const [isPurchasing, setIsPurchasing] = useState(null);
+  const [discountUnlocked, setDiscountUnlocked] = useState(false);
 
   // HANDLE STRIPE PRODUCTION PURCHASE
   const handlePurchase = async (priceId, productId, type) => {
@@ -604,8 +649,11 @@ const App = () => {
           navigate={navigate} 
           isPurchasing={isPurchasing} 
           handlePurchase={handlePurchase} 
+          onUnlockDiscount={() => setDiscountUnlocked(true)}
         />
       )}
+      
+      {discountUnlocked && <DiscountBadge />}
     </div>
   );
 };
