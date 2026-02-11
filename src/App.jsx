@@ -28,7 +28,7 @@ import {
 /**
  * MR. PLUMBER MAN NUTRITION - PRODUCTION SCHEMATIC
  * Fully Integrated: Stripe Checkout, Multi-Page Routing, and Premium Industrial UI.
- * Update: Added Sticky Discount Badge and unlocked state synchronization.
+ * Update: Reverted Overhaul image to symbol.png to distinguish it from the Hero lineup.
  */
 
 // --- GLOBAL STYLES FOR ANIMATIONS ---
@@ -140,7 +140,7 @@ const DiscountPopup = ({ isOpen, onClose, onUnlock }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsSubmitted(true);
-    onUnlock(); // Trigger the floating badge
+    onUnlock(); 
   };
 
   return (
@@ -202,14 +202,12 @@ const DiscountBadge = () => {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = () => {
-    // Standard clipboard API with fallback handling
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText('PLUMBER20').then(() => {
         setCopied(true);
         setTimeout(() => setCopied(false), 1500);
       });
     } else {
-      // Manual fallback for older environments/iframes
       const textArea = document.createElement("textarea");
       textArea.value = "PLUMBER20";
       document.body.appendChild(textArea);
@@ -240,11 +238,9 @@ const DiscountBadge = () => {
 
 const HomeView = ({ navigate, isPurchasing, handlePurchase, onUnlockDiscount }) => {
   const [showPopup, setShowPopup] = useState(false);
-  const [phraseIndex] = useState(() => Math.floor(Math.random() * heroPhrases.length));
   const depotRef = useRef(null);
   const reviewsRef = useRef(null);
 
-  // TRIGGER POPUP 3 SECONDS AFTER SCROLLING STARTS
   useEffect(() => {
     const hasShown = sessionStorage.getItem('mp_pop_v6');
     if (hasShown) return;
@@ -276,12 +272,6 @@ const HomeView = ({ navigate, isPurchasing, handlePurchase, onUnlockDiscount }) 
       <div className="flex items-center gap-3"><Shield size={16} className="text-[#d4af37]" /><span className="text-[#d4af37] text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] italic whitespace-nowrap">System Flow Secured Nationwide</span></div>
       <div className="w-1.5 h-1.5 bg-[#c58158]/40 rounded-full" />
       <div className="flex items-center gap-3"><Wrench size={16} className="text-[#c58158]" /><span className="text-[#f4e4bc] text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] italic whitespace-nowrap">Become a pipe master.</span></div>
-      <div className="w-1.5 h-1.5 bg-[#c58158]/40 rounded-full" />
-      <div className="flex items-center gap-3"><Droplets size={16} className="text-[#d4af37]" /><span className="text-[#d4af37] text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] italic whitespace-nowrap">Minimize bathroom urgency.</span></div>
-      <div className="w-1.5 h-1.5 bg-[#c58158]/40 rounded-full" />
-      <div className="flex items-center gap-3"><Zap size={16} className="text-[#c58158]" /><span className="text-[#f4e4bc] text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] italic whitespace-nowrap">Increase system duration.</span></div>
-      <div className="w-1.5 h-1.5 bg-[#c58158]/40 rounded-full" />
-      <div className="flex items-center gap-3"><Activity size={16} className="text-[#d4af37]" /><span className="text-[#d4af37] text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] italic whitespace-nowrap">Improve system function.</span></div>
     </div>
   );
 
@@ -304,27 +294,28 @@ const HomeView = ({ navigate, isPurchasing, handlePurchase, onUnlockDiscount }) 
       </nav>
 
       {/* Optimized Performance Hero */}
-      <section className="relative min-h-[85vh] lg:min-h-screen flex items-center justify-center px-6 pt-12 lg:pt-24 pb-6 lg:pb-12 overflow-hidden">
+      <section className="relative min-h-[90vh] lg:min-h-screen flex items-center justify-center px-6 pt-24 lg:pt-24 pb-6 lg:pb-12 overflow-hidden">
         <div className="absolute inset-0 z-0 pointer-events-none" style={{ backgroundImage: `url("https://images.travelprox.com/mrplumberman/herowall.png")`, backgroundSize: 'cover', backgroundPosition: 'center', opacity: 0.15 }} />
         <div className="absolute inset-0 bg-gradient-to-b from-[#1a0f0a] via-transparent to-[#1a0f0a] z-10" />
         
-        <div className="max-w-7xl mx-auto relative z-20 w-full grid lg:grid-cols-2 gap-4 lg:gap-24 items-center">
-          <div className="text-center lg:text-left flex flex-col items-center lg:items-start">
+        <div className="max-w-7xl mx-auto relative z-20 w-full grid lg:grid-cols-2 gap-0 lg:gap-24 items-center">
+          {/* Text Column */}
+          <div className="text-center lg:text-left flex flex-col items-center lg:items-start order-1">
             <ScrollReveal>
-              <div className="mb-2 lg:mb-10">
+              <div className="mb-2 lg:mb-10 hidden lg:block">
                 <img src="https://images.travelprox.com/mrplumberman/plumlogo.png" className="h-10 lg:h-32 w-auto object-contain mx-auto lg:mx-0" alt="Logo" />
               </div>
 
-              <div className="inline-flex items-center space-x-3 px-4 lg:px-6 py-1 lg:py-2 mb-2 lg:mb-10 text-[9px] lg:text-[10px] font-black uppercase tracking-[0.4em] text-[#d4af37] border-y border-[#c58158]/30 italic mx-auto lg:mx-0">
+              <div className="inline-flex items-center space-x-3 px-4 lg:px-6 py-1 lg:py-2 mb-3 lg:mb-10 text-[10px] font-black uppercase tracking-[0.45em] text-[#d4af37] border-y border-[#c58158]/30 italic mx-auto lg:mx-0">
                 <span>INDUSTRIAL-GRADE VITALITY</span>
               </div>
 
-              <h1 className="text-[11vw] lg:text-7xl xl:text-8xl 2xl:text-9xl font-black tracking-tight mb-2 lg:mb-8 leading-[0.85] uppercase italic text-white drop-shadow-2xl">
+              <h1 className="text-[12vw] lg:text-7xl xl:text-8xl 2xl:text-9xl font-black tracking-tight mb-2 lg:mb-8 leading-[0.85] uppercase italic text-white drop-shadow-2xl">
                 READY WHEN <br /> 
                 <span className="text-[#d4af37] whitespace-nowrap">IT COUNTS.</span>
               </h1>
 
-              <div className="min-h-[30px] lg:min-h-[100px] mb-5 lg:mb-10 flex items-center justify-center lg:justify-start overflow-hidden text-lg lg:text-3xl text-white font-bold italic tracking-wide">
+              <div className="min-h-[30px] lg:min-h-[100px] mb-6 lg:mb-10 flex items-center justify-center lg:justify-start overflow-hidden text-lg lg:text-3xl text-white font-bold italic tracking-wide">
                 <p className="animate-phrase">Under Pressure. Every Time.</p>
               </div>
 
@@ -342,17 +333,19 @@ const HomeView = ({ navigate, isPurchasing, handlePurchase, onUnlockDiscount }) 
             </ScrollReveal>
           </div>
 
-          <div className="relative group lg:mt-0 flex justify-center lg:justify-end">
+          {/* Image Column */}
+          <div className="relative group lg:mt-0 flex justify-center lg:justify-end order-2 pt-1 lg:pt-0">
             <ScrollReveal>
-              <div className="relative aspect-[4/5] w-36 lg:w-[500px] border-4 lg:border-8 border-[#3d291f] shadow-2xl overflow-hidden bg-[#2a1b15]">
-                <img src="https://images.travelprox.com/mrplumberman/symbol.png" alt="Symbol" className="w-full h-full object-cover group-hover:scale-105 transition duration-[3s] ease-out" />
-                <div className="absolute inset-0 border-[1.5px] border-[#c58158]/20 m-1.5 lg:m-4 pointer-events-none" />
+              <div className="relative w-full max-w-[320px] sm:max-w-[400px] lg:max-w-[600px] xl:max-w-[700px] transition-transform duration-700 hover:scale-105">
+                <div className="absolute inset-0 bg-[#d4af37]/10 blur-[80px] rounded-full scale-75 animate-pulse" />
                 
-                <div className="hidden lg:block absolute bottom-5 right-5 bg-[#1a0f0a] border-2 border-[#c58158]/40 p-5 rounded-md shadow-2xl z-20 backdrop-blur-md">
-                  <div className="flex flex-col gap-1 mb-2 text-[10px] font-black uppercase tracking-widest leading-tight"><span className="text-white italic">PRESSURE</span><span className="text-[#d4af37]">Prostate Support</span></div>
-                  <div className="flex items-center justify-between gap-6 pt-1">
-                    <span className="text-[#c58158] font-black text-xl leading-none">$39</span>
-                    <button onClick={() => scrollTo(depotRef)} className="relative overflow-hidden bg-gradient-to-b from-[#d4af37] to-[#c58158] text-[#1a0f0a] px-4 py-1.5 rounded-sm text-[10px] font-black uppercase tracking-widest shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)] hover:brightness-110 italic italic"><span className="relative z-10">Shop Now</span><div className="btn-glare-overlay" /></button></div>
+                <div className="relative overflow-visible">
+                  <img src="https://images.travelprox.com/mrplumberman/hero.png" alt="Full Lineup" className="w-full h-auto object-contain block relative z-10" />
+                  
+                  <div className="absolute -bottom-4 lg:bottom-4 right-0 lg:right-4 bg-[#1a0f0a] border border-[#d4af37]/40 px-4 py-2 lg:px-6 lg:py-3 rounded-sm shadow-2xl z-30 backdrop-blur-md flex flex-col gap-1">
+                    <p className="text-[#d4af37] font-black uppercase tracking-[0.2em] text-[10px] lg:text-xs italic">Plumber Lineup</p>
+                    <div className="h-0.5 w-8 bg-[#c58158]/50" />
+                  </div>
                 </div>
               </div>
             </ScrollReveal>
