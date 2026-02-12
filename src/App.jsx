@@ -35,7 +35,7 @@ import {
 /**
  * MR. PLUMBER MAN NUTRITION - PRODUCTION SCHEMATIC
  * Fully Integrated: Stripe Checkout, Multi-Page Routing, and Premium Industrial UI.
- * Update: Added FAQ Accordion section.
+ * Update: Added conditional Dev Test button for environment validation.
  */
 
 // --- GLOBAL STYLES FOR ANIMATIONS ---
@@ -556,7 +556,7 @@ const HomeView = ({ navigate, isPurchasing, handlePurchase, onUnlockDiscount }) 
         </ScrollReveal>
       </section>
 
-      {/* FAQ Section - NEW */}
+      {/* FAQ Section */}
       <section className="px-6 py-24 bg-[#140b08] border-y border-[#c58158]/10">
         <ScrollReveal>
           <div className="max-w-3xl mx-auto">
@@ -718,6 +718,16 @@ const HomeView = ({ navigate, isPurchasing, handlePurchase, onUnlockDiscount }) 
       </footer>
 
       <DiscountPopup isOpen={showPopup} onClose={() => setShowPopup(false)} onUnlock={() => onUnlockDiscount()} />
+
+      {/* DEV TEST BUTTON - Renders only on Vercel preview environments */}
+      {typeof window !== "undefined" && window.location.hostname.includes("vercel.app") && (
+        <button
+          onClick={() => handlePurchase("price_1T09ZwKFN6WMOhlFYnV14aXP", "dev_test", "payment")}
+          className="fixed bottom-24 right-6 z-[160] bg-black text-white px-4 py-3 text-xs font-black uppercase tracking-widest border-2 border-white shadow-2xl"
+        >
+          DEV TEST CHECKOUT
+        </button>
+      )}
     </>
   );
 };
@@ -805,6 +815,16 @@ const App = () => {
       )}
       
       {discountUnlocked && <DiscountBadge />}
+
+      {/* DEV TEST BUTTON - Renders only on Vercel preview environments */}
+      {typeof window !== "undefined" && window.location.hostname.includes("vercel.app") && (
+        <button
+          onClick={() => handlePurchase("price_1T09ZwKFN6WMOhlFYnV14aXP", "dev_test", "payment")}
+          className="fixed bottom-24 right-6 z-[160] bg-black text-white px-4 py-3 text-xs font-black uppercase tracking-widest border-2 border-white shadow-2xl"
+        >
+          DEV TEST CHECKOUT
+        </button>
+      )}
     </div>
   );
 };
