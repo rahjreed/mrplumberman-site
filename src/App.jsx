@@ -22,13 +22,20 @@ import {
   Activity,
   Home as HomeIcon,
   Lock,
-  Mail
+  Mail,
+  Focus,
+  BatteryCharging,
+  Trophy,
+  User,
+  ChevronDown,
+  Plus,
+  Minus
 } from 'lucide-react';
 
 /**
  * MR. PLUMBER MAN NUTRITION - PRODUCTION SCHEMATIC
  * Fully Integrated: Stripe Checkout, Multi-Page Routing, and Premium Industrial UI.
- * Update: Reverted Overhaul image to symbol.png to distinguish it from the Hero lineup.
+ * Update: Added FAQ Accordion section.
  */
 
 // --- GLOBAL STYLES FOR ANIMATIONS ---
@@ -76,25 +83,49 @@ const GlareStyles = () => (
 );
 
 // --- DATA ---
-const testimonials = [
-  { name: "Jim T.", location: "Chicago, IL", text: "I was getting up 2-3 times a night to pee. Now it's usually once, sometimes none. Subtle but the sleep quality change is real.", product: "PRESSURE", rating: 4 },
-  { name: "Rob M.", location: "Houston, TX", text: "Didn't expect a lot, but I'm definitely sleeping deeper. actually dreaming again which means the mineral levels are stabilizing. Worth it.", product: "PRIME TIME", rating: 5 },
-  { name: "Mike D.", location: "Phoenix, AZ", text: "No crazy energy rush like caffeine, but I just feel more even-keeled during the day. Not as tired by 3pm shift changes.", product: "PRIME TIME", rating: 4 },
-  { name: "Dave L.", location: "Austin, TX", text: "Pipes are clearer. Took about 10 days to really notice a difference in the flow rate, but it's back to factory specs now.", product: "PRESSURE", rating: 5 },
-  { name: "Tom W.", location: "Jacksonville, FL", text: "Standard drugstore saw palmetto usually gives me heartburn. This standardized version is clean. Fewer trips to the john.", product: "PRESSURE", rating: 5 },
-  { name: "Gary H.", location: "Denver, CO", text: "Gym torque is up slightly, but I mostly just feel less cranky in the mornings. Shipping was surprisingly fast.", product: "PRIME TIME", rating: 4 },
-  { name: "Steve P.", location: "Nashville, TN", text: "Flow is steady, system is quiet at night. Good buy for any guy over 40.", product: "PRESSURE", rating: 5 },
-  { name: "Mark S.", location: "Baltimore, MD", text: "Checked the labels and the forms are legit. No cheap oxide fillers. System feels properly maintained since starting the Combo kit.", product: "COMBO", rating: 5 },
-  { name: "Paul R.", location: "Tucson, AZ", text: "Not sure if it's the sleep or the minerals but I have focus on the job. Decent value for money.", product: "PRIME TIME", rating: 4 },
-  { name: "Tony G.", location: "Atlanta, GA", text: "Total overhaul. Flow is clear and drive is back where it should be. Everything is running smoother.", product: "COMBO", rating: 5 },
-  { name: "Larry B.", location: "Miami, FL", text: "Was a bit skeptical at first but the nightly bathroom interruptions have slowed down significantly. Can't argue with results.", product: "PRESSURE", rating: 4 },
-  { name: "Kev J.", location: "Las Vegas, NV", text: "Engine is running smoother. It's just basic good maintenance for the body.", product: "COMBO", rating: 5 }
-];
-
 const heroPhrases = [
   "Built to show up strong.",
   "No hesitation. No failure. No excuses.",
   "Dependable under pressure. Every time."
+];
+
+const faqData = [
+  {
+    q: "Is this only for older men?",
+    a: "This formula was designed for adult men navigating natural aging, energy changes, and nighttime comfort. Many men start noticing these shifts in their 30s and 40s, not just later in life."
+  },
+  {
+    q: "How long until I notice a difference?",
+    a: "Every man’s routine is different. Some people report noticing changes within days, while others experience gradual support over a few weeks. Consistency matters more than speed."
+  },
+  {
+    q: "Is this safe to take daily?",
+    a: "This blend was created for daily routine use. As with any supplement, consult your healthcare provider before starting, especially if you have a medical condition or take medication."
+  },
+  {
+    q: "Can I take this with other supplements?",
+    a: "Many men combine supplements as part of their routine. If you are taking medication or have health concerns, it’s always best to check with a healthcare professional before adding anything new."
+  },
+  {
+    q: "Do I need this if I already feel fine?",
+    a: "Many men use supplements proactively to support long-term routine health and energy, not just to react to a problem."
+  },
+  {
+    q: "Is this embarrassing to buy?",
+    a: "Not at all — and your privacy matters. Orders ship in discreet packaging with no sensitive product details displayed."
+  },
+  {
+    q: "Was this created by a real person or a big corporation?",
+    a: "This formula was created by the founder after years of personal frustration trying to find consistent support. It was built from lived experience, not a marketing committee."
+  },
+  {
+    q: "Who is this designed for?",
+    a: "This blend was designed for adult men who want to support energy, confidence, sleep routines, and overall vitality as they age."
+  },
+  {
+    q: "What makes this different from other supplements?",
+    a: "This formula was developed from firsthand experience and built around a carefully balanced blend designed for consistency. The goal wasn’t hype — it was creating something dependable enough for the founder to use every day."
+  }
 ];
 
 // --- COMPONENTS ---
@@ -110,28 +141,47 @@ const ScrollReveal = ({ children }) => {
   return <div ref={ref} className={`transition-all duration-1000 ease-out ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"}`}>{children}</div>;
 };
 
-const TestimonialCard = ({ testimonial }) => (
-  <div className="bg-[#2a1b15]/60 border-2 border-[#c58158]/20 p-6 sm:p-8 flex flex-col hover:border-[#d4af37] transition-all duration-300 relative rounded-sm shadow-xl h-full overflow-hidden group">
-    <div className="absolute inset-0 z-0 pointer-events-none opacity-[0.12] transition-opacity duration-500 group-hover:opacity-[0.2]" 
-      style={{ backgroundImage: `url("https://images.travelprox.com/mrplumberman/herowall.png")`, backgroundSize: 'cover', backgroundPosition: 'center' }} />
-    <div className="absolute top-4 right-4 opacity-10 relative z-10"><Quote size={32} className="text-[#c58158]" /></div>
-    <div className="relative z-10 flex flex-col h-full">
-      <div className="flex gap-1 mb-6">
-        {[...Array(5)].map((_, i) => (
-          <Star key={i} size={12} className={i < testimonial.rating ? "fill-[#d4af37] text-[#d4af37]" : "text-[#c58158]/20"} />
-        ))}
-      </div>
-      <p className="text-[#f4e4bc] text-sm sm:text-base font-bold italic leading-relaxed mb-8">"{testimonial.text}"</p>
-      <div className="mt-auto border-t border-[#c58158]/10 pt-6">
-        <p className="text-[#d4af37] font-black uppercase tracking-widest text-xs italic">{testimonial.name}</p>
-        <div className="flex justify-between items-center mt-1">
-          <p className="text-[#c58158]/60 font-bold uppercase text-[9px] tracking-widest">{testimonial.location}</p>
-          <span className="text-[8px] font-black bg-[#c58158]/10 px-2 py-0.5 border border-[#c58158]/20 text-[#c58158] rounded-full uppercase">{testimonial.product}</span>
+const FAQAccordion = () => {
+  const [openIndex, setOpenIndex] = useState(null);
+
+  return (
+    <div className="space-y-4">
+      {faqData.map((item, idx) => (
+        <div 
+          key={idx} 
+          className={`border-2 transition-all duration-300 rounded-sm overflow-hidden ${
+            openIndex === idx 
+            ? "bg-[#2a1b15] border-[#d4af37] shadow-[0_0_30px_rgba(212,175,55,0.05)]" 
+            : "bg-[#2a1b15]/40 border-[#c58158]/20 hover:border-[#c58158]/40"
+          }`}
+        >
+          <button 
+            onClick={() => setOpenIndex(openIndex === idx ? null : idx)}
+            className="w-full flex items-center justify-between p-6 text-left transition-colors"
+          >
+            <span className={`text-sm lg:text-base font-black uppercase tracking-widest italic ${openIndex === idx ? "text-[#d4af37]" : "text-white"}`}>
+              {item.q}
+            </span>
+            <div className={`shrink-0 transition-transform duration-300 ${openIndex === idx ? "rotate-180 text-[#d4af37]" : "text-[#c58158]"}`}>
+              <ChevronDown size={20} />
+            </div>
+          </button>
+          <div 
+            className={`transition-all duration-300 ease-in-out ${
+              openIndex === idx ? "max-h-[300px] opacity-100" : "max-h-0 opacity-0"
+            }`}
+          >
+            <div className="px-6 pb-6 pt-2 border-t border-[#c58158]/10">
+              <p className="text-[#f4e4bc]/80 text-sm lg:text-base font-bold italic leading-relaxed">
+                {item.a}
+              </p>
+            </div>
+          </div>
         </div>
-      </div>
+      ))}
     </div>
-  </div>
-);
+  );
+};
 
 const DiscountPopup = ({ isOpen, onClose, onUnlock }) => {
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -239,7 +289,7 @@ const DiscountBadge = () => {
 const HomeView = ({ navigate, isPurchasing, handlePurchase, onUnlockDiscount }) => {
   const [showPopup, setShowPopup] = useState(false);
   const depotRef = useRef(null);
-  const reviewsRef = useRef(null);
+  const benefitsRef = useRef(null);
 
   useEffect(() => {
     const hasShown = sessionStorage.getItem('mp_pop_v6');
@@ -284,7 +334,7 @@ const HomeView = ({ navigate, isPurchasing, handlePurchase, onUnlockDiscount }) 
             <img src="https://images.travelprox.com/mrplumberman/plumlogo.png" className="h-6 sm:h-7 w-auto object-contain" alt="Logo" />
           </div>
           <div className="flex gap-4 items-center">
-            <button onClick={() => scrollTo(reviewsRef)} className="hidden md:block text-[10px] font-black uppercase tracking-[0.3em] text-[#f4e4bc] hover:text-[#d4af37] transition">Report</button>
+            <button onClick={() => scrollTo(benefitsRef)} className="hidden md:block text-[10px] font-black uppercase tracking-[0.3em] text-[#f4e4bc] hover:text-[#d4af37] transition">Specs</button>
             <button onClick={() => scrollTo(depotRef)} className="relative overflow-hidden bg-gradient-to-b from-[#d4af37] to-[#c58158] text-[#1a0f0a] px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-widest shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)] hover:brightness-110 transition italic group">
                <span className="relative z-10">Supply Depot</span>
                <div className="btn-glare-overlay" />
@@ -293,36 +343,35 @@ const HomeView = ({ navigate, isPurchasing, handlePurchase, onUnlockDiscount }) 
         </div>
       </nav>
 
-      {/* Optimized Performance Hero */}
-      <section className="relative min-h-[90vh] lg:min-h-screen flex items-center justify-center px-6 pt-24 lg:pt-24 pb-6 lg:pb-12 overflow-hidden">
+      {/* Hero Section */}
+      <section className="relative min-h-[95vh] lg:min-h-screen flex items-center justify-center px-6 pt-20 lg:pt-36 pb-6 lg:pb-12 overflow-hidden">
         <div className="absolute inset-0 z-0 pointer-events-none" style={{ backgroundImage: `url("https://images.travelprox.com/mrplumberman/herowall.png")`, backgroundSize: 'cover', backgroundPosition: 'center', opacity: 0.15 }} />
         <div className="absolute inset-0 bg-gradient-to-b from-[#1a0f0a] via-transparent to-[#1a0f0a] z-10" />
         
         <div className="max-w-7xl mx-auto relative z-20 w-full grid lg:grid-cols-2 gap-0 lg:gap-24 items-center">
-          {/* Text Column */}
           <div className="text-center lg:text-left flex flex-col items-center lg:items-start order-1">
             <ScrollReveal>
               <div className="mb-2 lg:mb-10 hidden lg:block">
                 <img src="https://images.travelprox.com/mrplumberman/plumlogo.png" className="h-10 lg:h-32 w-auto object-contain mx-auto lg:mx-0" alt="Logo" />
               </div>
 
-              <div className="inline-flex items-center space-x-3 px-4 lg:px-6 py-1 lg:py-2 mb-3 lg:mb-10 text-[10px] font-black uppercase tracking-[0.45em] text-[#d4af37] border-y border-[#c58158]/30 italic mx-auto lg:mx-0">
+              <div className="inline-flex items-center space-x-3 px-4 lg:px-6 py-1 lg:py-1.5 mb-2 lg:mb-6 text-[10px] font-black uppercase tracking-[0.45em] text-[#d4af37] border-y border-[#c58158]/30 italic mx-auto lg:mx-0">
                 <span>INDUSTRIAL-GRADE VITALITY</span>
               </div>
 
-              <h1 className="text-[12vw] lg:text-7xl xl:text-8xl 2xl:text-9xl font-black tracking-tight mb-2 lg:mb-8 leading-[0.85] uppercase italic text-white drop-shadow-2xl">
-                READY WHEN <br /> 
+              <h1 className="text-[10.5vw] lg:text-7xl xl:text-8xl 2xl:text-9xl font-black tracking-tight mb-1 lg:mb-6 leading-[0.85] uppercase italic text-white drop-shadow-2xl">
+                <span className="whitespace-nowrap">READY WHEN</span> <br /> 
                 <span className="text-[#d4af37] whitespace-nowrap">IT COUNTS.</span>
               </h1>
 
-              <div className="min-h-[30px] lg:min-h-[100px] mb-6 lg:mb-10 flex items-center justify-center lg:justify-start overflow-hidden text-lg lg:text-3xl text-white font-bold italic tracking-wide">
-                <p className="animate-phrase">Under Pressure. Every Time.</p>
+              <div className="min-h-[24px] lg:min-h-[80px] mb-6 lg:mb-10 flex items-center justify-center lg:justify-start overflow-hidden text-[4.2vw] lg:text-3xl text-white font-bold italic tracking-wide">
+                <p className="animate-phrase whitespace-nowrap">Under Pressure. Every Time.</p>
               </div>
 
               <div className="w-full flex justify-center lg:justify-start">
                 <button 
                   onClick={() => scrollTo(depotRef)} 
-                  className="relative group overflow-hidden bg-gradient-to-b from-[#d4af37] via-[#c58158] to-[#8c5a3d] text-[#1a0f0a] px-8 py-5 lg:py-6 font-black uppercase tracking-[0.15em] shadow-[0_8px_0_#3d291f,inset_0_1px_2px_rgba(255,255,255,0.6)] rounded-lg hover:translate-y-[2px] transition-all inline-flex items-center justify-center gap-4 italic text-base sm:text-lg w-full max-w-[340px] lg:max-w-none"
+                  className="relative group overflow-hidden bg-gradient-to-b from-[#d4af37] via-[#c58158] to-[#8c5a3d] text-[#1a0f0a] px-8 py-4 lg:py-6 font-black uppercase tracking-[0.15em] shadow-[0_8px_0_#3d291f,inset_0_1px_2px_rgba(255,255,255,0.6)] rounded-lg hover:translate-y-[2px] transition-all inline-flex items-center justify-center gap-4 italic text-base sm:text-lg w-full max-w-[340px] lg:max-w-none"
                 >
                   <span className="relative z-10 leading-none">TURN THE PRESSURE UP</span>
                   <ArrowRight size={22} className="relative z-10 group-hover:translate-x-2 transition-transform shrink-0" />
@@ -333,16 +382,13 @@ const HomeView = ({ navigate, isPurchasing, handlePurchase, onUnlockDiscount }) 
             </ScrollReveal>
           </div>
 
-          {/* Image Column */}
-          <div className="relative group lg:mt-0 flex justify-center lg:justify-end order-2 pt-1 lg:pt-0">
+          <div className="relative group lg:mt-0 flex justify-center lg:justify-end order-2 pt-2 lg:pt-0">
             <ScrollReveal>
-              <div className="relative w-full max-w-[320px] sm:max-w-[400px] lg:max-w-[600px] xl:max-w-[700px] transition-transform duration-700 hover:scale-105">
+              <div className="relative w-full max-w-[340px] sm:max-w-[400px] lg:max-w-[600px] xl:max-w-[700px] transition-transform duration-700 hover:scale-105">
                 <div className="absolute inset-0 bg-[#d4af37]/10 blur-[80px] rounded-full scale-75 animate-pulse" />
-                
                 <div className="relative overflow-visible">
                   <img src="https://images.travelprox.com/mrplumberman/hero.png" alt="Full Lineup" className="w-full h-auto object-contain block relative z-10" />
-                  
-                  <div className="absolute -bottom-4 lg:bottom-4 right-0 lg:right-4 bg-[#1a0f0a] border border-[#d4af37]/40 px-4 py-2 lg:px-6 lg:py-3 rounded-sm shadow-2xl z-30 backdrop-blur-md flex flex-col gap-1">
+                  <div className="absolute -bottom-2 lg:bottom-4 right-0 lg:right-4 bg-[#1a0f0a] border border-[#d4af37]/40 px-4 py-2 lg:px-6 lg:py-3 rounded-sm shadow-2xl z-30 backdrop-blur-md flex flex-col gap-1">
                     <p className="text-[#d4af37] font-black uppercase tracking-[0.2em] text-[10px] lg:text-xs italic">Plumber Lineup</p>
                     <div className="h-0.5 w-8 bg-[#c58158]/50" />
                   </div>
@@ -412,34 +458,119 @@ const HomeView = ({ navigate, isPurchasing, handlePurchase, onUnlockDiscount }) 
         </ScrollReveal>
       </section>
 
-      {/* Field Report Section */}
-      <section ref={reviewsRef} className="px-6 py-24 bg-[#140b08] border-y border-[#c58158]/10">
+      {/* Compliant Benefits Section */}
+      <section ref={benefitsRef} className="px-6 py-24 bg-[#140b08] border-y border-[#c58158]/10">
         <ScrollReveal>
-          <div className="max-w-7xl mx-auto text-center">
-            <div className="mb-16 space-y-4">
-              <h2 className="text-[#c58158] font-black uppercase tracking-[0.5em] text-[10px] underline underline-offset-8">Verified Field Ops</h2>
-              <h1 className="text-[9.5vw] lg:text-7xl xl:text-8xl font-black tracking-tight text-white leading-none italic uppercase text-center">THE <span className="text-[#d4af37]">FIELD REPORT</span></h1>
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-20 space-y-4">
+              <h2 className="text-[#c58158] font-black uppercase tracking-[0.5em] text-[10px] underline underline-offset-8">Blueprint Performance</h2>
+              <h1 className="text-4xl lg:text-7xl font-black tracking-tight text-white leading-none uppercase italic">BUILT TO SUPPORT THE THINGS <span className="text-[#d4af37]">MEN NOTICE FIRST</span></h1>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-left mb-16">
-              {testimonials.slice(0, 4).map((t, idx) => <TestimonialCard key={idx} testimonial={t} />)}
+
+            <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-center">
+              <div className="space-y-6 lg:space-y-12">
+                <div className="bg-[#2a1b15]/30 border-l-4 border-[#d4af37] p-6 lg:p-10 shadow-xl rounded-sm">
+                  <div className="flex items-center gap-6 mb-4 text-[#d4af37]">
+                    <BatteryCharging size={32} strokeWidth={2.5} />
+                    <h3 className="text-2xl lg:text-3xl font-black uppercase italic tracking-tight text-white leading-none">Sleep affects energy.</h3>
+                  </div>
+                  <div className="flex items-center gap-6 mb-4 text-[#c58158]">
+                    <Zap size={32} strokeWidth={2.5} />
+                    <h3 className="text-2xl lg:text-3xl font-black uppercase italic tracking-tight text-white leading-none">Energy affects confidence.</h3>
+                  </div>
+                  <div className="flex items-center gap-6 text-white">
+                    <Trophy size={32} strokeWidth={2.5} />
+                    <h3 className="text-2xl lg:text-3xl font-black uppercase italic tracking-tight text-[#d4af37] leading-none underline decoration-[#d4af37]/30 underline-offset-8">Confidence affects everything.</h3>
+                  </div>
+                </div>
+
+                <div className="space-y-6">
+                  <p className="text-[#f4e4bc] text-lg lg:text-xl font-bold italic leading-relaxed">
+                    This formula was designed to support the everyday concerns men quietly deal with — nighttime interruptions, stamina, recovery, and overall vitality. When your routine feels steady, your day feels easier.
+                  </p>
+                  <p className="text-[#c58158] font-black uppercase tracking-[0.2em] text-xs italic">
+                    No hype. No miracle promises. Just a blend created to support how men want to feel.
+                  </p>
+                </div>
+              </div>
+
+              <div className="bg-[#1a0f0a] border-2 border-[#c58158]/20 p-8 lg:p-12 relative rounded-sm shadow-2xl overflow-hidden group">
+                <div className="absolute inset-0 opacity-[0.05] pointer-events-none" style={{ backgroundImage: `url("https://images.travelprox.com/mrplumberman/herowall.png")`, backgroundSize: 'cover' }} />
+                <h4 className="text-xl lg:text-2xl font-black text-white mb-8 uppercase italic tracking-widest relative z-10 border-b border-[#c58158]/20 pb-4">Why Men Add This To Routine</h4>
+                <p className="text-[#f4e4bc]/60 font-bold uppercase text-[10px] tracking-[0.3em] mb-8 relative z-10">Systems Status Report:</p>
+                <ul className="space-y-6 relative z-10">
+                  {['restless sleep', 'inconsistent energy', 'performance confidence', 'aging-related changes', 'daily stamina'].map((item, idx) => (
+                    <li key={idx} className="flex items-center gap-4 group/item">
+                      <div className="w-6 h-6 border border-[#d4af37]/40 rounded-sm flex items-center justify-center bg-[#d4af37]/5 group-hover/item:bg-[#d4af37]/20 transition-all">
+                        <CheckCircle2 size={14} className="text-[#d4af37]" />
+                      </div>
+                      <span className="text-lg font-black uppercase tracking-widest text-[#f4e4bc] italic group-hover/item:text-white transition-colors">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+                <div className="mt-12 pt-8 border-t border-[#c58158]/10 text-center relative z-10">
+                  <p className="text-[#d4af37] font-black uppercase italic tracking-[0.15em] leading-relaxed">
+                    Support your routine. Support your rest. <br /> Support how you show up every day.
+                  </p>
+                </div>
+              </div>
             </div>
-            <div className="py-20 border-y-2 border-[#c58158]/20 bg-[#2a1b15]/20 px-8 mb-16 relative overflow-hidden text-center">
-               <div className="absolute inset-0 z-0 pointer-events-none opacity-[0.1]" style={{ backgroundImage: `url("https://images.travelprox.com/mrplumberman/herowall.png")`, backgroundSize: 'cover' }} />
-               <Quote className="text-[#d4af37] w-12 h-12 mx-auto mb-8 opacity-40 relative z-10" />
-               <h2 className="text-3xl lg:text-5xl font-black uppercase italic tracking-tight text-white leading-tight mb-8 relative z-10">"Take care of your body. It's the only place you have to live."</h2>
-               <p className="text-[#c58158] font-black uppercase tracking-[0.4em] text-xs relative z-10">— Jim Rohn, Vitality Strategist</p>
+          </div>
+        </ScrollReveal>
+      </section>
+
+      {/* Founder Review Section */}
+      <section className="px-6 py-24 bg-[#1a0f0a] border-t border-[#c58158]/10">
+        <ScrollReveal>
+          <div className="max-w-4xl mx-auto">
+            <div className="bg-[#2a1b15]/40 border-2 border-[#d4af37]/20 p-8 lg:p-16 rounded-sm shadow-2xl relative overflow-hidden">
+               <div className="absolute top-0 right-0 p-8 opacity-5">
+                 <Quote size={120} className="text-[#d4af37]" />
+               </div>
+               
+               <div className="relative z-10 space-y-8">
+                 <div className="flex flex-col items-center lg:items-start space-y-2">
+                    <h2 className="text-[#d4af37] font-black uppercase tracking-[0.4em] text-xs italic">Founder Field Note</h2>
+                    <h3 className="text-3xl lg:text-5xl font-black uppercase italic tracking-tighter text-white">THE STORY BEHIND <br/><span className="text-[#c58158]">THE SPEC.</span></h3>
+                 </div>
+
+                 <div className="space-y-6 text-[#f4e4bc]/90 font-serif text-lg lg:text-xl leading-relaxed italic">
+                    <p>I’m 42 years old, and I dealt with frequent nighttime bathroom trips for about 15 years. It started when I was 27 and slowly became part of my life — but it wasn’t harmless. Waking up 3 or 4 times a night wrecks your sleep, and bad sleep follows you into everything. My job felt harder. My energy was lower. Even my outlook during the day changed because I was constantly running tired.</p>
+                    <p>I went looking for answers. I saw a urologist. I talked to my general doctor. Nobody could tell me why it was happening. That was frustrating — not having clarity and still living with the problem.</p>
+                    <p>And it wasn’t just sleep. It started affecting my confidence and my sex life too. There were times I’d have to stop in the middle just to use the bathroom. That’s not something men like to admit, but it’s real — and it’s embarrassing when it happens.</p>
+                    <p className="border-l-4 border-[#d4af37] pl-6 py-2 text-white font-bold bg-[#d4af37]/5">What made it more serious for me is my family history. Both my father and grandfather had prostate cancer, so ignoring it never felt like an option.</p>
+                    <p>Years ago I tried a saw palmetto supplement and after about two weeks I noticed a big improvement. The nighttime trips almost stopped. But when I ran out and bought the same product again, it never worked the same. I tried brand after brand — droppers, gummies, pills — and nothing gave consistent results. It felt like I was gambling every time I tried something new, hoping this one would finally stick.</p>
+                    <p>That frustration pushed me to partner with a lab and create my own formula. I wanted something I could trust because I was tired of chasing solutions.</p>
+                    <p className="text-[#d4af37] font-bold">Within 3 days of taking my blend, my nighttime trips dropped to once — sometimes none. For the first time in years I could sleep through the night without anxiety about it. And when your sleep improves, everything improves. My energy during the day felt steadier, and I felt more like myself again.</p>
+                    <p>That experience changed how I look at men’s health in general. I realized how many issues men quietly deal with — sleep, performance, confidence, sexual health — and how rarely we talk about them honestly. So I worked on creating complementary blends that support other areas men care about but don’t always feel comfortable discussing. My goal isn’t hype. It’s giving men options I wish I had years ago.</p>
+                    <p>I built these products because I needed them myself. I use them daily, and I stand behind them because I lived the problem they’re designed to support.</p>
+                 </div>
+
+                 <div className="pt-10 border-t border-[#c58158]/20 flex flex-col items-center lg:items-start">
+                    <p className="text-2xl font-black text-white italic tracking-widest">— Rahj, Founder</p>
+                    <p className="text-[10px] text-[#c58158] uppercase font-black tracking-[0.3em] mt-1">Mr. Plumber Man Nutrition</p>
+                 </div>
+               </div>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-left mb-16">
-              {testimonials.slice(4, 8).map((t, idx) => <TestimonialCard key={idx} testimonial={t} />)}
+          </div>
+        </ScrollReveal>
+      </section>
+
+      {/* FAQ Section - NEW */}
+      <section className="px-6 py-24 bg-[#140b08] border-y border-[#c58158]/10">
+        <ScrollReveal>
+          <div className="max-w-3xl mx-auto">
+            <div className="text-center mb-16 space-y-4">
+              <h2 className="text-[#c58158] font-black uppercase tracking-[0.5em] text-[10px] underline underline-offset-8">Support Intel</h2>
+              <h1 className="text-4xl lg:text-7xl font-black tracking-tight text-white leading-none uppercase italic">FREQUENTLY ASKED <span className="text-[#d4af37]">QUESTIONS</span></h1>
             </div>
-            <div className="py-20 border-y-2 border-[#c58158]/20 bg-[#2a1b15]/20 px-8 mb-16 relative overflow-hidden text-center">
-              <div className="absolute inset-0 z-0 pointer-events-none opacity-[0.1]" style={{ backgroundImage: `url("https://images.travelprox.com/mrplumberman/herowall.png")`, backgroundSize: 'cover' }} />
-              <Quote className="text-[#d4af37] w-12 h-12 mx-auto mb-8 opacity-40 relative z-10" />
-              <h2 className="text-3xl lg:text-5xl font-black uppercase italic tracking-tight text-[#d4af37] leading-tight mb-8 relative z-10">"Clear pipes and high torque. Because a man's performance shouldn't have a 'Closed for Maintenance' sign."</h2>
-              <p className="text-white font-black uppercase tracking-[0.4em] text-xs relative z-10">— The Plumber's Secret to Domestic Harmony</p>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-left">
-              {testimonials.slice(8, 12).map((t, idx) => <TestimonialCard key={idx} testimonial={t} />)}
+            
+            <FAQAccordion />
+            
+            <div className="mt-16 text-center">
+              <p className="text-[#f4e4bc]/40 font-bold uppercase tracking-widest text-[10px] italic">
+                Have more technical questions? Reach out to <span className="text-white">hello@mrplumberman.com</span>
+              </p>
             </div>
           </div>
         </ScrollReveal>
@@ -476,26 +607,53 @@ const HomeView = ({ navigate, isPurchasing, handlePurchase, onUnlockDiscount }) 
               {[
                 { 
                   id: 'p', name: "PRESSURE", sub: "Prostate Support", price: 39, 
-                  img: "https://images.travelprox.com/mrplumberman/pressure.png", desc: "Clear the lines and restore factory-spec flow rate.",
+                  img: "https://images.travelprox.com/mrplumberman/pressure.png", 
+                  benefits: [
+                    "Fewer nighttime disruptions, better mornings",
+                    "Wake up feeling more rested",
+                    "Built for long-term routine support"
+                  ],
                   priceId: 'price_1SwvOSKFN6WMOhlF5xerUfID', subPriceId: 'price_1SwvhCKFN6WMOhlFqFQiSYH6'
                 },
                 { 
                   id: 't', name: "PRIME TIME", sub: "T-Formula", price: 59, 
-                  img: "https://images.travelprox.com/mrplumberman/primeheat.png", desc: "High-torque energy and maximum drive restoration.",
+                  img: "https://images.travelprox.com/mrplumberman/primeheat.png", 
+                  benefits: [
+                    "Support stamina and performance confidence",
+                    "Feel steady energy throughout the day",
+                    "Designed for real men with real schedules"
+                  ],
                   priceId: 'price_1SwvR8KFN6WMOhlFXD9hxqXi', subPriceId: 'price_1SwvkOKFN6WMOhlFRkxiPaPq'
                 },
                 { 
                   id: 'c', name: "THE OVERHAUL", sub: "Combo Pack", price: 97, 
-                  img: "https://images.travelprox.com/mrplumberman/symbol.png", desc: "The ultimate blueprint. Secure both formulas.", tag: "Best Value",
+                  img: "https://images.travelprox.com/mrplumberman/symbol.png", 
+                  benefits: [
+                    "Complete energy and rest overhaul",
+                    "Maximum performance confidence kit",
+                    "Full long-term routine maintenance"
+                  ],
+                  tag: "Best Value",
                   priceId: 'price_1SwvX4KFN6WMOhlFXU8Bs0lt', subPriceId: 'price_1SwvmEKFN6WMOhlFzNkPcl3U'
                 }
               ].map(p => (
                 <div key={p.id} className="bg-[#2a1b15]/40 border-2 border-[#c58158]/20 p-8 hover:border-[#d4af37] transition duration-500 flex flex-col items-center group relative rounded-sm shadow-2xl">
                   {p.tag && (<div className="absolute top-4 left-[-30px] bg-[#d4af37] text-[#1a0f0a] px-10 py-1 text-[8px] font-black uppercase tracking-widest -rotate-45 shadow-lg z-20">{p.tag}</div>)}
-                  <div className="w-full aspect-square bg-[#1a0f0a] border border-[#c58158]/20 mb-8 flex items-center justify-center relative overflow-hidden"><img src={p.img} alt={p.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[2s]" /></div>
+                  <div className="w-full aspect-square bg-[#1a0f0a] border border-[#c58158]/20 mb-8 flex items-center justify-center relative overflow-hidden">
+                    <img src={p.img} alt={p.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[2s]" />
+                  </div>
                   <h3 className="text-3xl font-black text-white uppercase mb-2 leading-none italic">{p.name}</h3>
-                  <p className="text-[#d4af37] font-black uppercase tracking-[0.4em] text-[10px] mb-4">{p.sub}</p>
-                  <p className="text-sm text-[#f4e4bc]/50 font-bold uppercase tracking-widest mb-10 italic leading-relaxed text-center">{p.desc}</p>
+                  <p className="text-[#d4af37] font-black uppercase tracking-[0.4em] text-[10px] mb-6">{p.sub}</p>
+                  
+                  <ul className="w-full space-y-3 mb-10 border-t border-[#c58158]/10 pt-6">
+                    {p.benefits.map((benefit, bIdx) => (
+                      <li key={bIdx} className="flex items-start gap-3">
+                        <CheckCircle2 size={12} className="text-[#d4af37] mt-0.5 shrink-0" />
+                        <span className="text-[11px] text-[#f4e4bc] font-bold uppercase tracking-widest leading-snug">{benefit}</span>
+                      </li>
+                    ))}
+                  </ul>
+
                   <div className="mt-auto w-full space-y-6 pt-8 border-t border-[#c58158]/20">
                     <div className="text-center">
                       <p className="text-4xl font-black italic text-white mb-1">${p.price}</p>
@@ -540,7 +698,7 @@ const HomeView = ({ navigate, isPurchasing, handlePurchase, onUnlockDiscount }) 
 
         <div className="max-w-3xl mx-auto mb-10 p-6 border border-[#c58158]/20 rounded-sm bg-[#1a0f0a]/50">
           <p className="text-[10px] font-bold uppercase tracking-wider text-[#c58158]/80 leading-relaxed italic font-sans text-center">
-            * These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease. Consult with a physician before use if you have a medical condition or are taking medication.
+            These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease. Consult a physician before use, especially if you have a medical condition or are taking medication.
           </p>
         </div>
 
