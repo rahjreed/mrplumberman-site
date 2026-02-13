@@ -24,9 +24,9 @@ export default async function handler(req, res) {
       // ✅ This makes the coupon/promo box show up in Stripe Checkout
       allow_promotion_codes: true,
 
-      success_url:
-        "https://www.mrplumberman.com/thank-you?session_id={CHECKOUT_SESSION_ID}",
-      cancel_url: "https://www.mrplumberman.com/?canceled=true",
+      success_url: "https://www.mrplumberman.com/thank-you?session_id={CHECKOUT_SESSION_ID}",
+cancel_url: "https://www.mrplumberman.com/?canceled=true",
+
     });
 
     return res.status(200).json({ url: session.url });
