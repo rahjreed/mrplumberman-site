@@ -5,31 +5,27 @@ import {
   Zap, 
   Loader2,
   Star, 
-  ShieldCheck,
-  Wrench,
-  Droplets,
-  Package,
-  Ticket,
-  X,
-  Minimize2,
-  Send,
-  XCircle,
-  Quote,
-  Truck,
-  RefreshCcw,
-  MapPin,
-  Shield,
-  Activity,
-  Home as HomeIcon,
-  Lock,
-  Mail,
-  Focus,
-  BatteryCharging,
-  Trophy,
-  User,
-  ChevronDown,
-  Plus,
-  Minus
+  ShieldCheck, 
+  Wrench, 
+  Droplets, 
+  Package, 
+  Ticket, 
+  X, 
+  Minimize2, 
+  Send, 
+  XCircle, 
+  Quote, 
+  Truck, 
+  RefreshCcw, 
+  MapPin, 
+  Shield, 
+  Activity, 
+  Home as HomeIcon, 
+  Lock, 
+  Mail, 
+  BatteryCharging, 
+  Trophy, 
+  ChevronDown 
 } from 'lucide-react';
 
 /**
@@ -248,7 +244,7 @@ const DiscountBadge = () => {
   return (
     <button 
       onClick={handleCopy}
-      className="fixed bottom-6 right-6 z-[150] bg-[#1a0f0a] border-2 border-[#d4af37] rounded-full px-5 py-3 flex items-center gap-3 shadow-[0_0_20px_rgba(212,175,55,0.2)] hover:shadow-[0_0_25px_rgba(212,175,55,0.4)] hover:scale-105 active:scale-95 transition-all animate-in slide-in-from-bottom-10"
+      className="fixed bottom-6 right-6 z-[150] bg-[#1a0f0a] border-2 border-[#d4af37] rounded-full px-5 py-3 flex items-center gap-3 shadow-[0_0_20px_rgba(212,175,55,0.2)] hover:scale-105 active:scale-95 transition-all animate-in slide-in-from-bottom-10"
     >
       <Ticket className="w-4 h-4 text-[#d4af37]" />
       <span className="text-[10px] font-black uppercase tracking-widest text-white italic">
@@ -366,7 +362,7 @@ const HomeView = ({ navigate, isPurchasing, handlePurchase, onUnlockDiscount }) 
           <div className="max-w-7xl mx-auto text-center">
             <div className="mb-16 space-y-4">
               <h2 className="text-[#c58158] font-black uppercase tracking-[0.6em] text-[10px] underline underline-offset-8">Industrial Diagnostics</h2>
-              <h1 className="text-[9.5vw] lg:text-7xl xl:text-8xl font-black tracking-tight text-white leading-none uppercase italic text-center">SYSTEM <span className="text-[#d4af37]">TROUBLE SHOOTING</span></h1>
+              <h1 className="text-[9.5vw] lg:text-7xl xl:text-8xl font-black tracking-tight text-white leading-none uppercase italic">SYSTEM <span className="text-[#d4af37]">TROUBLE SHOOTING</span></h1>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
               {[
@@ -406,7 +402,7 @@ const HomeView = ({ navigate, isPurchasing, handlePurchase, onUnlockDiscount }) 
               <div className="bg-[#1a0f0a] p-10 lg:p-16 border-[3px] border-[#c58158] shadow-[0_0_100px_rgba(197,129,88,0.15)]">
                 <h4 className="text-xl lg:text-2xl font-black text-white mb-12 flex items-center uppercase italic tracking-[0.2em]"><ShieldCheck className="w-6 h-6 mr-3 text-[#d4af37]" /> PRIME TIME</h4>
                 <div className="space-y-6">
-                  {[{ l: "Price Comparison", v: "$59 (Direct Value)" }, { l: "Magnesium Form", v: "Glycinate (High Torque)" }, { l: "Zinc Form", v: "Picolinate (Bioavailable)" }, { l: "Saw Palmetto", v: "100mg Standardized" }, { l: "Potency", v: "Extract Guaranteed" }].map((row, i) => (
+                  {[{ l: "Price Comparison", v: "$59 (Direct Value)" }, { l: "Magnesium Form", v: "Glycinate (High Torque)" }, { l: "Zinc Form", v: "Picolinate (Bioavailable)" }, { l: "Tongkat Ali", v: "200mg Standardized" }, { l: "Saw Palmetto", v: "100mg Standardized" }, { l: "Potency", v: "Extract Guaranteed" }].map((row, i) => (
                     <div key={i} className="flex justify-between border-b border-[#c58158]/20 pb-4"><p className="text-[10px] text-[#d4af37] uppercase font-black">{row.l}</p><p className="text-sm text-white font-black uppercase">{row.v}</p></div>
                   ))}
                 </div>
@@ -527,7 +523,7 @@ const HomeView = ({ navigate, isPurchasing, handlePurchase, onUnlockDiscount }) 
                   tag: "Best Value", priceId: 'price_1SwvX4KFN6WMOhlFXU8Bs0lt', subPriceId: 'price_1SwvmEKFN6WMOhlFzNkPcl3U'
                 }
               ].map(p => (
-                <div key={p.id} className="bg-[#2a1b15]/40 border-2 border-[#c58158]/20 p-8 hover:border-[#d4af37] transition duration-500 flex flex-col items-center group rounded-sm shadow-2xl relative">
+                <div key={p.id} className="bg-[#2a1b15]/40 border-2 border-[#c58158]/20 p-8 hover:border-[#d4af37] transition duration-500 flex flex-col items-center group relative rounded-sm shadow-2xl">
                   {p.tag && (<div className="absolute top-4 left-[-30px] bg-[#d4af37] text-[#1a0f0a] px-10 py-1 text-[8px] font-black uppercase -rotate-45 z-20">{p.tag}</div>)}
                   <div className="w-full aspect-square bg-[#1a0f0a] border border-[#c58158]/20 mb-8 flex items-center justify-center relative overflow-hidden">
                     <img src={p.img} alt={p.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[2s]" />
@@ -576,10 +572,10 @@ const HomeView = ({ navigate, isPurchasing, handlePurchase, onUnlockDiscount }) 
 
       <DiscountPopup isOpen={showPopup} onClose={() => setShowPopup(false)} onUnlock={() => onUnlockDiscount()} />
 
-      {/* DEV TEST BUTTON - Updated to use "subscription" mode */}
+      {/* DEV TEST BUTTON - Updated Price ID and Mode */}
       {typeof window !== "undefined" && window.location.hostname.includes("vercel.app") && (
         <button 
-          onClick={() => handlePurchase("price_1T09ZwKFN6WMOhlFYnV14aXP", "dev_test", "subscription")} 
+          onClick={() => handlePurchase("price_1T0BBIKFN6WMOhlFfJqXO5Ua", "dev_test", "subscription")} 
           className="fixed bottom-24 right-6 z-[160] bg-black text-white px-4 py-3 text-xs font-black uppercase tracking-widest border-2 border-white shadow-2xl"
         >
           DEV TEST CHECKOUT
@@ -610,7 +606,7 @@ const App = () => {
   const [isPurchasing, setIsPurchasing] = useState(null);
   const [discountUnlocked, setDiscountUnlocked] = useState(false);
 
-  // Adjusted toRenamed "type" to "mode" as requested
+  // handlePurchase renamed transaction type to mode for API compatibility
   const handlePurchase = async (priceId, productId, mode) => {
     setIsPurchasing(productId);
     try {
