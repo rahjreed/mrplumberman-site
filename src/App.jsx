@@ -32,13 +32,14 @@ import {
   Settings,
   ChevronRight,
   ChevronLeft,
-  ZoomIn
+  ZoomIn,
+  Eye
 } from 'lucide-react';
 
 /**
  * MR. PLUMBER MAN NUTRITION - PRODUCTION SCHEMATIC
  * Fully Integrated: Stripe Checkout, URL Routing, and Premium Industrial UI.
- * Fix: Replaced invalid SearchPlus icon with ZoomIn for supplement facts lightbox.
+ * Update: Expanded Product Imagery with primetime2 and pressure2 visuals.
  */
 
 // --- GLOBAL STYLES FOR ANIMATIONS ---
@@ -318,7 +319,7 @@ const LightboxModal = ({ isOpen, images, initialIdx, onClose }) => {
 
          <div className="text-center space-y-4">
             <p className="text-[#d4af37] font-black uppercase tracking-[0.4em] text-xs italic">
-               System Technical Specifications
+               System Technical Documentation
             </p>
             <div className="flex gap-3 justify-center">
               {images.map((_, i) => (
@@ -357,7 +358,7 @@ const ProductCard = ({ product, isPurchasing, handlePurchase, onOpenLightbox }) 
            <div className="w-12 h-12 rounded-full bg-[#d4af37] text-[#1a0f0a] flex items-center justify-center shadow-2xl">
               <Minimize2 size={24} className="rotate-45" />
            </div>
-           <p className="text-[10px] font-black text-white uppercase tracking-[0.2em] italic">Click to Enlarge Facts</p>
+           <p className="text-[10px] font-black text-white uppercase tracking-[0.2em] italic">Inspect Field Intel</p>
         </div>
 
         <div className="absolute bottom-4 right-4 text-[#c58158] opacity-60">
@@ -470,11 +471,11 @@ const HomeView = ({ products, isPurchasing, handlePurchase, onUnlockDiscount }) 
               <div className="inline-flex items-center space-x-3 px-4 lg:px-6 py-1 lg:py-1.5 mb-2 lg:mb-6 text-[10px] font-black uppercase tracking-[0.45em] text-[#d4af37] border-y border-[#c58158]/30 italic mx-auto lg:mx-0">
                 <span>INDUSTRIAL-GRADE VITALITY</span>
               </div>
-              <h1 className="text-[10.5vw] lg:text-7xl xl:text-8xl 2xl:text-9xl font-black tracking-tight mb-1 lg:mb-6 leading-[0.85] uppercase italic text-white drop-shadow-2xl">
+              <h1 className="text-[10.5vw] lg:text-6xl xl:text-7xl 2xl:text-8xl font-black tracking-tight mb-1 lg:mb-6 leading-[0.85] uppercase italic text-white drop-shadow-2xl">
                 <span className="whitespace-nowrap">READY WHEN</span> <br /> 
                 <span className="text-[#d4af37] whitespace-nowrap">IT COUNTS.</span>
               </h1>
-              <div className="min-h-[24px] lg:min-h-[80px] mb-6 lg:mb-10 flex items-center justify-center lg:justify-start overflow-hidden text-[4.2vw] lg:text-3xl text-white font-bold italic tracking-wide">
+              <div className="min-h-[24px] lg:min-h-[80px] mb-6 lg:mb-10 flex items-center justify-center lg:justify-start overflow-hidden text-[4.2vw] lg:text-2xl xl:text-3xl text-white font-bold italic tracking-wide">
                 <p className="animate-phrase whitespace-nowrap">Under Pressure. Every Time.</p>
               </div>
               <div className="w-full flex justify-center lg:justify-start">
@@ -487,7 +488,7 @@ const HomeView = ({ products, isPurchasing, handlePurchase, onUnlockDiscount }) 
               </div>
             </ScrollReveal>
           </div>
-          <div className="relative group lg:mt-0 flex justify-center lg:justify-end lg:col-span-5 pt-2 lg:pt-0 z-10">
+          <div className="relative group lg:mt-0 flex justify-center lg:justify-end lg:col-span-6 pt-2 lg:pt-0 z-10">
             <ScrollReveal>
               <div className="relative w-full max-w-[340px] sm:max-w-[400px] lg:max-w-full transition-transform duration-700 hover:scale-105">
                 <div className="absolute inset-0 bg-[#d4af37]/10 blur-[80px] rounded-full scale-75 animate-pulse" />
@@ -508,6 +509,7 @@ const HomeView = ({ products, isPurchasing, handlePurchase, onUnlockDiscount }) 
         <div className="animate-ticker">{tickerContent}{tickerContent}{tickerContent}{tickerContent}</div>
       </div>
 
+      {/* Diagnostics */}
       <section className="px-6 py-24 bg-[#1a0f0a] border-b border-[#c58158]/10">
         <ScrollReveal>
           <div className="max-w-7xl mx-auto text-center">
@@ -532,6 +534,7 @@ const HomeView = ({ products, isPurchasing, handlePurchase, onUnlockDiscount }) 
         </ScrollReveal>
       </section>
 
+      {/* Teardown Section */}
       <section className="px-8 py-32 bg-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-[0.02] pointer-events-none" style={{ backgroundImage: `url("https://images.travelprox.com/mrplumberman/herowall.png")`, backgroundSize: 'cover' }} />
         <ScrollReveal>
@@ -541,6 +544,7 @@ const HomeView = ({ products, isPurchasing, handlePurchase, onUnlockDiscount }) 
               <h1 className="text-5xl lg:text-7xl xl:text-8xl font-black tracking-tight uppercase leading-none text-[#1a0f0a] mb-8">SYSTEM <span className="text-[#c58158]">TEARDOWN.</span></h1>
               <p className="text-lg lg:text-2xl text-[#1a0f0a]/40 font-bold max-w-3xl italic uppercase tracking-widest mx-auto">Engineering always wins over advertising.</p>
             </div>
+            
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-stretch">
               <div className="bg-white p-10 lg:p-16 border border-[#1a0f0a]/10 rounded-sm shadow-md flex flex-col justify-between transition-all duration-300">
                 <div>
@@ -556,6 +560,7 @@ const HomeView = ({ products, isPurchasing, handlePurchase, onUnlockDiscount }) 
                   </div>
                 </div>
               </div>
+
               <div className="bg-[#fdfaf5] p-10 lg:p-16 border-[4px] border-[#c58158] shadow-[0_40px_80px_-20px_rgba(0,0,0,0.1)] relative rounded-sm group overflow-hidden">
                 <div className="absolute top-0 right-0 px-6 py-2 bg-[#c58158] text-[#1a0f0a] text-[10px] font-black uppercase tracking-[0.3em] italic">Authorized Selection</div>
                 <h4 className="text-xl lg:text-2xl font-black text-[#1a0f0a] mb-12 flex items-center uppercase italic tracking-[0.2em]"><ShieldCheck className="w-8 h-8 mr-4 text-[#c58158]" /> PRIME TIME</h4>
@@ -576,6 +581,7 @@ const HomeView = ({ products, isPurchasing, handlePurchase, onUnlockDiscount }) 
         </ScrollReveal>
       </section>
 
+      {/* Blueprint Performance */}
       <section ref={benefitsRef} className="px-6 py-32 bg-[#f9f7f2] border-y border-[#c58158]/10">
         <ScrollReveal>
           <div className="max-w-7xl mx-auto">
@@ -614,6 +620,7 @@ const HomeView = ({ products, isPurchasing, handlePurchase, onUnlockDiscount }) 
         </ScrollReveal>
       </section>
 
+      {/* Founder Review Section */}
       <section className="px-6 py-24 bg-[#1a0f0a] border-t border-[#c58158]/10">
         <ScrollReveal>
           <div className="max-w-4xl mx-auto">
@@ -624,7 +631,7 @@ const HomeView = ({ products, isPurchasing, handlePurchase, onUnlockDiscount }) 
                     <h2 className="text-[#d4af37] font-black uppercase tracking-[0.4em] text-xs italic">Founder Field Note</h2>
                     <h3 className="text-3xl lg:text-5xl font-black uppercase italic tracking-tighter text-white">THE STORY BEHIND <br/><span className="text-[#c58158]">THE SPEC.</span></h3>
                  </div>
-                 <div className="space-y-6 text-[#f4e4bc]/90 font-serif text-lg lg:text-xl leading-relaxed italic">
+                 <div className="space-y-6 text-[#f4e4bc]/90 font-serif text-lg lg:text-xl leading-relaxed italic text-left">
                     <p>I’m 42 years old, and I dealt with frequent nighttime bathroom trips for about 15 years. It started when I was 27 and slowly became part of my life — but it wasn’t harmless. Waking up 3 or 4 times a night wrecks your sleep, and bad sleep follows you into everything. My job felt harder. My energy was lower. Even my outlook during the day changed because I was constantly running tired.</p>
                     <p>I went looking for answers. I saw a urologist. I talked to my general doctor. Nobody could tell me why it was happening. That was frustrating — not having clarity and still living with the problem.</p>
                     <p>And it wasn’t just sleep. It started affecting my confidence and my sex life too. There were times I’d have to stop in the middle just to use the bathroom. That’s not something men like to admit, but it’s real — and it’s embarrassing when it happens.</p>
@@ -640,6 +647,7 @@ const HomeView = ({ products, isPurchasing, handlePurchase, onUnlockDiscount }) 
         </ScrollReveal>
       </section>
 
+      {/* Supply Depot */}
       <section ref={depotRef} className="px-6 py-32 bg-[#140b08]">
         <div className="max-w-7xl mx-auto">
           <ScrollReveal>
@@ -662,6 +670,7 @@ const HomeView = ({ products, isPurchasing, handlePurchase, onUnlockDiscount }) 
         </div>
       </section>
 
+      {/* FAQ Section */}
       <section className="px-6 py-24 bg-[#140b08] border-y border-[#c58158]/10">
         <ScrollReveal>
           <div className="max-w-3xl mx-auto">
@@ -786,7 +795,9 @@ const App = () => {
       price: 39, 
       images: [
         "https://images.travelprox.com/mrplumberman/pressure.png",
-        "https://images.travelprox.com/mrplumberman/pressurefacts.png"
+        "https://images.travelprox.com/mrplumberman/pressure2.png",
+        "https://images.travelprox.com/mrplumberman/pressurefacts.png",
+        "https://images.travelprox.com/mrplumberman/pressurepromo.png"
       ],
       benefits: ["Fewer nighttime disruptions, better mornings", "Wake up feeling more rested", "Built for long-term routine support"],
       priceId: 'price_1SwvOSKFN6WMOhlF5xerUfID', 
@@ -799,7 +810,9 @@ const App = () => {
       price: 59, 
       images: [
         "https://images.travelprox.com/mrplumberman/primeheat.png",
-        "https://images.travelprox.com/mrplumberman/primefacts.png"
+        "https://images.travelprox.com/mrplumberman/primetime2.png",
+        "https://images.travelprox.com/mrplumberman/primefacts.png",
+        "https://images.travelprox.com/mrplumberman/primepromo.png"
       ],
       benefits: ["Support stamina and performance confidence", "Feel steady energy throughout the day", "Designed for real men with real schedules"],
       priceId: 'price_1SwvR8KFN6WMOhlFXD9hxqXi', 
@@ -813,7 +826,11 @@ const App = () => {
       images: [
         "https://images.travelprox.com/mrplumberman/symbol.png",
         "https://images.travelprox.com/mrplumberman/primefacts.png",
-        "https://images.travelprox.com/mrplumberman/pressurefacts.png"
+        "https://images.travelprox.com/mrplumberman/pressurefacts.png",
+        "https://images.travelprox.com/mrplumberman/primepromo.png",
+        "https://images.travelprox.com/mrplumberman/pressurepromo.png",
+        "https://images.travelprox.com/mrplumberman/primetime2.png",
+        "https://images.travelprox.com/mrplumberman/pressure2.png"
       ],
       benefits: ["Complete energy and rest overhaul", "Maximum performance confidence kit", "Full long-term routine maintenance"],
       tag: "Best Value", 
