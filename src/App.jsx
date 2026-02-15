@@ -33,13 +33,14 @@ import {
   ChevronRight,
   ChevronLeft,
   ZoomIn,
-  Eye
+  Eye,
+  AlertCircle
 } from 'lucide-react';
 
 /**
  * MR. PLUMBER MAN NUTRITION - PRODUCTION SCHEMATIC
  * Fully Integrated: Stripe Checkout, URL Routing, and Premium Industrial UI.
- * Fix: Ticker animation speed and layout persistence.
+ * Update: Simplified and centralized manly Thank You view with neat border and wiggling wrench.
  */
 
 // --- GLOBAL STYLES FOR ANIMATIONS ---
@@ -71,15 +72,8 @@ const GlareStyles = () => (
       75% { transform: rotate(15deg); }
       100% { transform: rotate(0deg); }
     }
-    @keyframes van-drive {
-      0% { transform: translateX(-120%); }
-      100% { transform: translateX(400%); }
-    }
     .animate-wrench-wiggle {
       animation: wrench-wiggle 1s ease-in-out infinite;
-    }
-    .animate-van-drive {
-      animation: van-drive 4s linear infinite;
     }
     .animate-spin-slow {
       animation: spin 6s linear infinite;
@@ -262,8 +256,8 @@ const LightboxModal = ({ isOpen, images, initialIdx, onClose }) => {
             ))}
             {images.length > 1 && (
               <>
-                <button onClick={handlePrev} className="absolute left-0 lg:left-[-80px] top-1/2 -translate-y-1/2 text-[#d4af37] p-4 lg:p-6 hover:scale-110 transition-transform bg-[#1a0f0a]/80 rounded-full border border-[#c58158]/40 shadow-2xl"><ChevronLeft size={36} /></button>
-                <button onClick={handleNext} className="absolute right-0 lg:right-[-60px] top-1/2 -translate-y-1/2 text-[#d4af37] p-4 lg:p-6 hover:scale-110 transition-transform bg-[#1a0f0a]/80 rounded-full border border-[#c58158]/40 shadow-2xl"><ChevronRight size={36} /></button>
+                <button onClick={handlePrev} className="absolute left-0 lg:left-[-80px] top-1/2 -translate-y-1/2 text-[#d4af37] p-4 lg:p-6 hover:scale-110 transition-transform bg-[#1a0f0a]/80 rounded-full border border-[#c58158]/20"><ChevronLeft size={36} /></button>
+                <button onClick={handleNext} className="absolute right-0 lg:right-[-60px] top-1/2 -translate-y-1/2 text-[#d4af37] p-4 lg:p-6 hover:scale-110 transition-transform bg-[#1a0f0a]/80 rounded-full border border-[#c58158]/20"><ChevronRight size={36} /></button>
               </>
             )}
          </div>
@@ -284,7 +278,7 @@ const ProductCard = ({ product, isPurchasing, handlePurchase, onOpenLightbox }) 
       {product.tag && (<div className="absolute top-4 left-[-30px] bg-[#d4af37] text-[#1a0f0a] px-10 py-1 text-[8px] font-black uppercase -rotate-45 z-20">{product.tag}</div>)}
       <div onClick={nextImg} className="w-full aspect-square bg-[#1a0f0a] border border-[#c58158]/20 mb-8 flex items-center justify-center relative overflow-hidden cursor-pointer group/img">
         {product.images.map((imgUrl, i) => (<img key={i} src={imgUrl} alt={product.name} className={`absolute inset-0 w-full h-full object-contain transition-all duration-700 ${activeIdx === i ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'}`} />))}
-        <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-1.5 z-30 pointer-events-none">{product.images.map((_, i) => (<div key={i} className={`h-1 rounded-full transition-all duration-300 ${activeIdx === i ? 'w-4 bg-[#d4af37]' : 'w-1 bg-white/20'}`} />))}</div>
+        <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-1.5 z-30 pointer-events-none">{product.images.map((_, i) => (<div key={i} className={`h-1 rounded-full transition-all duration-300 ${activeIdx === i ? 'bg-[#d4af37] w-4' : 'bg-white/20'}`} />))}</div>
         <div className="absolute inset-0 bg-[#1a0f0a]/60 opacity-0 group-hover/img:opacity-100 transition-opacity flex flex-col items-center justify-center gap-4 z-40"><button onClick={(e) => { e.stopPropagation(); onOpenLightbox(product.images, activeIdx); }} className="w-16 h-16 rounded-full bg-[#d4af37] text-[#1a0f0a] flex items-center justify-center shadow-2xl transform scale-75 group-hover/img:scale-100 transition-transform hover:bg-white"><ZoomIn size={32} /></button><p className="text-[10px] font-black text-white uppercase tracking-[0.2em] italic">Expand Full Specs</p></div>
         <div className="absolute top-4 left-4 text-[7px] font-black text-[#d4af37]/40 uppercase tracking-widest italic group-hover/img:text-[#d4af37] transition-colors">Tap Image to Cycle View</div>
       </div>
@@ -346,7 +340,7 @@ const HomeView = ({ products, isPurchasing, handlePurchase, onUnlockDiscount }) 
               <div className="inline-flex items-center space-x-3 px-4 lg:px-6 py-1 lg:py-1.5 mb-2 lg:mb-6 text-[10px] font-black uppercase tracking-[0.45em] text-[#d4af37] border-y border-[#c58158]/30 italic mx-auto lg:mx-0"><span>INDUSTRIAL-GRADE VITALITY</span></div>
               <h1 className="text-[10.5vw] lg:text-5xl xl:text-7xl 2xl:text-8xl font-black tracking-tight mb-4 leading-[0.9] uppercase italic text-white drop-shadow-2xl lg:max-w-[15ch]"><span className="whitespace-nowrap">READY WHEN</span> <br /> <span className="text-[#d4af37] whitespace-nowrap">IT COUNTS.</span></h1>
               <div className="min-h-[24px] lg:min-h-[80px] mb-6 lg:mb-10 flex items-center justify-center lg:justify-start overflow-hidden text-[4.2vw] lg:text-2xl xl:text-3xl text-white font-bold italic tracking-wide"><p className="animate-phrase whitespace-nowrap">Under Pressure. Every Time.</p></div>
-              <div className="w-full flex justify-center lg:justify-start"><button onClick={() => scrollTo(depotRef)} className="relative group overflow-hidden bg-gradient-to-b from-[#d4af37] via-[#c58158] to-[#8c5a3d] text-[#1a0f0a] px-8 py-4 lg:py-6 font-black uppercase tracking-[0.15em] shadow-[0_8px_0_#3d291f,inset_0_1px_2px_rgba(255,255,255,0.4)] rounded-lg hover:translate-y-[2px] transition-all inline-flex items-center justify-center gap-4 italic text-base sm:text-lg w-full max-w-[340px] lg:max-w-none"><span className="relative z-10 leading-none">TURN THE PRESSURE UP</span><ArrowRight size={22} className="relative z-10 group-hover:translate-x-2 transition-transform shrink-0" /><div className="absolute top-0 left-0 right-0 h-[40%] bg-white/25 blur-[1px] rounded-t-lg" /><div className="btn-glare-overlay" /></button></div>
+              <div className="w-full flex justify-center lg:justify-start"><button onClick={() => scrollTo(depotRef)} className="relative group overflow-hidden bg-gradient-to-b from-[#d4af37] via-[#c58158] to-[#8c5a3d] text-[#1a0f0a] px-8 py-4 lg:py-6 font-black uppercase tracking-[0.15em] shadow-[0_8px_0_#3d291f,inset_0_1px_2px_rgba(255,255,255,0.6)] rounded-lg hover:translate-y-[2px] transition-all inline-flex items-center justify-center gap-4 italic text-base sm:text-lg w-full max-w-[340px] lg:max-w-none"><span className="relative z-10 leading-none">TURN THE PRESSURE UP</span><ArrowRight size={22} className="relative z-10 group-hover:translate-x-2 transition-transform shrink-0" /><div className="absolute top-0 left-0 right-0 h-[40%] bg-white/25 blur-[1px] rounded-t-lg" /><div className="btn-glare-overlay" /></button></div>
             </ScrollReveal>
           </div>
           <div className="relative group flex justify-center lg:justify-end lg:col-span-6 z-10">
@@ -355,12 +349,7 @@ const HomeView = ({ products, isPurchasing, handlePurchase, onUnlockDiscount }) 
         </div>
       </section>
 
-      {/* Optimized Ticker */}
-      <div className="w-full bg-[#140b08] border-y border-[#c58158]/30 py-4 relative overflow-hidden ticker-pause">
-        <div className="animate-ticker">
-          {tickerContent}{tickerContent}{tickerContent}{tickerContent}
-        </div>
-      </div>
+      <div className="w-full bg-[#140b08] border-y border-[#c58158]/30 py-4 relative overflow-hidden ticker-pause"><div className="animate-ticker">{tickerContent}{tickerContent}{tickerContent}{tickerContent}</div></div>
 
       <section className="px-6 py-24 bg-[#1a0f0a] border-b border-[#c58158]/10">
         <ScrollReveal>
@@ -444,6 +433,7 @@ const HomeView = ({ products, isPurchasing, handlePurchase, onUnlockDiscount }) 
                  <div className="space-y-6 text-[#f4e4bc]/90 font-serif text-lg lg:text-xl leading-relaxed italic text-left">
                     <p>I’m 42 years old, and I dealt with frequent nighttime bathroom trips for about 15 years. It started when I was 27 and slowly became part of my life — but it wasn’t harmless. Waking up 3 or 4 times a night wrecks your sleep, and bad sleep follows you into everything. My job felt harder. My energy was lower. Even my outlook during the day changed because I was constantly running tired.</p>
                     <p>I went looking for answers. I saw a urologist. I talked to my general doctor. Nobody could tell me why it was happening. That was frustrating — not having clarity and still living with the problem.</p>
+                    <p>And it wasn’t just sleep. It started affecting my confidence and my sex life too. There were times I’d have to stop in the middle just to use the bathroom. That’s not something men like to admit, but it’s real — and it’s embarrassing when it happens.</p>
                     <p className="border-l-4 border-[#d4af37] pl-6 py-2 text-white font-bold bg-[#d4af37]/5">What made it more serious for me is my family history. Both my father and grandfather had prostate cancer, so ignoring it never felt like an option.</p>
                     <p>That frustration pushed me to partner with a lab and create my own formula. I wanted something I could trust because I was tired of chasing solutions.</p>
                     <p className="text-[#d4af37] font-bold">Within 3 days of taking my blend, my nighttime trips dropped to once — sometimes none. For the first time in years I could sleep through the night without anxiety about it. And when your sleep improves, everything improves.</p>
@@ -506,59 +496,53 @@ const ThankYouView = ({ onNavigate }) => {
     <div className="min-h-screen bg-[#1a0f0a] flex flex-col items-center justify-center px-6 text-center relative overflow-hidden">
       <div className="absolute inset-0 z-0 opacity-[0.1]" style={{ backgroundImage: `url("https://images.travelprox.com/mrplumberman/herowall.png")`, backgroundSize: 'cover' }} />
       
-      <div className="relative z-10 mb-12">
-        <div className="w-32 h-32 bg-gradient-to-b from-[#d4af37] to-[#c58158] rounded-full mx-auto flex items-center justify-center text-[#1a0f0a] shadow-[0_0_80px_rgba(212,175,55,0.3)] animate-wrench-wiggle">
-          <Wrench size={64} />
+      {/* Big Wiggling Wrench Icon */}
+      <div className="relative z-10 mb-8 lg:mb-12">
+        <div className="w-24 h-24 lg:w-32 lg:h-32 bg-gradient-to-b from-[#d4af37] to-[#c58158] rounded-full mx-auto flex items-center justify-center text-[#1a0f0a] shadow-[0_0_80px_rgba(212,175,55,0.3)] animate-wrench-wiggle">
+          <Wrench size={56} />
         </div>
       </div>
 
-      <div className="max-w-2xl w-full relative z-10 space-y-10">
-        <div className="space-y-4">
-          <h1 className="text-5xl lg:text-7xl font-black tracking-tighter text-white uppercase italic leading-none">THANK YOU <span className="text-[#d4af37]">FOR YOUR ORDER</span></h1>
-          <p className="text-xl text-[#f4e4bc]/80 font-bold uppercase tracking-widest italic">Pipes are clearing. Your maintenance kit is secured.</p>
-        </div>
-
-        <div className="bg-[#2a1b15]/60 border-y-2 border-[#c58158]/20 py-10 px-6 backdrop-blur-md">
-          <div className="space-y-8 max-w-lg mx-auto">
-             <div className="flex flex-col gap-2">
-                <p className="text-[#d4af37] font-black uppercase tracking-[0.4em] text-xs italic">System Timeline</p>
-                <div className="h-0.5 w-12 bg-[#c58158]/40 mx-auto" />
-             </div>
-             
-             <div className="grid grid-cols-1 gap-6 text-left">
-                <div className="flex items-center gap-6">
-                  <div className="shrink-0 w-10 h-10 border border-[#d4af37] rounded-full flex items-center justify-center text-[#d4af37] animate-soft-pulse"><CheckCircle2 size={20} /></div>
-                  <p className="text-sm font-black uppercase tracking-widest text-[#f4e4bc] italic leading-tight">Order is processing in <span className="text-white">24 hours</span></p>
-                </div>
-                <div className="flex items-center gap-6">
-                  <div className="shrink-0 w-10 h-10 border border-[#c58158]/30 rounded-full flex items-center justify-center text-[#c58158]"><Truck size={20} /></div>
-                  <p className="text-sm font-black uppercase tracking-widest text-[#f4e4bc] italic leading-tight">Shipping expected in <span className="text-white">2-3 days</span></p>
-                </div>
-             </div>
+      <div className="max-w-xl w-full relative z-10">
+        {/* Main Central Module with Neat Industrial Border */}
+        <div className="bg-[#2a1b15]/60 border-[3px] border-[#c58158]/40 p-8 lg:p-12 backdrop-blur-md shadow-2xl space-y-10">
+          <div className="space-y-4">
+            <h1 className="text-4xl lg:text-5xl font-black tracking-tighter text-white uppercase italic leading-none">THANK YOU FOR <br/> <span className="text-[#d4af37]">YOUR ORDER</span></h1>
+            <div className="h-0.5 w-16 bg-[#c58158] mx-auto" />
           </div>
-        </div>
 
-        <div className="w-full relative py-12 overflow-hidden border-b border-[#c58158]/10">
-           <div className="animate-van-drive text-[#d4af37] flex items-center gap-2">
-              <Truck size={40} strokeWidth={1.5} />
-              <div className="w-8 h-0.5 bg-[#d4af37] opacity-40" />
-           </div>
-        </div>
+          <div className="space-y-8 text-left">
+            <div className="space-y-6">
+               <div className="flex items-start gap-4">
+                  <div className="mt-1 shrink-0"><CheckCircle2 className="text-[#d4af37]" size={20} /></div>
+                  <p className="text-sm lg:text-base font-black uppercase tracking-widest text-[#f4e4bc] italic leading-tight">Your order is processing in <span className="text-white">24 hours</span> and will be shipped in the next <span className="text-white">2-3 days</span>.</p>
+               </div>
+               <div className="flex items-start gap-4">
+                  <div className="mt-1 shrink-0"><MailCheck className="text-[#c58158]" size={20} /></div>
+                  <p className="text-sm lg:text-base font-black uppercase tracking-widest text-[#f4e4bc]/80 italic leading-tight">Check your email for your <span className="text-white">official receipt</span>.</p>
+               </div>
+            </div>
 
-        <div className="space-y-6">
-          <div className="flex flex-col gap-2">
-            <p className="text-[#f4e4bc]/60 font-black uppercase tracking-widest text-xs italic">Check email for receipt & confirmation</p>
-            <p className="text-[#c58158] font-bold uppercase tracking-[0.2em] text-[10px]">Order Ref: {orderRef}</p>
+            <div className="pt-8 border-t border-[#c58158]/20 space-y-4">
+               <div className="flex items-center gap-3">
+                  <AlertCircle size={14} className="text-[#c58158]" />
+                  <p className="text-[10px] font-black uppercase tracking-widest text-[#f4e4bc]/40 italic">Order Modification Protocol</p>
+               </div>
+               <p className="text-xs lg:text-sm font-bold uppercase tracking-widest text-[#f4e4bc]/60 leading-relaxed italic">
+                  Contact <a href="mailto:hello@mrplumberman.com" className="text-white hover:text-[#d4af37] border-b border-white/20 pb-0.5">hello@mrplumberman.com</a> for any order modifications.
+               </p>
+            </div>
+          </div>
+
+          <div className="pt-6">
+            <button onClick={() => onNavigate('/')} className="relative group overflow-hidden w-full bg-gradient-to-b from-[#d4af37] to-[#c58158] text-[#1a0f0a] py-5 font-black uppercase rounded-sm shadow-[0_8px_0_#3d291f] flex items-center justify-center gap-3 italic transition-all active:translate-y-2 active:shadow-none">
+              <HomeIcon size={20} /> 
+              <span className="relative z-10">RETURN TO SUPPLY DEPOT</span>
+              <div className="btn-glare-overlay" />
+            </button>
           </div>
           
-          <div className="flex flex-col gap-6 pt-6">
-             <button onClick={() => onNavigate('/')} className="relative group overflow-hidden bg-gradient-to-b from-[#d4af37] to-[#c58158] text-[#1a0f0a] px-12 py-5 font-black uppercase rounded-lg shadow-[0_8px_0_#3d291f,inset_0_1px_1px_rgba(255,255,255,0.4)] flex items-center justify-center gap-3 italic mx-auto transition-all active:translate-y-2 active:shadow-none"><HomeIcon size={20} /> RETURN TO SUPPLY DEPOT<div className="btn-glare-overlay" /></button>
-             
-             <div className="pt-8">
-               <p className="text-[#f4e4bc]/40 font-bold uppercase tracking-widest text-[9px] mb-2 italic">Need to modify your order specs?</p>
-               <a href="mailto:hello@mrplumberman.com" className="text-white font-black uppercase tracking-widest italic text-sm hover:text-[#d4af37] transition-colors">hello@mrplumberman.com</a>
-             </div>
-          </div>
+          <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[#c58158]/40 italic">Reference Spec: {orderRef}</p>
         </div>
       </div>
     </div>
