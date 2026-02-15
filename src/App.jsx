@@ -30,8 +30,8 @@ import {
 
 /**
  * MR. PLUMBER MAN NUTRITION - PRODUCTION SCHEMATIC
- * Fully Integrated: Stripe Checkout, Multi-Page Routing, and Premium Industrial UI.
- * Update: Precision Desktop Grid to prevent Hero Text/Image overlap.
+ * Fully Integrated: Stripe Checkout, URL Routing, and Premium Industrial UI.
+ * Routing Update: Replaced state-based routing with URL path detection.
  */
 
 // --- GLOBAL STYLES FOR ANIMATIONS ---
@@ -79,12 +79,6 @@ const GlareStyles = () => (
 );
 
 // --- DATA ---
-const heroPhrases = [
-  "Built to show up strong.",
-  "No hesitation. No failure. No excuses.",
-  "Dependable under pressure. Every time."
-];
-
 const faqData = [
   {
     q: "Is this only for older men?",
@@ -245,7 +239,7 @@ const DiscountBadge = () => {
   return (
     <button 
       onClick={handleCopy}
-      className="fixed bottom-6 right-6 z-[150] bg-[#1a0f0a] border-2 border-[#d4af37] rounded-full px-5 py-3 flex items-center gap-3 shadow-[0_0_20px_rgba(212,175,55,0.2)] hover:shadow-[0_0_25px_rgba(212,175,55,0.4)] hover:scale-105 active:scale-95 transition-all animate-in slide-in-from-bottom-10"
+      className="fixed bottom-6 right-6 z-[150] bg-[#1a0f0a] border-2 border-[#d4af37] rounded-full px-5 py-3 flex items-center gap-3 shadow-[0_0_20px_rgba(212,175,55,0.2)] hover:scale-105 active:scale-95 transition-all animate-in slide-in-from-bottom-10"
     >
       <Ticket className="w-4 h-4 text-[#d4af37]" />
       <span className="text-[10px] font-black uppercase tracking-widest text-white italic">
@@ -257,7 +251,7 @@ const DiscountBadge = () => {
 
 // --- PAGES ---
 
-const HomeView = ({ navigate, isPurchasing, handlePurchase, onUnlockDiscount }) => {
+const HomeView = ({ isPurchasing, handlePurchase, onUnlockDiscount }) => {
   const [showPopup, setShowPopup] = useState(false);
   const depotRef = useRef(null);
   const benefitsRef = useRef(null);
@@ -300,35 +294,27 @@ const HomeView = ({ navigate, isPurchasing, handlePurchase, onUnlockDiscount }) 
         </div>
       </nav>
 
-      {/* Hero Section - UPDATED 12-COL GRID FOR DESKTOP OVERLAP PROTECTION */}
-      <section className="relative min-h-[95vh] lg:min-h-screen flex items-center justify-center px-6 pt-20 lg:pt-24 pb-6 lg:pb-12 overflow-hidden">
+      {/* Hero Section */}
+      <section className="relative min-h-[95vh] lg:min-h-screen flex items-center justify-center px-6 pt-20 lg:pt-36 pb-6 lg:pb-12 overflow-hidden">
         <div className="absolute inset-0 z-0 pointer-events-none opacity-[0.15]" style={{ backgroundImage: `url("https://images.travelprox.com/mrplumberman/herowall.png")`, backgroundSize: 'cover' }} />
         <div className="absolute inset-0 bg-gradient-to-b from-[#1a0f0a] via-transparent to-[#1a0f0a] z-10" />
         
-        {/* Switched grid from lg:grid-cols-2 to lg:grid-cols-12 for precise column allocation */}
         <div className="max-w-7xl mx-auto relative z-20 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-0 items-center">
-          
-          {/* Text Column - Now strictly occupies 7/12th of space on large screens */}
           <div className="text-center lg:text-left flex flex-col items-center lg:items-start lg:col-span-7 z-30">
             <ScrollReveal>
               <div className="mb-2 lg:mb-10 hidden lg:block">
                 <img src="https://images.travelprox.com/mrplumberman/plumlogo.png" className="h-10 lg:h-32 w-auto object-contain mx-auto lg:mx-0" alt="Logo" />
               </div>
-
               <div className="inline-flex items-center space-x-3 px-4 lg:px-6 py-1 lg:py-1.5 mb-2 lg:mb-6 text-[10px] font-black uppercase tracking-[0.45em] text-[#d4af37] border-y border-[#c58158]/30 italic mx-auto lg:mx-0">
                 <span>INDUSTRIAL-GRADE VITALITY</span>
               </div>
-
-              {/* Recalibrated desktop font size to prevent blowout overlap */}
               <h1 className="text-[10.5vw] lg:text-7xl xl:text-7xl 2xl:text-8xl font-black tracking-tight mb-1 lg:mb-6 leading-[0.85] uppercase italic text-white drop-shadow-2xl">
                 <span className="whitespace-nowrap">READY WHEN</span> <br /> 
                 <span className="text-[#d4af37] whitespace-nowrap">IT COUNTS.</span>
               </h1>
-
               <div className="min-h-[24px] lg:min-h-[80px] mb-6 lg:mb-10 flex items-center justify-center lg:justify-start overflow-hidden text-[4.2vw] lg:text-3xl text-white font-bold italic tracking-wide">
                 <p className="animate-phrase whitespace-nowrap">Under Pressure. Every Time.</p>
               </div>
-
               <div className="w-full flex justify-center lg:justify-start">
                 <button onClick={() => scrollTo(depotRef)} className="relative group overflow-hidden bg-gradient-to-b from-[#d4af37] via-[#c58158] to-[#8c5a3d] text-[#1a0f0a] px-8 py-4 lg:py-6 font-black uppercase tracking-[0.15em] shadow-[0_8px_0_#3d291f,inset_0_1px_2px_rgba(255,255,255,0.6)] rounded-lg hover:translate-y-[2px] transition-all inline-flex items-center justify-center gap-4 italic text-base sm:text-lg w-full max-w-[340px] lg:max-w-none">
                   <span className="relative z-10 leading-none">TURN THE PRESSURE UP</span>
@@ -339,8 +325,6 @@ const HomeView = ({ navigate, isPurchasing, handlePurchase, onUnlockDiscount }) 
               </div>
             </ScrollReveal>
           </div>
-
-          {/* Image Column - Strictly occupies 5/12th of space on large screens */}
           <div className="relative group lg:mt-0 flex justify-center lg:justify-end lg:col-span-5 pt-2 lg:pt-0 z-10">
             <ScrollReveal>
               <div className="relative w-full max-w-[340px] sm:max-w-[400px] lg:max-w-full transition-transform duration-700 hover:scale-105">
@@ -484,22 +468,6 @@ const HomeView = ({ navigate, isPurchasing, handlePurchase, onUnlockDiscount }) 
         </ScrollReveal>
       </section>
 
-      {/* FAQ Section */}
-      <section className="px-6 py-24 bg-[#140b08] border-y border-[#c58158]/10">
-        <ScrollReveal>
-          <div className="max-w-3xl mx-auto">
-            <div className="text-center mb-16 space-y-4">
-              <h2 className="text-[#c58158] font-black uppercase tracking-[0.5em] text-[10px] underline underline-offset-8">Support Intel</h2>
-              <h1 className="text-4xl lg:text-7xl font-black tracking-tight text-white leading-none uppercase italic">FREQUENTLY ASKED <span className="text-[#d4af37]">QUESTIONS</span></h1>
-            </div>
-            <FAQAccordion />
-            <div className="mt-16 text-center">
-              <p className="text-[#f4e4bc]/40 font-bold uppercase tracking-widest text-[10px] italic">Technical questions? Reach out to <span className="text-white">hello@mrplumberman.com</span></p>
-            </div>
-          </div>
-        </ScrollReveal>
-      </section>
-
       {/* Supply Depot */}
       <section ref={depotRef} className="px-6 py-32 bg-[#140b08]">
         <div className="max-w-7xl mx-auto">
@@ -547,7 +515,7 @@ const HomeView = ({ navigate, isPurchasing, handlePurchase, onUnlockDiscount }) 
                       <div className="btn-glare-overlay" />
                     </button>
 
-                    <button onClick={() => handlePurchase(p.subPriceId, p.id + '_sub', "subscription")} disabled={isPurchasing === p.id + '_sub'} className="relative w-full border border-[#c58158]/40 bg-transparent text-[#d4af37] py-2 font-black uppercase text-[9px] hover:bg-[#c58158]/10 transition-all italic flex items-center justify-center gap-2 overflow-hidden text-center transition-all">
+                    <button onClick={() => handlePurchase(p.subPriceId, p.id + '_sub', "subscription")} disabled={isPurchasing === p.id + '_sub'} className="relative w-full border border-[#c58158]/40 bg-transparent text-[#d4af37] py-2 font-black uppercase text-[9px] hover:bg-[#c58158]/10 italic flex items-center justify-center gap-2 overflow-hidden text-center transition-all">
                       <span className="relative z-10 flex items-center gap-2">{isPurchasing === p.id + '_sub' ? <Loader2 size={12} className="animate-spin" /> : <RefreshCcw size={12} />} Subscribe & Save 10%</span>
                     </button>
                   </div>
@@ -556,6 +524,22 @@ const HomeView = ({ navigate, isPurchasing, handlePurchase, onUnlockDiscount }) 
             </div>
           </ScrollReveal>
         </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="px-6 py-24 bg-[#140b08] border-y border-[#c58158]/10">
+        <ScrollReveal>
+          <div className="max-w-3xl mx-auto">
+            <div className="text-center mb-16 space-y-4">
+              <h2 className="text-[#c58158] font-black uppercase tracking-[0.5em] text-[10px] underline underline-offset-8">Support Intel</h2>
+              <h1 className="text-4xl lg:text-7xl font-black tracking-tight text-white leading-none uppercase italic">FREQUENTLY ASKED <span className="text-[#d4af37]">QUESTIONS</span></h1>
+            </div>
+            <FAQAccordion />
+            <div className="mt-16 text-center">
+              <p className="text-[#f4e4bc]/40 font-bold uppercase tracking-widest text-[10px] italic">Technical questions? Reach out to <span className="text-white">hello@mrplumberman.com</span></p>
+            </div>
+          </div>
+        </ScrollReveal>
       </section>
 
       {/* FOOTER */}
@@ -581,7 +565,7 @@ const HomeView = ({ navigate, isPurchasing, handlePurchase, onUnlockDiscount }) 
   );
 };
 
-const ThankYouView = ({ navigate }) => {
+const ThankYouView = ({ onNavigate }) => {
   return (
     <div className="min-h-screen bg-[#1a0f0a] flex items-center justify-center px-6 text-center">
       <div className="absolute inset-0 z-0 opacity-[0.1]" style={{ backgroundImage: `url("https://images.travelprox.com/mrplumberman/herowall.png")`, backgroundSize: 'cover' }} />
@@ -589,7 +573,7 @@ const ThankYouView = ({ navigate }) => {
         <div className="w-24 h-24 bg-gradient-to-b from-[#d4af37] to-[#c58158] rounded-full mx-auto flex items-center justify-center text-[#1a0f0a] shadow-[0_0_50px_rgba(197,129,88,0.3)]"><CheckCircle2 size={48} /></div>
         <h1 className="text-5xl lg:text-7xl font-black tracking-tighter text-white uppercase italic leading-none">ORDER <span className="text-[#d4af37]">RECEIVED</span></h1>
         <p className="text-xl text-[#f4e4bc]/60 font-bold uppercase tracking-widest italic">Pipes are clearing. Your haul is being dispatched.</p>
-        <button onClick={() => navigate('home')} className="relative group overflow-hidden bg-gradient-to-b from-[#d4af37] to-[#c58158] text-[#1a0f0a] px-12 py-5 font-black uppercase rounded-lg shadow-[0_8px_0_#3d291f] flex items-center gap-3 italic mx-auto transition-all transition-all"><HomeIcon size={20} /> RETURN TO DEPOT<div className="btn-glare-overlay" /></button>
+        <button onClick={() => onNavigate('/')} className="relative group overflow-hidden bg-gradient-to-b from-[#d4af37] to-[#c58158] text-[#1a0f0a] px-12 py-5 font-black uppercase rounded-lg shadow-[0_8px_0_#3d291f] flex items-center gap-3 italic mx-auto transition-all transition-all"><HomeIcon size={20} /> RETURN TO DEPOT<div className="btn-glare-overlay" /></button>
       </div>
     </div>
   );
@@ -598,11 +582,24 @@ const ThankYouView = ({ navigate }) => {
 // --- APP ENTRY ---
 
 const App = () => {
-  const [currentPage, setCurrentPage] = useState('home');
   const [isPurchasing, setIsPurchasing] = useState(null);
   const [discountUnlocked, setDiscountUnlocked] = useState(false);
+  const [currentPath, setCurrentPath] = useState(window.location.pathname);
 
-  // handlePurchase transaction mode transmission
+  // Sync internal state with URL changes (back button, etc)
+  useEffect(() => {
+    const handleLocationChange = () => setCurrentPath(window.location.pathname);
+    window.addEventListener('popstate', handleLocationChange);
+    return () => window.removeEventListener('popstate', handleLocationChange);
+  }, []);
+
+  // Standardized navigation handler using history API
+  const navigateTo = (path) => {
+    window.history.pushState({}, '', path);
+    setCurrentPath(path);
+    window.scrollTo(0, 0);
+  };
+
   const handlePurchase = async (priceId, productId, mode) => {
     setIsPurchasing(productId);
     try {
@@ -617,15 +614,13 @@ const App = () => {
     } catch (e) { setIsPurchasing(null); }
   };
 
-  const navigate = (page) => { window.scrollTo({ top: 0, behavior: 'smooth' }); setCurrentPage(page); };
-
   return (
     <div className="bg-[#1a0f0a] text-[#f4e4bc] font-serif relative overflow-x-hidden min-h-screen selection:bg-[#d4af37] selection:text-[#1a0f0a]">
       <GlareStyles />
-      {currentPage === 'thank-you' ? (
-        <ThankYouView navigate={navigate} />
+      {currentPath.startsWith('/thank-you') ? (
+        <ThankYouView onNavigate={navigateTo} />
       ) : (
-        <HomeView navigate={navigate} isPurchasing={isPurchasing} handlePurchase={handlePurchase} onUnlockDiscount={() => setDiscountUnlocked(true)} />
+        <HomeView isPurchasing={isPurchasing} handlePurchase={handlePurchase} onUnlockDiscount={() => setDiscountUnlocked(true)} />
       )}
       {discountUnlocked && <DiscountBadge />}
     </div>
