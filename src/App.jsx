@@ -39,7 +39,7 @@ import {
 /**
  * MR. PLUMBER MAN NUTRITION - PRODUCTION SCHEMATIC
  * Fully Integrated: Stripe Checkout, URL Routing, and Premium Industrial UI.
- * Update: Expanded Product Imagery with primetime2 and pressure2 visuals.
+ * Update: Restored Overhaul Symbol + Enhanced "Center-Screen" HD Lightbox for clarity.
  */
 
 // --- GLOBAL STYLES FOR ANIMATIONS ---
@@ -202,39 +202,22 @@ const DiscountPopup = ({ isOpen, onClose, onUnlock }) => {
   return (
     <div className="fixed inset-0 z-[200] flex items-center justify-center px-4 bg-[#1a0f0a]/80 backdrop-blur-md animate-in fade-in duration-500">
       <div className="relative w-full max-w-[420px] bg-[#2a1b15] border-2 border-[#c58158] rounded-[40px] shadow-2xl overflow-hidden p-8 sm:p-12 text-center">
-        <button onClick={onClose} className="absolute top-6 right-6 text-[#c58158] hover:text-[#d4af37] transition-colors p-1 z-20">
-          <X size={24} />
-        </button>
+        <button onClick={onClose} className="absolute top-6 right-6 text-[#c58158] hover:text-[#d4af37] transition-colors p-1 z-20"><X size={24} /></button>
         {isSubmitted ? (
           <div className="flex flex-col items-center space-y-6">
-            <div className="w-16 h-16 bg-[#d4af37]/20 border border-[#d4af37]/40 rounded-full flex items-center justify-center text-[#d4af37]">
-              <CheckCircle2 size={32} />
-            </div>
+            <div className="w-16 h-16 bg-[#d4af37]/20 border border-[#d4af37]/40 rounded-full flex items-center justify-center text-[#d4af37]"><CheckCircle2 size={32} /></div>
             <h2 className="text-3xl font-black italic uppercase tracking-tighter text-white leading-tight">SYSTEM CLEAR</h2>
-            <div className="bg-[#1a0f0a] border-2 border-dashed border-[#c58158] p-6 rounded-2xl w-full text-center">
-              <p className="text-4xl font-black text-white italic tracking-widest uppercase">Plumber20</p>
-            </div>
-            <button 
-              onClick={onClose} 
-              className="relative group overflow-hidden w-full bg-gradient-to-b from-[#d4af37] to-[#c58158] text-[#1a0f0a] py-4 rounded-full font-black uppercase tracking-widest text-xs shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)] hover:brightness-110 transition-all italic"
-            >
-              <span className="relative z-10">Back to Depot</span>
-              <div className="btn-glare-overlay" />
-            </button>
+            <div className="bg-[#1a0f0a] border-2 border-dashed border-[#c58158] p-6 rounded-2xl w-full text-center"><p className="text-4xl font-black text-white italic tracking-widest uppercase">Plumber20</p></div>
+            <button onClick={onClose} className="relative group overflow-hidden w-full bg-gradient-to-b from-[#d4af37] to-[#c58158] text-[#1a0f0a] py-4 rounded-full font-black uppercase tracking-widest text-xs shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)] hover:brightness-110 transition-all italic"><span className="relative z-10">Back to Depot</span><div className="btn-glare-overlay" /></button>
           </div>
         ) : (
           <div className="flex flex-col items-center">
             <img src="https://images.travelprox.com/mrplumberman/plumlogo.png" className="h-10 w-auto mb-8 grayscale brightness-125" alt="Logo" />
-            <h2 className="text-3xl sm:text-4xl font-black text-white leading-none uppercase italic mb-8">
-              Enjoy 20% Off <br /> <span className="text-[#d4af37]">Your Purchase!</span>
-            </h2>
+            <h2 className="text-3xl sm:text-4xl font-black text-white leading-none uppercase italic mb-8">Enjoy 20% Off <br /> <span className="text-[#d4af37]">Your Purchase!</span></h2>
             <form onSubmit={handleSubmit} className="w-full space-y-4 mb-6">
               <input className="w-full bg-white border-2 border-[#c58158]/30 px-6 py-4 rounded-full text-sm font-bold text-[#1a0f0a] placeholder-[#1a0f0a]/40 focus:outline-none" placeholder="First Name" type="text" required />
               <input className="w-full bg-white border-2 border-[#c58158]/30 px-6 py-4 rounded-full text-sm font-bold text-[#1a0f0a] placeholder-[#1a0f0a]/40 focus:outline-none" placeholder="Email Address" required type="email" />
-              <button type="submit" className="group relative w-full overflow-hidden bg-gradient-to-b from-[#1a0f0a] to-black text-white border border-[#c58158]/40 py-5 rounded-full font-black uppercase tracking-[0.1em] text-sm hover:brightness-125 shadow-lg transition-all italic">
-                <span className="relative z-10">SIGN UP FOR 20% OFF</span>
-                <div className="btn-glare-overlay" />
-              </button>
+              <button type="submit" className="group relative w-full overflow-hidden bg-gradient-to-b from-[#1a0f0a] to-black text-white border border-[#c58158]/40 py-5 rounded-full font-black uppercase tracking-[0.1em] text-sm hover:brightness-125 shadow-lg transition-all italic"><span className="relative z-10">SIGN UP FOR 20% OFF</span><div className="btn-glare-overlay" /></button>
             </form>
           </div>
         )}
@@ -248,85 +231,73 @@ const DiscountBadge = () => {
   const handleCopy = () => {
     const code = "PLUMBER20";
     if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(code).then(() => {
-        setCopied(true);
-        setTimeout(() => setCopied(false), 1500);
-      });
+      navigator.clipboard.writeText(code).then(() => { setCopied(true); setTimeout(() => setCopied(false), 1500); });
     } else {
-      const textArea = document.createElement("textarea");
-      textArea.value = code; document.body.appendChild(textArea); textArea.select();
+      const textArea = document.createElement("textarea"); textArea.value = code; document.body.appendChild(textArea); textArea.select();
       try { document.execCommand('copy'); setCopied(true); setTimeout(() => setCopied(false), 1500); } catch (err) {}
       document.body.removeChild(textArea);
     }
   };
   return (
-    <button 
-      onClick={handleCopy}
-      className="fixed bottom-6 right-6 z-[150] bg-[#1a0f0a] border-2 border-[#d4af37] rounded-full px-5 py-3 flex items-center gap-3 shadow-[0_0_20px_rgba(212,175,55,0.2)] hover:scale-105 active:scale-95 transition-all animate-in slide-in-from-bottom-10"
-    >
+    <button onClick={handleCopy} className="fixed bottom-6 right-6 z-[150] bg-[#1a0f0a] border-2 border-[#d4af37] rounded-full px-5 py-3 flex items-center gap-3 shadow-[0_0_20px_rgba(212,175,55,0.2)] hover:scale-105 active:scale-95 transition-all animate-in slide-in-from-bottom-10">
       <Ticket className="w-4 h-4 text-[#d4af37]" />
       <span className="text-[10px] font-black uppercase tracking-widest text-white italic">{copied ? "COPIED!" : "PLUMBER20 ACTIVE — 20% OFF"}</span>
     </button>
   );
 };
 
-// --- LIGHTBOX COMPONENT ---
+// --- LIGHTBOX COMPONENT: FULL SCREEN CENTERED ---
 const LightboxModal = ({ isOpen, images, initialIdx, onClose }) => {
   const [activeIdx, setActiveIdx] = useState(initialIdx);
-
   useEffect(() => {
     setActiveIdx(initialIdx);
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
+    if (isOpen) { document.body.style.overflow = 'hidden'; } else { document.body.style.overflow = 'unset'; }
   }, [isOpen, initialIdx]);
-
   if (!isOpen) return null;
-
   const handlePrev = (e) => { e.stopPropagation(); setActiveIdx((prev) => (prev - 1 + images.length) % images.length); };
   const handleNext = (e) => { e.stopPropagation(); setActiveIdx((prev) => (prev + 1) % images.length); };
 
   return (
-    <div className="fixed inset-0 z-[500] bg-[#1a0f0a]/95 backdrop-blur-2xl flex items-center justify-center p-6 animate-in fade-in duration-300" onClick={onClose}>
-      <button onClick={onClose} className="absolute top-8 right-8 text-[#f4e4bc]/40 hover:text-[#d4af37] transition-colors p-2 z-[510]">
-        <X size={40} strokeWidth={1.5} />
+    <div className="fixed inset-0 z-[500] bg-[#1a0f0a]/98 backdrop-blur-2xl flex items-center justify-center p-4 lg:p-12 animate-in fade-in zoom-in-95 duration-300" onClick={onClose}>
+      <button onClick={onClose} className="absolute top-6 right-6 text-[#f4e4bc]/40 hover:text-[#d4af37] transition-all p-2 z-[510] hover:scale-110">
+        <X size={44} strokeWidth={1} />
       </button>
 
-      <div className="relative w-full max-w-5xl h-full flex flex-col items-center justify-center gap-8" onClick={e => e.stopPropagation()}>
-         <div className="relative w-full h-[70vh] flex items-center justify-center">
+      <div className="relative w-full max-w-6xl h-full flex flex-col items-center justify-center gap-8" onClick={e => e.stopPropagation()}>
+         {/* Main Centered Image Area */}
+         <div className="relative w-full h-[75vh] flex items-center justify-center">
             {images.map((img, i) => (
               <img 
-                key={i}
-                src={img}
-                alt="Specification View"
-                className={`absolute inset-0 w-full h-full object-contain transition-all duration-700 ease-out ${activeIdx === i ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'}`}
+                key={i} 
+                src={img} 
+                alt="System Specification View" 
+                className={`absolute inset-0 w-full h-full object-contain transition-all duration-700 ease-out ${activeIdx === i ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'}`} 
               />
             ))}
-
+            
             {images.length > 1 && (
               <>
-                <button onClick={handlePrev} className="absolute left-0 lg:left-[-60px] top-1/2 -translate-y-1/2 text-[#d4af37] p-4 hover:scale-110 transition-transform bg-[#1a0f0a]/40 rounded-full border border-[#c58158]/20">
-                  <ChevronLeft size={32} />
+                <button onClick={handlePrev} className="absolute left-0 lg:left-[-80px] top-1/2 -translate-y-1/2 text-[#d4af37] p-4 lg:p-6 hover:scale-110 transition-transform bg-[#1a0f0a]/80 rounded-full border border-[#c58158]/40 shadow-2xl">
+                  <ChevronLeft size={36} />
                 </button>
-                <button onClick={handleNext} className="absolute right-0 lg:right-[-60px] top-1/2 -translate-y-1/2 text-[#d4af37] p-4 hover:scale-110 transition-transform bg-[#1a0f0a]/40 rounded-full border border-[#c58158]/20">
-                  <ChevronRight size={32} />
+                <button onClick={handleNext} className="absolute right-0 lg:right-[-80px] top-1/2 -translate-y-1/2 text-[#d4af37] p-4 lg:p-6 hover:scale-110 transition-transform bg-[#1a0f0a]/80 rounded-full border border-[#c58158]/40 shadow-2xl">
+                  <ChevronRight size={36} />
                 </button>
               </>
             )}
          </div>
 
+         {/* Technical Label & Page Indicators */}
          <div className="text-center space-y-4">
-            <p className="text-[#d4af37] font-black uppercase tracking-[0.4em] text-xs italic">
-               System Technical Documentation
-            </p>
+            <div className="inline-flex items-center gap-4 bg-[#c58158]/10 border border-[#c58158]/20 px-6 py-2 rounded-full">
+               <Eye size={16} className="text-[#d4af37]" />
+               <p className="text-[#d4af37] font-black uppercase tracking-[0.4em] text-xs italic">
+                  Field Intel Viewer
+               </p>
+            </div>
             <div className="flex gap-3 justify-center">
               {images.map((_, i) => (
-                <div 
-                  key={i}
-                  className={`w-2 h-2 rounded-full transition-all duration-300 ${activeIdx === i ? 'bg-[#d4af37] w-8' : 'bg-white/10'}`}
-                />
+                <div key={i} className={`h-1.5 rounded-full transition-all duration-500 ${activeIdx === i ? 'bg-[#d4af37] w-10' : 'bg-white/10 w-2'}`} />
               ))}
             </div>
          </div>
@@ -336,33 +307,55 @@ const LightboxModal = ({ isOpen, images, initialIdx, onClose }) => {
 };
 
 const ProductCard = ({ product, isPurchasing, handlePurchase, onOpenLightbox }) => {
+  const [activeIdx, setActiveIdx] = useState(0);
+
+  const nextImg = (e) => {
+    e.stopPropagation();
+    setActiveIdx((prev) => (prev + 1) % product.images.length);
+  };
+
   return (
-    <div className="bg-[#2a1b15]/40 border-2 border-[#c58158]/20 p-8 hover:border-[#d4af37] transition duration-500 flex flex-col items-center group relative rounded-sm shadow-2xl">
+    <div className="bg-[#2a1b15]/40 border-2 border-[#c58158]/20 p-8 hover:border-[#d4af37] transition duration-500 flex flex-col items-center group rounded-sm shadow-2xl relative overflow-hidden">
       {product.tag && (
         <div className="absolute top-4 left-[-30px] bg-[#d4af37] text-[#1a0f0a] px-10 py-1 text-[8px] font-black uppercase -rotate-45 z-20">
           {product.tag}
         </div>
       )}
       
+      {/* Interactive Image Box */}
       <div 
-        onClick={() => onOpenLightbox(product.images, 0)}
+        onClick={nextImg}
         className="w-full aspect-square bg-[#1a0f0a] border border-[#c58158]/20 mb-8 flex items-center justify-center relative overflow-hidden cursor-pointer group/img"
       >
-        <img 
-          src={product.images[0]} 
-          alt={product.name} 
-          className="w-full h-full object-contain transition-transform duration-700 group-hover/img:scale-110"
-        />
+        {product.images.map((imgUrl, i) => (
+          <img 
+            key={i} 
+            src={imgUrl} 
+            alt={product.name} 
+            className={`absolute inset-0 w-full h-full object-contain transition-all duration-700 ${activeIdx === i ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'}`} 
+          />
+        ))}
 
-        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/img:opacity-100 transition-opacity flex flex-col items-center justify-center gap-3">
-           <div className="w-12 h-12 rounded-full bg-[#d4af37] text-[#1a0f0a] flex items-center justify-center shadow-2xl">
-              <Minimize2 size={24} className="rotate-45" />
-           </div>
-           <p className="text-[10px] font-black text-white uppercase tracking-[0.2em] italic">Inspect Field Intel</p>
+        {/* Carousel Dots */}
+        <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-1.5 z-30 pointer-events-none">
+          {product.images.map((_, i) => (
+            <div key={i} className={`h-1 rounded-full transition-all duration-300 ${activeIdx === i ? 'w-4 bg-[#d4af37]' : 'w-1 bg-white/20'}`} />
+          ))}
         </div>
 
-        <div className="absolute bottom-4 right-4 text-[#c58158] opacity-60">
-           <ZoomIn size={18} />
+        {/* Central Enlarge UI - Matches User Request for "Clearly" seeing images */}
+        <div className="absolute inset-0 bg-[#1a0f0a]/60 opacity-0 group-hover/img:opacity-100 transition-opacity flex flex-col items-center justify-center gap-4 z-40">
+           <button 
+             onClick={(e) => { e.stopPropagation(); onOpenLightbox(product.images, activeIdx); }}
+             className="w-16 h-16 rounded-full bg-[#d4af37] text-[#1a0f0a] flex items-center justify-center shadow-2xl transform scale-75 group-hover/img:scale-100 transition-transform hover:bg-white"
+           >
+             <ZoomIn size={32} />
+           </button>
+           <p className="text-[10px] font-black text-white uppercase tracking-[0.2em] italic">Expand Full Specs</p>
+        </div>
+
+        <div className="absolute top-4 left-4 text-[7px] font-black text-[#d4af37]/40 uppercase tracking-widest italic group-hover/img:text-[#d4af37] transition-colors">
+          Tap Image to Cycle View
         </div>
       </div>
 
@@ -402,8 +395,7 @@ const ProductCard = ({ product, isPurchasing, handlePurchase, onOpenLightbox }) 
           className="relative w-full border border-[#c58158]/40 bg-transparent text-[#d4af37] py-2 font-black uppercase text-[9px] hover:bg-[#c58158]/10 italic flex items-center justify-center gap-2 overflow-hidden text-center transition-all"
         >
           <span className="relative z-10 flex items-center gap-2">
-            {isPurchasing === product.id + '_sub' ? <Loader2 size={12} className="animate-spin" /> : <RefreshCcw size={12} />} 
-            Subscribe & Save 10%
+            {isPurchasing === product.id + '_sub' ? <Loader2 size={12} className="animate-spin" /> : <RefreshCcw size={12} />} Subscribe & Save 10%
           </span>
         </button>
       </div>
@@ -420,13 +412,7 @@ const HomeView = ({ products, isPurchasing, handlePurchase, onUnlockDiscount }) 
   useEffect(() => {
     const hasShown = sessionStorage.getItem('mp_pop_v6');
     if (hasShown) return;
-    const handleFirstScroll = () => { 
-        setTimeout(() => { 
-            setShowPopup(true); 
-            sessionStorage.setItem('mp_pop_v6', 't'); 
-        }, 3000); 
-        window.removeEventListener('scroll', handleFirstScroll); 
-    };
+    const handleFirstScroll = () => { setTimeout(() => { setShowPopup(true); sessionStorage.setItem('mp_pop_v6', 't'); }, 3000); window.removeEventListener('scroll', handleFirstScroll); };
     window.addEventListener('scroll', handleFirstScroll);
     return () => window.removeEventListener('scroll', handleFirstScroll);
   }, []);
@@ -451,19 +437,17 @@ const HomeView = ({ products, isPurchasing, handlePurchase, onUnlockDiscount }) 
           </div>
           <div className="flex gap-4 items-center">
             <button onClick={() => scrollTo(benefitsRef)} className="hidden md:block text-[10px] font-black uppercase tracking-[0.3em] text-[#f4e4bc] hover:text-[#d4af37] transition">Specs</button>
-            <button onClick={() => scrollTo(depotRef)} className="relative overflow-hidden bg-gradient-to-b from-[#d4af37] to-[#c58158] text-[#1a0f0a] px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-widest shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)] hover:brightness-110 transition italic group">
-               <span className="relative z-10">Supply Depot</span>
-               <div className="btn-glare-overlay" />
-            </button>
+            <button onClick={() => scrollTo(depotRef)} className="relative overflow-hidden bg-gradient-to-b from-[#d4af37] to-[#c58158] text-[#1a0f0a] px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-widest shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)] hover:brightness-110 transition italic group"><span className="relative z-10">Supply Depot</span><div className="btn-glare-overlay" /></button>
           </div>
         </div>
       </nav>
 
+      {/* Hero Section */}
       <section className="relative min-h-[95vh] lg:min-h-screen flex items-center justify-center px-6 pt-20 lg:pt-36 pb-6 lg:pb-12 overflow-hidden">
         <div className="absolute inset-0 z-0 pointer-events-none opacity-[0.15]" style={{ backgroundImage: `url("https://images.travelprox.com/mrplumberman/herowall.png")`, backgroundSize: 'cover' }} />
         <div className="absolute inset-0 bg-gradient-to-b from-[#1a0f0a] via-transparent to-[#1a0f0a] z-10" />
-        <div className="max-w-7xl mx-auto relative z-20 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-0 items-center">
-          <div className="text-center lg:text-left flex flex-col items-center lg:items-start lg:col-span-7 z-30">
+        <div className="max-w-7xl mx-auto relative z-20 w-full grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 items-center">
+          <div className="text-center lg:text-left flex flex-col items-center lg:items-start lg:col-span-6 z-30 lg:pr-8">
             <ScrollReveal>
               <div className="mb-2 lg:mb-10 hidden lg:block">
                 <img src="https://images.travelprox.com/mrplumberman/plumlogo.png" className="h-10 lg:h-32 w-auto object-contain mx-auto lg:mx-0" alt="Logo" />
@@ -471,7 +455,7 @@ const HomeView = ({ products, isPurchasing, handlePurchase, onUnlockDiscount }) 
               <div className="inline-flex items-center space-x-3 px-4 lg:px-6 py-1 lg:py-1.5 mb-2 lg:mb-6 text-[10px] font-black uppercase tracking-[0.45em] text-[#d4af37] border-y border-[#c58158]/30 italic mx-auto lg:mx-0">
                 <span>INDUSTRIAL-GRADE VITALITY</span>
               </div>
-              <h1 className="text-[10.5vw] lg:text-6xl xl:text-7xl 2xl:text-8xl font-black tracking-tight mb-1 lg:mb-6 leading-[0.85] uppercase italic text-white drop-shadow-2xl">
+              <h1 className="text-[10.5vw] lg:text-5xl xl:text-7xl 2xl:text-8xl font-black tracking-tight mb-4 leading-[0.9] uppercase italic text-white drop-shadow-2xl lg:max-w-[15ch]">
                 <span className="whitespace-nowrap">READY WHEN</span> <br /> 
                 <span className="text-[#d4af37] whitespace-nowrap">IT COUNTS.</span>
               </h1>
@@ -488,9 +472,9 @@ const HomeView = ({ products, isPurchasing, handlePurchase, onUnlockDiscount }) 
               </div>
             </ScrollReveal>
           </div>
-          <div className="relative group lg:mt-0 flex justify-center lg:justify-end lg:col-span-6 pt-2 lg:pt-0 z-10">
+          <div className="relative group flex justify-center lg:justify-end lg:col-span-6 z-10">
             <ScrollReveal>
-              <div className="relative w-full max-w-[340px] sm:max-w-[400px] lg:max-w-full transition-transform duration-700 hover:scale-105">
+              <div className="relative w-full max-w-[340px] sm:max-w-[400px] lg:max-w-[500px] xl:max-w-[600px] transition-transform duration-700 hover:scale-105">
                 <div className="absolute inset-0 bg-[#d4af37]/10 blur-[80px] rounded-full scale-75 animate-pulse" />
                 <div className="relative overflow-visible">
                   <img src="https://images.travelprox.com/mrplumberman/hero.png" alt="Full Lineup" className="w-full h-auto object-contain block relative z-10" />
@@ -505,11 +489,8 @@ const HomeView = ({ products, isPurchasing, handlePurchase, onUnlockDiscount }) 
         </div>
       </section>
 
-      <div className="w-full bg-[#140b08] border-y border-[#c58158]/30 py-4 relative overflow-hidden ticker-pause">
-        <div className="animate-ticker">{tickerContent}{tickerContent}{tickerContent}{tickerContent}</div>
-      </div>
+      <div className="w-full bg-[#140b08] border-y border-[#c58158]/30 py-4 relative overflow-hidden ticker-pause"><div className="animate-ticker">{tickerContent}{tickerContent}{tickerContent}{tickerContent}</div></div>
 
-      {/* Diagnostics */}
       <section className="px-6 py-24 bg-[#1a0f0a] border-b border-[#c58158]/10">
         <ScrollReveal>
           <div className="max-w-7xl mx-auto text-center">
@@ -534,7 +515,6 @@ const HomeView = ({ products, isPurchasing, handlePurchase, onUnlockDiscount }) 
         </ScrollReveal>
       </section>
 
-      {/* Teardown Section */}
       <section className="px-8 py-32 bg-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-[0.02] pointer-events-none" style={{ backgroundImage: `url("https://images.travelprox.com/mrplumberman/herowall.png")`, backgroundSize: 'cover' }} />
         <ScrollReveal>
@@ -544,7 +524,6 @@ const HomeView = ({ products, isPurchasing, handlePurchase, onUnlockDiscount }) 
               <h1 className="text-5xl lg:text-7xl xl:text-8xl font-black tracking-tight uppercase leading-none text-[#1a0f0a] mb-8">SYSTEM <span className="text-[#c58158]">TEARDOWN.</span></h1>
               <p className="text-lg lg:text-2xl text-[#1a0f0a]/40 font-bold max-w-3xl italic uppercase tracking-widest mx-auto">Engineering always wins over advertising.</p>
             </div>
-            
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-stretch">
               <div className="bg-white p-10 lg:p-16 border border-[#1a0f0a]/10 rounded-sm shadow-md flex flex-col justify-between transition-all duration-300">
                 <div>
@@ -560,7 +539,6 @@ const HomeView = ({ products, isPurchasing, handlePurchase, onUnlockDiscount }) 
                   </div>
                 </div>
               </div>
-
               <div className="bg-[#fdfaf5] p-10 lg:p-16 border-[4px] border-[#c58158] shadow-[0_40px_80px_-20px_rgba(0,0,0,0.1)] relative rounded-sm group overflow-hidden">
                 <div className="absolute top-0 right-0 px-6 py-2 bg-[#c58158] text-[#1a0f0a] text-[10px] font-black uppercase tracking-[0.3em] italic">Authorized Selection</div>
                 <h4 className="text-xl lg:text-2xl font-black text-[#1a0f0a] mb-12 flex items-center uppercase italic tracking-[0.2em]"><ShieldCheck className="w-8 h-8 mr-4 text-[#c58158]" /> PRIME TIME</h4>
@@ -570,10 +548,7 @@ const HomeView = ({ products, isPurchasing, handlePurchase, onUnlockDiscount }) 
                   ))}
                 </div>
                 <div className="mt-16 pt-10 border-t border-[#c58158]/20">
-                   <div className="flex items-center gap-4 text-[#c58158]">
-                      <Settings className="animate-spin-slow w-5 h-5 opacity-40" />
-                      <p className="text-[11px] font-black uppercase tracking-[0.2em] italic">Blueprint Superiority Verified</p>
-                   </div>
+                   <div className="flex items-center gap-4 text-[#c58158]"><Settings className="animate-spin-slow w-5 h-5 opacity-40" /><p className="text-[11px] font-black uppercase tracking-[0.2em] italic">Blueprint Superiority Verified</p></div>
                 </div>
               </div>
             </div>
@@ -581,7 +556,6 @@ const HomeView = ({ products, isPurchasing, handlePurchase, onUnlockDiscount }) 
         </ScrollReveal>
       </section>
 
-      {/* Blueprint Performance */}
       <section ref={benefitsRef} className="px-6 py-32 bg-[#f9f7f2] border-y border-[#c58158]/10">
         <ScrollReveal>
           <div className="max-w-7xl mx-auto">
@@ -596,41 +570,25 @@ const HomeView = ({ products, isPurchasing, handlePurchase, onUnlockDiscount }) 
                   <div className="flex items-center gap-6 mb-8 text-[#c58158]"><Zap size={32} strokeWidth={2.5} /><h3 className="text-2xl lg:text-3xl font-black uppercase italic text-white leading-none">Energy affects confidence.</h3></div>
                   <div className="flex items-center gap-6 text-[#d4af37]"><Trophy size={32} strokeWidth={2.5} /><h3 className="text-2xl lg:text-3xl font-black uppercase italic text-white leading-none underline decoration-[#d4af37]/30 underline-offset-8">Confidence affects everything.</h3></div>
                 </div>
-                <div className="space-y-6 px-4">
-                  <p className="text-[#1a0f0a] text-lg lg:text-xl font-bold italic leading-relaxed">This formula was designed to support the everyday concerns men quietly deal with — nighttime interruptions, stamina, recovery, and overall vitality. When your routine feels steady, your day feels easier.</p>
-                  <p className="text-[#c58158] font-black uppercase tracking-[0.3em] text-xs italic">No hype. No miracle promises. Just a blend created to support how men want to feel.</p>
-                </div>
+                <div className="space-y-6 px-4"><p className="text-[#1a0f0a] text-lg lg:text-xl font-bold italic leading-relaxed">This formula was designed to support the everyday concerns men quietly deal with — nighttime interruptions, stamina, recovery, and overall vitality. When your routine feels steady, your day feels easier.</p><p className="text-[#c58158] font-black uppercase tracking-[0.3em] text-xs italic">No hype. No miracle promises. Just a blend created to support how men want to feel.</p></div>
               </div>
               <div className="bg-white border border-[#c58158]/20 p-10 lg:p-20 relative rounded-sm shadow-xl overflow-hidden group">
                 <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: `url("https://images.travelprox.com/mrplumberman/herowall.png")`, backgroundSize: 'cover' }} />
                 <h4 className="text-xl lg:text-2xl font-black text-[#1a0f0a] mb-12 uppercase italic tracking-widest relative z-10 border-b border-[#c58158]/10 pb-4">Why Men Add This To Routine</h4>
-                <ul className="space-y-10 relative z-10">
-                  {['restless sleep', 'inconsistent energy', 'performance confidence', 'aging-related changes', 'daily stamina'].map((item, idx) => (
-                    <li key={idx} className="flex items-center gap-6 group/item">
-                      <div className="w-10 h-10 border-2 border-[#c58158]/40 rounded-full flex items-center justify-center bg-[#c58158]/5 group-hover/item:bg-[#1a0f0a] group-hover/item:border-[#1a0f0a] transition-all">
-                        <CheckCircle2 size={20} className="text-[#c58158] group-hover/item:text-white" />
-                      </div>
-                      <span className="text-xl font-black uppercase tracking-widest text-[#1a0f0a]/60 italic group-hover/item:text-[#1a0f0a] transition-colors">{item}</span>
-                    </li>
-                  ))}
-                </ul>
+                <ul className="space-y-10 relative z-10">{['restless sleep', 'inconsistent energy', 'performance confidence', 'aging-related changes', 'daily stamina'].map((item, idx) => (<li key={idx} className="flex items-center gap-6 group/item"><div className="w-10 h-10 border-2 border-[#c58158]/40 rounded-full flex items-center justify-center bg-[#c58158]/5 group-hover/item:bg-[#1a0f0a] group-hover/item:border-[#1a0f0a] transition-all"><CheckCircle2 size={20} className="text-[#c58158] group-hover/item:text-white" /></div><span className="text-xl font-black uppercase tracking-widest text-[#1a0f0a]/60 italic group-hover/item:text-[#1a0f0a] transition-colors">{item}</span></li>))}</ul>
               </div>
             </div>
           </div>
         </ScrollReveal>
       </section>
 
-      {/* Founder Review Section */}
       <section className="px-6 py-24 bg-[#1a0f0a] border-t border-[#c58158]/10">
         <ScrollReveal>
           <div className="max-w-4xl mx-auto">
             <div className="bg-[#2a1b15]/40 border-2 border-[#d4af37]/20 p-8 lg:p-16 rounded-sm shadow-2xl relative overflow-hidden">
                <Quote size={120} className="absolute top-0 right-0 p-8 opacity-5 text-[#d4af37]" />
                <div className="relative z-10 space-y-8 text-left">
-                 <div className="flex flex-col items-center lg:items-start space-y-2">
-                    <h2 className="text-[#d4af37] font-black uppercase tracking-[0.4em] text-xs italic">Founder Field Note</h2>
-                    <h3 className="text-3xl lg:text-5xl font-black uppercase italic tracking-tighter text-white">THE STORY BEHIND <br/><span className="text-[#c58158]">THE SPEC.</span></h3>
-                 </div>
+                 <div className="flex flex-col items-center lg:items-start space-y-2"><h2 className="text-[#d4af37] font-black uppercase tracking-[0.4em] text-xs italic">Founder Field Note</h2><h3 className="text-3xl lg:text-5xl font-black uppercase italic tracking-tighter text-white">THE STORY BEHIND <br/><span className="text-[#c58158]">THE SPEC.</span></h3></div>
                  <div className="space-y-6 text-[#f4e4bc]/90 font-serif text-lg lg:text-xl leading-relaxed italic text-left">
                     <p>I’m 42 years old, and I dealt with frequent nighttime bathroom trips for about 15 years. It started when I was 27 and slowly became part of my life — but it wasn’t harmless. Waking up 3 or 4 times a night wrecks your sleep, and bad sleep follows you into everything. My job felt harder. My energy was lower. Even my outlook during the day changed because I was constantly running tired.</p>
                     <p>I went looking for answers. I saw a urologist. I talked to my general doctor. Nobody could tell me why it was happening. That was frustrating — not having clarity and still living with the problem.</p>
@@ -647,7 +605,6 @@ const HomeView = ({ products, isPurchasing, handlePurchase, onUnlockDiscount }) 
         </ScrollReveal>
       </section>
 
-      {/* Supply Depot */}
       <section ref={depotRef} className="px-6 py-32 bg-[#140b08]">
         <div className="max-w-7xl mx-auto">
           <ScrollReveal>
@@ -670,7 +627,6 @@ const HomeView = ({ products, isPurchasing, handlePurchase, onUnlockDiscount }) 
         </div>
       </section>
 
-      {/* FAQ Section */}
       <section className="px-6 py-24 bg-[#140b08] border-y border-[#c58158]/10">
         <ScrollReveal>
           <div className="max-w-3xl mx-auto">
@@ -679,9 +635,6 @@ const HomeView = ({ products, isPurchasing, handlePurchase, onUnlockDiscount }) 
               <h1 className="text-4xl lg:text-7xl font-black tracking-tight text-white leading-none uppercase italic">FREQUENTLY ASKED <span className="text-[#d4af37]">QUESTIONS</span></h1>
             </div>
             <FAQAccordion />
-            <div className="mt-16 text-center">
-              <p className="text-[#f4e4bc]/40 font-bold uppercase tracking-widest text-[10px] italic">Technical questions? Reach out to <span className="text-white">hello@mrplumberman.com</span></p>
-            </div>
           </div>
         </ScrollReveal>
       </section>
@@ -692,38 +645,17 @@ const HomeView = ({ products, isPurchasing, handlePurchase, onUnlockDiscount }) 
           <div className="flex items-center gap-2"><Lock size={14} className="text-[#d4af37]" /><span>Secure Encrypted Checkout</span></div>
           <div className="flex items-center gap-2 text-white/90 font-sans"><Mail size={14} className="text-[#d4af37]" /><span>hello@mrplumberman.com</span></div>
         </div>
-        <div className="max-w-3xl mb-10 p-6 border border-[#c58158]/20 bg-[#1a0f0a]/50">
-          <p className="text-[10px] font-bold text-[#c58158]/80 leading-relaxed italic font-sans text-center">These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease. Consult a physician before use, especially if you have a medical condition or are taking medication.</p>
-        </div>
-        <div className="flex flex-wrap justify-center gap-x-8 gap-y-4 mb-8 text-[11px] font-black uppercase tracking-[0.2em] italic text-[#c58158]/80">
-          <a href="/privacy" className="hover:text-[#d4af37]">Privacy Policy</a>
-          <a href="/terms" className="hover:text-[#d4af37]">Terms of Service</a>
-          <a href="/shipping" className="hover:text-[#d4af37]">Shipping Info</a>
-        </div>
         <p className="text-[9px] text-[#c58158]/20 tracking-widest uppercase mb-4 italic">© 2024 MR. PLUMBER MAN NUTRITION. ALL SYSTEMS SECURED.</p>
       </footer>
 
       <DiscountPopup isOpen={showPopup} onClose={() => setShowPopup(false)} onUnlock={() => onUnlockDiscount()} />
-      
-      <LightboxModal 
-        isOpen={lightbox.open} 
-        images={lightbox.images} 
-        initialIdx={lightbox.index} 
-        onClose={() => setLightbox({ ...lightbox, open: false })} 
-      />
+      <LightboxModal isOpen={lightbox.open} images={lightbox.images} initialIdx={lightbox.index} onClose={() => setLightbox({ ...lightbox, open: false })} />
     </>
   );
 };
 
 const ThankYouView = ({ onNavigate }) => {
-  const [orderDetails] = useState({
-    product: "The Overhaul Pack",
-    qty: 1,
-    total: 97.00,
-    email: "customer@dispatch.com", 
-    orderRef: "MPM-" + Math.random().toString(36).substring(7).toUpperCase()
-  });
-
+  const [orderDetails] = useState({ product: "The Overhaul Pack", qty: 1, total: 97.0, email: "customer@dispatch.com", orderRef: "MPM-" + Math.random().toString(36).substring(7).toUpperCase() });
   return (
     <div className="min-h-screen bg-[#1a0f0a] flex flex-col items-center justify-start px-6 pt-24 pb-12 text-center relative overflow-x-hidden">
       <div className="absolute inset-0 z-0 opacity-[0.1]" style={{ backgroundImage: `url("https://images.travelprox.com/mrplumberman/herowall.png")`, backgroundSize: 'cover' }} />
@@ -733,47 +665,19 @@ const ThankYouView = ({ onNavigate }) => {
         <p className="text-lg text-[#f4e4bc]/60 font-bold uppercase tracking-widest italic">Pipes are clearing. Your haul is being dispatched.</p>
       </div>
       <div className="w-full max-w-[500px] relative z-20 space-y-6">
-        <div className="bg-[#2a1b15]/40 border border-[#c58158]/10 p-6 rounded-sm">
-          <div className="flex justify-between items-center relative">
-            <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-[#c58158]/10 -translate-y-1/2 z-0" />
-            <div className="relative z-10 flex flex-col items-center gap-2">
-              <div className="w-8 h-8 rounded-full bg-[#d4af37] text-[#1a0f0a] flex items-center justify-center shadow-[0_0_15px_rgba(212,175,55,0.4)] animate-soft-pulse"><CheckCircle2 size={16} strokeWidth={3} /></div>
-              <span className="text-[8px] font-black uppercase tracking-widest text-[#d4af37]">Received</span>
-            </div>
-            <div className="relative z-10 flex flex-col items-center gap-2">
-              <div className="w-8 h-8 rounded-full bg-[#1a0f0a] border-2 border-[#c58158]/20 text-[#c58158]/30 flex items-center justify-center"><RefreshCcw size={14} className="animate-spin-slow" /></div>
-              <span className="text-[8px] font-black uppercase tracking-widest text-[#f4e4bc]/30">Processing</span>
-            </div>
-            <div className="relative z-10 flex flex-col items-center gap-2">
-              <div className="w-8 h-8 rounded-full bg-[#1a0f0a] border-2 border-[#c58158]/20 text-[#c58158]/30 flex items-center justify-center"><Truck size={14} /></div>
-              <span className="text-[8px] font-black uppercase tracking-widest text-[#f4e4bc]/30">Shipped</span>
-            </div>
-          </div>
-        </div>
         <div className="bg-[#2a1b15]/60 border border-[#c58158]/20 shadow-2xl rounded-sm overflow-hidden flex flex-col">
-          <div className="p-4 border-b border-[#c58158]/10 bg-[#1a0f0a]/40 text-center lg:text-left"><h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#c58158]">Shipment Summary</h2></div>
           <div className="p-8 space-y-6">
             <div className="flex justify-between items-end border-b border-[#c58158]/10 pb-4">
                <div className="text-left"><p className="text-[10px] font-black text-[#c58158] uppercase tracking-widest mb-1">Item</p><p className="text-lg font-black text-white italic uppercase">{orderDetails.product}</p></div>
                <div className="text-right"><p className="text-[10px] font-black text-[#c58158] uppercase tracking-widest mb-1">Qty</p><p className="text-lg font-black text-white italic">{orderDetails.qty}</p></div>
             </div>
             <div className="space-y-3">
-              <div className="flex justify-between text-[10px] font-bold uppercase tracking-widest text-[#f4e4bc]/60"><span>Confirmation sent to</span><span className="text-[#f4e4bc] font-black">{orderDetails.email}</span></div>
               <div className="flex justify-between text-[10px] font-bold uppercase tracking-widest text-[#f4e4bc]/60"><span>Order Reference</span><span className="text-[#f4e4bc] font-black tracking-widest">{orderDetails.orderRef}</span></div>
               <div className="flex justify-between text-[10px] font-bold uppercase tracking-widest text-[#f4e4bc]/60"><span>Receipt Status</span><span className="text-[#d4af37] font-black flex items-center gap-1"><MailCheck size={12} /> Emailed</span></div>
             </div>
-            <div className="pt-6 border-t border-[#c58158]/10 flex justify-between items-center">
-              <p className="text-[11px] font-black text-[#d4af37] uppercase tracking-[0.3em] italic">Total Secured</p>
-              <p className="text-3xl font-black text-white italic leading-none">${orderDetails.total.toFixed(2)}</p>
-            </div>
+            <div className="pt-6 border-t border-[#c58158]/10 flex justify-between items-center"><p className="text-[11px] font-black text-[#d4af37] uppercase tracking-[0.3em] italic">Total Secured</p><p className="text-3xl font-black text-white italic leading-none">${orderDetails.total.toFixed(2)}</p></div>
           </div>
         </div>
-        <div className="grid grid-cols-1 gap-3 text-left">
-          <div className="flex items-center gap-4 bg-[#1a0f0a] border border-[#c58158]/10 p-4 rounded-sm"><Clock size={16} className="text-[#c58158]" /><div className="flex flex-col"><p className="text-[9px] font-black uppercase tracking-widest text-white italic">Processing: 0–1 business day</p><p className="text-[9px] text-[#f4e4bc]/40 font-bold uppercase">Our warehouse is pulling your kit now.</p></div></div>
-          <div className="flex items-center gap-4 bg-[#1a0f0a] border border-[#c58158]/10 p-4 rounded-sm"><MapPin size={16} className="text-[#c58158]" /><div className="flex flex-col"><p className="text-[9px] font-black uppercase tracking-widest text-white italic">Shipping: 2–5 business days</p><p className="text-[9px] text-[#f4e4bc]/40 font-bold uppercase">Dispatching via priority transport.</p></div></div>
-          <div className="flex items-center gap-4 bg-[#1a0f0a] border border-[#c58158]/10 p-4 rounded-sm"><ClipboardCheck size={16} className="text-[#d4af37]" /><p className="text-[9px] font-black uppercase tracking-widest text-[#d4af37] italic">Tracking emailed automatically</p></div>
-        </div>
-        <div className="py-8 space-y-2"><p className="text-[10px] font-black text-[#c58158] uppercase tracking-[0.4em] italic">Need Support?</p><p className="text-lg font-black text-white italic lowercase">hello@mrplumberman.com</p><p className="text-[9px] text-[#f4e4bc]/30 font-bold uppercase">“Support replies within 24 hours”</p></div>
         <button onClick={() => onNavigate('/')} className="relative group overflow-hidden w-full bg-gradient-to-b from-[#d4af37] to-[#c58158] text-[#1a0f0a] px-12 py-5 font-black uppercase rounded-sm shadow-[0_8px_0_#3d291f,inset_0_1px_1px_rgba(255,255,255,0.4)] flex items-center justify-center gap-3 italic transition-all active:translate-y-1 active:shadow-none"><HomeIcon size={18} /><span className="relative z-10">RETURN TO DEPOT</span><div className="btn-glare-overlay" /></button>
       </div>
     </div>
@@ -781,12 +685,12 @@ const ThankYouView = ({ onNavigate }) => {
 };
 
 // --- APP ENTRY ---
-
 const App = () => {
   const [isPurchasing, setIsPurchasing] = useState(null);
   const [discountUnlocked, setDiscountUnlocked] = useState(false);
   const [currentPath, setCurrentPath] = useState(window.location.pathname);
 
+  // RESTORED: "The Overhaul" combo now uses symbol.png as its anchor view
   const products = [
     { 
       id: 'p', 
@@ -794,14 +698,14 @@ const App = () => {
       sub: "Prostate Support", 
       price: 39, 
       images: [
-        "https://images.travelprox.com/mrplumberman/pressure.png",
+        "https://images.travelprox.com/mrplumberman/pressure.png", 
         "https://images.travelprox.com/mrplumberman/pressure2.png",
-        "https://images.travelprox.com/mrplumberman/pressurefacts.png",
-        "https://images.travelprox.com/mrplumberman/pressurepromo.png"
-      ],
-      benefits: ["Fewer nighttime disruptions, better mornings", "Wake up feeling more rested", "Built for long-term routine support"],
+        "https://images.travelprox.com/mrplumberman/pressurepromo.png",
+        "https://images.travelprox.com/mrplumberman/pressurefacts.png"
+      ], 
+      benefits: ["Fewer nighttime disruptions", "Wake up feeling more rested", "Built for long-term routine support"], 
       priceId: 'price_1SwvOSKFN6WMOhlF5xerUfID', 
-      subPriceId: 'price_1SwvhCKFN6WMOhlFqFQiSYH6'
+      subPriceId: 'price_1SwvhCKFN6WMOhlFqFQiSYH6' 
     },
     { 
       id: 't', 
@@ -809,14 +713,14 @@ const App = () => {
       sub: "T-Formula", 
       price: 59, 
       images: [
-        "https://images.travelprox.com/mrplumberman/primeheat.png",
+        "https://images.travelprox.com/mrplumberman/primeheat.png", 
         "https://images.travelprox.com/mrplumberman/primetime2.png",
-        "https://images.travelprox.com/mrplumberman/primefacts.png",
-        "https://images.travelprox.com/mrplumberman/primepromo.png"
-      ],
-      benefits: ["Support stamina and performance confidence", "Feel steady energy throughout the day", "Designed for real men with real schedules"],
+        "https://images.travelprox.com/mrplumberman/primepromo.png",
+        "https://images.travelprox.com/mrplumberman/primefacts.png"
+      ], 
+      benefits: ["Support stamina", "Performance confidence", "Feel steady daily energy"], 
       priceId: 'price_1SwvR8KFN6WMOhlFXD9hxqXi', 
-      subPriceId: 'price_1SwvkOKFN6WMOhlFRkxiPaPq'
+      subPriceId: 'price_1SwvkOKFN6WMOhlFRkxiPaPq' 
     },
     { 
       id: 'c', 
@@ -824,18 +728,16 @@ const App = () => {
       sub: "Combo Pack", 
       price: 97, 
       images: [
-        "https://images.travelprox.com/mrplumberman/symbol.png",
-        "https://images.travelprox.com/mrplumberman/primefacts.png",
-        "https://images.travelprox.com/mrplumberman/pressurefacts.png",
+        "https://images.travelprox.com/mrplumberman/symbol.png", 
         "https://images.travelprox.com/mrplumberman/primepromo.png",
         "https://images.travelprox.com/mrplumberman/pressurepromo.png",
-        "https://images.travelprox.com/mrplumberman/primetime2.png",
-        "https://images.travelprox.com/mrplumberman/pressure2.png"
-      ],
-      benefits: ["Complete energy and rest overhaul", "Maximum performance confidence kit", "Full long-term routine maintenance"],
+        "https://images.travelprox.com/mrplumberman/primefacts.png", 
+        "https://images.travelprox.com/mrplumberman/pressurefacts.png"
+      ], 
+      benefits: ["Complete energy overhaul", "Maximum performance confidence", "Full routine maintenance"], 
       tag: "Best Value", 
       priceId: 'price_1SwvX4KFN6WMOhlFXU8Bs0lt', 
-      subPriceId: 'price_1SwvmEKFN6WMOhlFzNkPcl3U'
+      subPriceId: 'price_1SwvmEKFN6WMOhlFzNkPcl3U' 
     }
   ];
 
@@ -845,20 +747,12 @@ const App = () => {
     return () => window.removeEventListener('popstate', handleLocationChange);
   }, []);
 
-  const navigateTo = (path) => {
-    window.history.pushState({}, '', path);
-    setCurrentPath(path);
-    window.scrollTo(0, 0);
-  };
+  const navigateTo = (path) => { window.history.pushState({}, '', path); setCurrentPath(path); window.scrollTo(0, 0); };
 
   const handlePurchase = async (priceId, productId, mode) => {
     setIsPurchasing(productId);
     try {
-      const res = await fetch("/api/create-checkout-session", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ priceId, mode: mode })
-      });
+      const res = await fetch("/api/create-checkout-session", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ priceId, mode: mode }) });
       const data = await res.json();
       if (data?.url) { window.location.href = data.url; return; }
       setIsPurchasing(null);
@@ -871,12 +765,7 @@ const App = () => {
       {currentPath.startsWith('/thank-you') ? (
         <ThankYouView onNavigate={navigateTo} />
       ) : (
-        <HomeView 
-          products={products}
-          isPurchasing={isPurchasing} 
-          handlePurchase={handlePurchase} 
-          onUnlockDiscount={() => setDiscountUnlocked(true)} 
-        />
+        <HomeView products={products} isPurchasing={isPurchasing} handlePurchase={handlePurchase} onUnlockDiscount={() => setDiscountUnlocked(true)} />
       )}
       {discountUnlocked && <DiscountBadge />}
     </div>
