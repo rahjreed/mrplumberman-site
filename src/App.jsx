@@ -394,7 +394,7 @@ const HomeView = ({ navigate, isPurchasing, handlePurchase, onUnlockDiscount }) 
               <div className="bg-[#2a1b15]/40 p-10 lg:p-16 border-2 border-[#c58158]/10 group opacity-80 hover:opacity-100 transition-all">
                 <h4 className="text-xl lg:text-2xl font-black text-[#c58158] mb-12 flex items-center uppercase italic tracking-[0.2em]"><XCircle className="w-6 h-6 mr-3" /> NUGENIX TOTAL-T</h4>
                 <div className="space-y-6">
-                  {[{ l: "Price Comparison", v: "$79+ (Retail Bloat)" }, { l: "Magnesium Form", v: "Oxide (Filler)" }, { l: "Zinc Form", v: "Oxide (Low Absorption)" }, { l: "Saw Palmetto", v: "50mg Raw" }, { l: "Potency", v: "Non-Standardized" }].map((row, i) => (
+                  {[{ l: "Price Comparison", v: "$79+ (Retail Bloat)" }, { l: "Magnesium Form", v: "Oxide (Filler)" }, { l: "Zinc Form", v: "Oxide (Low Absorption)" }, { l: "Tongkat Ali", v: "50mg Raw Root Powder" }, { l: "Saw Palmetto", v: "50mg Raw Berries" }, { l: "Extract Type", v: "Non-Standardized" }].map((row, i) => (
                     <div key={i} className="flex justify-between border-b border-[#c58158]/10 pb-4"><p className="text-[10px] text-[#c58158]/60 uppercase font-black">{row.l}</p><p className="text-xs text-[#f4e4bc]/40 font-bold uppercase">{row.v}</p></div>
                   ))}
                 </div>
@@ -402,7 +402,7 @@ const HomeView = ({ navigate, isPurchasing, handlePurchase, onUnlockDiscount }) 
               <div className="bg-[#1a0f0a] p-10 lg:p-16 border-[3px] border-[#c58158] shadow-[0_0_100px_rgba(197,129,88,0.15)]">
                 <h4 className="text-xl lg:text-2xl font-black text-white mb-12 flex items-center uppercase italic tracking-[0.2em]"><ShieldCheck className="w-6 h-6 mr-3 text-[#d4af37]" /> PRIME TIME</h4>
                 <div className="space-y-6">
-                  {[{ l: "Price Comparison", v: "$59 (Direct Value)" }, { l: "Magnesium Form", v: "Glycinate (High Torque)" }, { l: "Zinc Form", v: "Picolinate (Bioavailable)" }, { l: "Tongkat Ali", v: "200mg Standardized" }, { l: "Saw Palmetto", v: "100mg Standardized" }, { l: "Potency", v: "Extract Guaranteed" }].map((row, i) => (
+                  {[{ l: "Price Comparison", v: "$59 (Direct Value)" }, { l: "Magnesium Form", v: "Glycinate (High Torque)" }, { l: "Zinc Form", v: "Picolinate (Bioavailable)" }, { l: "Tongkat Ali", v: "200mg Standardized" }, { l: "Saw Palmetto", v: "100mg Standardized" }, { l: "Extract Type", v: "Potency Guaranteed" }].map((row, i) => (
                     <div key={i} className="flex justify-between border-b border-[#c58158]/20 pb-4"><p className="text-[10px] text-[#d4af37] uppercase font-black">{row.l}</p><p className="text-sm text-white font-black uppercase">{row.v}</p></div>
                   ))}
                 </div>
@@ -571,16 +571,6 @@ const HomeView = ({ navigate, isPurchasing, handlePurchase, onUnlockDiscount }) 
       </footer>
 
       <DiscountPopup isOpen={showPopup} onClose={() => setShowPopup(false)} onUnlock={() => onUnlockDiscount()} />
-
-      {/* DEV TEST BUTTON - Updated Price ID and Mode */}
-      {typeof window !== "undefined" && window.location.hostname.includes("vercel.app") && (
-        <button 
-          onClick={() => handlePurchase("price_1T0BBIKFN6WMOhlFfJqXO5Ua", "dev_test", "subscription")} 
-          className="fixed bottom-24 right-6 z-[160] bg-black text-white px-4 py-3 text-xs font-black uppercase tracking-widest border-2 border-white shadow-2xl"
-        >
-          DEV TEST CHECKOUT
-        </button>
-      )}
     </>
   );
 };
@@ -606,7 +596,7 @@ const App = () => {
   const [isPurchasing, setIsPurchasing] = useState(null);
   const [discountUnlocked, setDiscountUnlocked] = useState(false);
 
-  // handlePurchase renamed transaction type to mode for API compatibility
+  // handlePurchase transaction mode transmission
   const handlePurchase = async (priceId, productId, mode) => {
     setIsPurchasing(productId);
     try {
