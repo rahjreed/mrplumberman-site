@@ -39,7 +39,7 @@ import {
 /**
  * MR. PLUMBER MAN NUTRITION - PRODUCTION SCHEMATIC
  * Fully Integrated: Stripe Checkout, URL Routing, and Premium Industrial UI.
- * Update: Restored Overhaul Symbol + Enhanced "Center-Screen" HD Lightbox for clarity.
+ * Update: Simplified Thank You summary (removed order amount).
  */
 
 // --- GLOBAL STYLES FOR ANIMATIONS ---
@@ -322,7 +322,6 @@ const ProductCard = ({ product, isPurchasing, handlePurchase, onOpenLightbox }) 
         </div>
       )}
       
-      {/* Interactive Image Box */}
       <div 
         onClick={nextImg}
         className="w-full aspect-square bg-[#1a0f0a] border border-[#c58158]/20 mb-8 flex items-center justify-center relative overflow-hidden cursor-pointer group/img"
@@ -336,14 +335,12 @@ const ProductCard = ({ product, isPurchasing, handlePurchase, onOpenLightbox }) 
           />
         ))}
 
-        {/* Carousel Dots */}
         <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-1.5 z-30 pointer-events-none">
           {product.images.map((_, i) => (
             <div key={i} className={`h-1 rounded-full transition-all duration-300 ${activeIdx === i ? 'w-4 bg-[#d4af37]' : 'w-1 bg-white/20'}`} />
           ))}
         </div>
 
-        {/* Central Enlarge UI - Matches User Request for "Clearly" seeing images */}
         <div className="absolute inset-0 bg-[#1a0f0a]/60 opacity-0 group-hover/img:opacity-100 transition-opacity flex flex-col items-center justify-center gap-4 z-40">
            <button 
              onClick={(e) => { e.stopPropagation(); onOpenLightbox(product.images, activeIdx); }}
@@ -442,8 +439,7 @@ const HomeView = ({ products, isPurchasing, handlePurchase, onUnlockDiscount }) 
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <section className="relative min-h-[95vh] lg:min-h-screen flex items-center justify-center px-6 pt-20 lg:pt-36 pb-6 lg:pb-12 overflow-hidden">
+      <section className="relative min-h-[95vh] lg:min-h-screen flex items-center justify-center px-6 pt-20 lg:pt-32 pb-6 lg:pb-12 overflow-hidden">
         <div className="absolute inset-0 z-0 pointer-events-none opacity-[0.15]" style={{ backgroundImage: `url("https://images.travelprox.com/mrplumberman/herowall.png")`, backgroundSize: 'cover' }} />
         <div className="absolute inset-0 bg-gradient-to-b from-[#1a0f0a] via-transparent to-[#1a0f0a] z-10" />
         <div className="max-w-7xl mx-auto relative z-20 w-full grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 items-center">
@@ -675,7 +671,6 @@ const ThankYouView = ({ onNavigate }) => {
               <div className="flex justify-between text-[10px] font-bold uppercase tracking-widest text-[#f4e4bc]/60"><span>Order Reference</span><span className="text-[#f4e4bc] font-black tracking-widest">{orderDetails.orderRef}</span></div>
               <div className="flex justify-between text-[10px] font-bold uppercase tracking-widest text-[#f4e4bc]/60"><span>Receipt Status</span><span className="text-[#d4af37] font-black flex items-center gap-1"><MailCheck size={12} /> Emailed</span></div>
             </div>
-            <div className="pt-6 border-t border-[#c58158]/10 flex justify-between items-center"><p className="text-[11px] font-black text-[#d4af37] uppercase tracking-[0.3em] italic">Total Secured</p><p className="text-3xl font-black text-white italic leading-none">${orderDetails.total.toFixed(2)}</p></div>
           </div>
         </div>
         <button onClick={() => onNavigate('/')} className="relative group overflow-hidden w-full bg-gradient-to-b from-[#d4af37] to-[#c58158] text-[#1a0f0a] px-12 py-5 font-black uppercase rounded-sm shadow-[0_8px_0_#3d291f,inset_0_1px_1px_rgba(255,255,255,0.4)] flex items-center justify-center gap-3 italic transition-all active:translate-y-1 active:shadow-none"><HomeIcon size={18} /><span className="relative z-10">RETURN TO DEPOT</span><div className="btn-glare-overlay" /></button>
@@ -690,7 +685,6 @@ const App = () => {
   const [discountUnlocked, setDiscountUnlocked] = useState(false);
   const [currentPath, setCurrentPath] = useState(window.location.pathname);
 
-  // RESTORED: "The Overhaul" combo now uses symbol.png as its anchor view
   const products = [
     { 
       id: 'p', 
