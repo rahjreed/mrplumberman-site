@@ -31,6 +31,7 @@ import {
 /**
  * MR. PLUMBER MAN NUTRITION - PRODUCTION SCHEMATIC
  * Fully Integrated: Stripe Checkout, Multi-Page Routing, and Premium Industrial UI.
+ * Update: Fixed Desktop Overlap Issue while preserving Mobile Hero UI.
  */
 
 // --- GLOBAL STYLES FOR ANIMATIONS ---
@@ -299,31 +300,38 @@ const HomeView = ({ navigate, isPurchasing, handlePurchase, onUnlockDiscount }) 
         </div>
       </nav>
 
-      {/* Hero Section */}
+      {/* Hero Section - Matched to Image Reference 1000011930.jpg with Desktop Fix */}
       <section className="relative min-h-[95vh] lg:min-h-screen flex items-center justify-center px-6 pt-20 lg:pt-36 pb-6 lg:pb-12 overflow-hidden">
         <div className="absolute inset-0 z-0 pointer-events-none opacity-[0.15]" style={{ backgroundImage: `url("https://images.travelprox.com/mrplumberman/herowall.png")`, backgroundSize: 'cover' }} />
         <div className="absolute inset-0 bg-gradient-to-b from-[#1a0f0a] via-transparent to-[#1a0f0a] z-10" />
         
-        <div className="max-w-7xl mx-auto relative z-20 w-full grid lg:grid-cols-2 gap-0 lg:gap-24 items-center">
-          <div className="text-center lg:text-left flex flex-col items-center lg:items-start order-1">
+        {/* Adjusted grid gap and lg constraints to prevent overlap on full screen */}
+        <div className="max-w-7xl mx-auto relative z-20 w-full grid lg:grid-cols-2 gap-10 lg:gap-32 items-center">
+          
+          {/* Text Column - Constrained max-width on desktop to keep headline separate from image */}
+          <div className="text-center lg:text-left flex flex-col items-center lg:items-start order-1 lg:max-w-[600px]">
             <ScrollReveal>
               <div className="mb-2 lg:mb-10 hidden lg:block">
                 <img src="https://images.travelprox.com/mrplumberman/plumlogo.png" className="h-10 lg:h-32 w-auto object-contain mx-auto lg:mx-0" alt="Logo" />
               </div>
 
+              {/* INDUSTRIAL-GRADE VITALITY - Locked Spacing */}
               <div className="inline-flex items-center space-x-3 px-4 lg:px-6 py-1 lg:py-1.5 mb-2 lg:mb-6 text-[10px] font-black uppercase tracking-[0.45em] text-[#d4af37] border-y border-[#c58158]/30 italic mx-auto lg:mx-0">
                 <span>INDUSTRIAL-GRADE VITALITY</span>
               </div>
 
+              {/* Headline - READY WHEN on same line */}
               <h1 className="text-[10.5vw] lg:text-7xl xl:text-8xl 2xl:text-9xl font-black tracking-tight mb-1 lg:mb-6 leading-[0.85] uppercase italic text-white drop-shadow-2xl">
                 <span className="whitespace-nowrap">READY WHEN</span> <br /> 
                 <span className="text-[#d4af37] whitespace-nowrap">IT COUNTS.</span>
               </h1>
 
+              {/* Tagline - Aligning with headline width */}
               <div className="min-h-[24px] lg:min-h-[80px] mb-6 lg:mb-10 flex items-center justify-center lg:justify-start overflow-hidden text-[4.2vw] lg:text-3xl text-white font-bold italic tracking-wide">
                 <p className="animate-phrase whitespace-nowrap">Under Pressure. Every Time.</p>
               </div>
 
+              {/* CTA Button */}
               <div className="w-full flex justify-center lg:justify-start">
                 <button onClick={() => scrollTo(depotRef)} className="relative group overflow-hidden bg-gradient-to-b from-[#d4af37] via-[#c58158] to-[#8c5a3d] text-[#1a0f0a] px-8 py-4 lg:py-6 font-black uppercase tracking-[0.15em] shadow-[0_8px_0_#3d291f,inset_0_1px_2px_rgba(255,255,255,0.6)] rounded-lg hover:translate-y-[2px] transition-all inline-flex items-center justify-center gap-4 italic text-base sm:text-lg w-full max-w-[340px] lg:max-w-none">
                   <span className="relative z-10 leading-none">TURN THE PRESSURE UP</span>
@@ -335,9 +343,11 @@ const HomeView = ({ navigate, isPurchasing, handlePurchase, onUnlockDiscount }) 
             </ScrollReveal>
           </div>
 
+          {/* Image Column - Explicit desktop positioning to avoid overlap */}
           <div className="relative group lg:mt-0 flex justify-center lg:justify-end order-2 pt-2 lg:pt-0">
             <ScrollReveal>
-              <div className="relative w-full max-w-[340px] sm:max-w-[400px] lg:max-w-[600px] xl:max-w-[700px] transition-transform duration-700 hover:scale-105">
+              {/* Reduced max-width slightly on lg to ensure it clears the left column text path */}
+              <div className="relative w-full max-w-[340px] sm:max-w-[400px] lg:max-w-[500px] xl:max-w-[600px] 2xl:max-w-[700px] transition-transform duration-700 hover:scale-105">
                 <div className="absolute inset-0 bg-[#d4af37]/10 blur-[80px] rounded-full scale-75 animate-pulse" />
                 <div className="relative overflow-visible">
                   <img src="https://images.travelprox.com/mrplumberman/hero.png" alt="Full Lineup" className="w-full h-auto object-contain block relative z-10" />
@@ -362,7 +372,7 @@ const HomeView = ({ navigate, isPurchasing, handlePurchase, onUnlockDiscount }) 
           <div className="max-w-7xl mx-auto text-center">
             <div className="mb-16 space-y-4">
               <h2 className="text-[#c58158] font-black uppercase tracking-[0.6em] text-[10px] underline underline-offset-8">Industrial Diagnostics</h2>
-              <h1 className="text-[9.5vw] lg:text-7xl xl:text-8xl font-black tracking-tight text-white leading-none uppercase italic">SYSTEM <span className="text-[#d4af37]">TROUBLE SHOOTING</span></h1>
+              <h1 className="text-[9.5vw] lg:text-7xl xl:text-8xl font-black tracking-tight text-white leading-none uppercase italic text-center">SYSTEM <span className="text-[#d4af37]">TROUBLE SHOOTING</span></h1>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
               {[
@@ -387,7 +397,7 @@ const HomeView = ({ navigate, isPurchasing, handlePurchase, onUnlockDiscount }) 
           <div className="max-w-7xl mx-auto">
             <div className="mb-24 text-center">
               <h2 className="text-[10px] font-black uppercase tracking-[0.6em] text-[#c58158] mb-6">Blueprint Analysis</h2>
-              <h1 className="text-5xl lg:text-7xl xl:text-8xl font-black tracking-tight uppercase leading-none italic text-white mb-8">SYSTEM <span className="text-[#d4af37]">TEARDOWN.</span></h1>
+              <h1 className="text-5xl lg:text-7xl xl:text-8xl font-black uppercase leading-none italic text-white mb-8">SYSTEM <span className="text-[#d4af37]">TEARDOWN.</span></h1>
               <p className="text-lg lg:text-2xl text-[#f4e4bc]/50 font-bold max-w-3xl italic uppercase tracking-widest mx-auto">Engineering always wins over advertising.</p>
             </div>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-stretch">
