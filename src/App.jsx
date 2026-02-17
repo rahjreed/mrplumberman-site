@@ -40,15 +40,14 @@ import {
 /**
  * MR. PLUMBER MAN NUTRITION - PRODUCTION SCHEMATIC
  * Fully Integrated: Stripe Checkout, URL Routing, and Premium Industrial UI.
- * Update: Simplified and centralized manly Thank You view with neat border and wiggling wrench.
  */
 
 // --- GLOBAL STYLES FOR ANIMATIONS ---
 const GlareStyles = () => (
   <style dangerouslySetInnerHTML={{ __html: `
     @keyframes glare-sweep {
-      0% { left: -100%; opacity: 0; }
-      20% { opacity: 0.5; }
+      0% { left: -150%; opacity: 0; }
+      20% { opacity: 0.7; }
       50% { left: 150%; opacity: 0; }
       100% { left: 150%; opacity: 0; }
     }
@@ -92,6 +91,17 @@ const GlareStyles = () => (
     }
     .scrollbar-hide::-webkit-scrollbar {
       display: none;
+    }
+    .btn-glare-overlay {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      width: 80px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.7), transparent);
+      transform: skewX(-30deg);
+      animation: glare-sweep 3s infinite ease-in-out;
+      pointer-events: none;
+      z-index: 5;
     }
   `}} />
 );
@@ -189,25 +199,61 @@ const DiscountPopup = ({ isOpen, onClose, onUnlock }) => {
   if (!isOpen) return null;
   const handleSubmit = (e) => { e.preventDefault(); setIsSubmitted(true); onUnlock(); };
   return (
-    <div className="fixed inset-0 z-[200] flex items-center justify-center px-4 bg-[#1a0f0a]/80 backdrop-blur-md animate-in fade-in duration-500">
-      <div className="relative w-full max-w-[420px] bg-[#2a1b15] border-2 border-[#c58158] rounded-[40px] shadow-2xl overflow-hidden p-8 sm:p-12 text-center">
+    <div className="fixed inset-0 z-[200] flex items-center justify-center px-4 bg-[#1a0f0a]/90 backdrop-blur-md animate-in fade-in duration-500">
+      <div className="relative w-full max-w-[440px] bg-[#2a1b15] border-2 border-[#c58158] rounded-[40px] shadow-2xl overflow-hidden p-8 sm:p-14 text-center">
         <button onClick={onClose} className="absolute top-6 right-6 text-[#c58158] hover:text-[#d4af37] transition-colors p-1 z-20"><X size={24} /></button>
         {isSubmitted ? (
-          <div className="flex flex-col items-center space-y-6">
+          <div className="flex flex-col items-center space-y-8">
             <div className="w-16 h-16 bg-[#d4af37]/20 border border-[#d4af37]/40 rounded-full flex items-center justify-center text-[#d4af37]"><CheckCircle2 size={32} /></div>
             <h2 className="text-3xl font-black italic uppercase tracking-tighter text-white leading-tight">SYSTEM CLEAR</h2>
             <div className="bg-[#1a0f0a] border-2 border-dashed border-[#c58158] p-6 rounded-2xl w-full text-center"><p className="text-4xl font-black text-white italic tracking-widest uppercase">Plumber20</p></div>
             <button onClick={onClose} className="relative group overflow-hidden w-full bg-gradient-to-b from-[#d4af37] to-[#c58158] text-[#1a0f0a] py-4 rounded-full font-black uppercase tracking-widest text-xs shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)] hover:brightness-110 transition-all italic"><span className="relative z-10">Back to Depot</span><div className="btn-glare-overlay" /></button>
           </div>
         ) : (
-          <div className="flex flex-col items-center">
-            <img src="https://images.travelprox.com/mrplumberman/plumlogo.png" className="h-10 w-auto mb-8 grayscale brightness-125" alt="Logo" />
-            <h2 className="text-3xl sm:text-4xl font-black text-white leading-none uppercase italic mb-8">Enjoy 20% Off <br /> <span className="text-[#d4af37]">Your Purchase!</span></h2>
-            <form onSubmit={handleSubmit} className="w-full space-y-4 mb-6">
-              <input className="w-full bg-white border-2 border-[#c58158]/30 px-6 py-4 rounded-full text-sm font-bold text-[#1a0f0a] placeholder-[#1a0f0a]/40 focus:outline-none" placeholder="First Name" type="text" required />
-              <input className="w-full bg-white border-2 border-[#c58158]/30 px-6 py-4 rounded-full text-sm font-bold text-[#1a0f0a] placeholder-[#1a0f0a]/40 focus:outline-none" placeholder="Email Address" required type="email" />
-              <button type="submit" className="group relative w-full overflow-hidden bg-gradient-to-b from-[#1a0f0a] to-black text-white border border-[#c58158]/40 py-5 rounded-full font-black uppercase tracking-[0.1em] text-sm hover:brightness-125 shadow-lg transition-all italic"><span className="relative z-10">SIGN UP FOR 20% OFF</span><div className="btn-glare-overlay" /></button>
+          <div className="flex flex-col items-center space-y-6">
+            <img src="https://images.travelprox.com/mrplumberman/plumlogo.png" className="h-10 w-auto mb-2 grayscale brightness-125" alt="Logo" />
+            
+            <div className="space-y-1">
+              <p className="text-[10px] font-black text-[#d4af37] uppercase tracking-[0.25em] mb-3">Built for men who want to perform when it matters.</p>
+              <h2 className="text-3xl sm:text-4xl font-black text-white leading-none uppercase italic">Enjoy 20% Off</h2>
+              <p className="text-[#f4e4bc]/60 font-black uppercase tracking-[0.2em] italic text-xs">For a limited time</p>
+            </div>
+            
+            <form onSubmit={handleSubmit} className="w-full space-y-4">
+              <div className="relative">
+                <input 
+                  className="w-full bg-white border-2 border-[#c58158]/50 px-6 py-4 rounded-full text-sm font-bold text-[#1a0f0a] placeholder-[#1a0f0a]/70 focus:outline-none focus:ring-2 focus:ring-[#d4af37] transition-all shadow-[inset_0_2px_4px_rgba(0,0,0,0.05)]" 
+                  placeholder="First Name" 
+                  type="text" 
+                  required 
+                />
+              </div>
+              <div className="relative">
+                <input 
+                  className="w-full bg-white border-2 border-[#c58158]/50 px-6 py-4 rounded-full text-sm font-bold text-[#1a0f0a] placeholder-[#1a0f0a]/70 focus:outline-none focus:ring-2 focus:ring-[#d4af37] transition-all shadow-[inset_0_2px_4px_rgba(0,0,0,0.05)]" 
+                  placeholder="Email Address" 
+                  required 
+                  type="email" 
+                />
+              </div>
+              <button type="submit" className="group relative w-full overflow-hidden bg-gradient-to-b from-[#1a0f0a] to-black text-white border border-[#c58158]/40 py-5 rounded-full font-black uppercase tracking-[0.1em] text-sm hover:brightness-125 shadow-lg transition-all italic mt-2">
+                <span className="relative z-10">CLAIM MY 20% DISCOUNT</span>
+                <div className="btn-glare-overlay" />
+              </button>
             </form>
+            
+            <div className="space-y-6">
+              <button 
+                onClick={onClose}
+                className="text-[11px] font-bold text-[#f4e4bc]/40 hover:text-white uppercase tracking-widest italic transition-colors"
+              >
+                No thanks, continue to site
+              </button>
+
+              <p className="text-[10px] text-[#f4e4bc]/30 uppercase font-bold tracking-tight leading-relaxed max-w-[340px] mx-auto border-t border-[#c58158]/10 pt-6">
+                * By entering your email, you agree to receive marketing emails from Mr Plumber Man Nutrition. You can unsubscribe at any time be clicking the unsubscribe link in our emails.
+              </p>
+            </div>
           </div>
         )}
       </div>
@@ -235,7 +281,6 @@ const DiscountBadge = () => {
   );
 };
 
-// --- LIGHTBOX COMPONENT ---
 const LightboxModal = ({ isOpen, images, initialIdx, onClose }) => {
   const [activeIdx, setActiveIdx] = useState(initialIdx);
   useEffect(() => {
@@ -248,22 +293,45 @@ const LightboxModal = ({ isOpen, images, initialIdx, onClose }) => {
 
   return (
     <div className="fixed inset-0 z-[500] bg-[#1a0f0a]/98 backdrop-blur-2xl flex items-center justify-center p-4 lg:p-12 animate-in fade-in zoom-in-95 duration-300" onClick={onClose}>
-      <button onClick={onClose} className="absolute top-6 right-6 text-[#f4e4bc]/40 hover:text-[#d4af37] transition-all p-2 z-[510] hover:scale-110"><X size={44} strokeWidth={1} /></button>
+      <button onClick={onClose} className="absolute top-6 right-6 text-[#f4e4bc]/40 hover:text-[#d4af37] transition-all p-2 z-[510] hover:scale-110">
+        <X size={32} strokeWidth={1.5} />
+      </button>
+
       <div className="relative w-full max-w-6xl h-full flex flex-col items-center justify-center gap-8" onClick={e => e.stopPropagation()}>
          <div className="relative w-full h-[75vh] flex items-center justify-center">
             {images.map((img, i) => (
-              <img key={i} src={img} alt="System Specification View" className={`absolute inset-0 w-full h-full object-contain transition-all duration-700 ease-out ${activeIdx === i ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'}`} />
+              <img 
+                key={i} 
+                src={img} 
+                alt="System Specification View" 
+                className={`absolute inset-0 w-full h-full object-contain transition-all duration-700 ease-out ${activeIdx === i ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'}`} 
+              />
             ))}
+            
             {images.length > 1 && (
               <>
-                <button onClick={handlePrev} className="absolute left-0 lg:left-[-80px] top-1/2 -translate-y-1/2 text-[#d4af37] p-4 lg:p-6 hover:scale-110 transition-transform bg-[#1a0f0a]/80 rounded-full border border-[#c58158]/20"><ChevronLeft size={36} /></button>
-                <button onClick={handleNext} className="absolute right-0 lg:right-[-60px] top-1/2 -translate-y-1/2 text-[#d4af37] p-4 lg:p-6 hover:scale-110 transition-transform bg-[#1a0f0a]/80 rounded-full border border-[#c58158]/20"><ChevronRight size={36} /></button>
+                <button onClick={handlePrev} className="absolute left-2 lg:left-[-40px] top-1/2 -translate-y-1/2 text-[#d4af37]/60 hover:text-[#d4af37] p-2 transition-all bg-[#1a0f0a]/20 hover:bg-[#1a0f0a]/80 rounded-full">
+                  <ChevronLeft size={24} />
+                </button>
+                <button onClick={handleNext} className="absolute right-2 lg:right-[-40px] top-1/2 -translate-y-1/2 text-[#d4af37]/60 hover:text-[#d4af37] p-2 transition-all bg-[#1a0f0a]/20 hover:bg-[#1a0f0a]/80 rounded-full">
+                  <ChevronRight size={24} />
+                </button>
               </>
             )}
          </div>
+
          <div className="text-center space-y-4">
-            <div className="inline-flex items-center gap-4 bg-[#c58158]/10 border border-[#c58158]/20 px-6 py-2 rounded-full"><Eye size={16} className="text-[#d4af37]" /><p className="text-[#d4af37] font-black uppercase tracking-[0.4em] text-xs italic">Field Intel Viewer</p></div>
-            <div className="flex gap-3 justify-center">{images.map((_, i) => (<div key={i} className={`h-1.5 rounded-full transition-all duration-500 ${activeIdx === i ? 'bg-[#d4af37] w-10' : 'bg-white/10 w-2'}`} />))}</div>
+            <div className="inline-flex items-center gap-4 bg-[#c58158]/10 border border-[#c58158]/20 px-6 py-2 rounded-full">
+               <Eye size={14} className="text-[#d4af37]" />
+               <p className="text-[#d4af37] font-black uppercase tracking-[0.4em] text-[10px] italic">
+                  Field Intel Viewer
+               </p>
+            </div>
+            <div className="flex gap-3 justify-center">
+              {images.map((_, i) => (
+                <div key={i} className={`h-1 rounded-full transition-all duration-500 ${activeIdx === i ? 'bg-[#d4af37] w-8' : 'bg-white/10 w-1'}`} />
+              ))}
+            </div>
          </div>
       </div>
     </div>
@@ -272,21 +340,80 @@ const LightboxModal = ({ isOpen, images, initialIdx, onClose }) => {
 
 const ProductCard = ({ product, isPurchasing, handlePurchase, onOpenLightbox }) => {
   const [activeIdx, setActiveIdx] = useState(0);
-  const nextImg = (e) => { e.stopPropagation(); setActiveIdx((prev) => (prev + 1) % product.images.length); };
+
+  const prevImg = (e) => {
+    e.stopPropagation();
+    setActiveIdx((prev) => (prev - 1 + product.images.length) % product.images.length);
+  };
+
+  const nextImg = (e) => {
+    e.stopPropagation();
+    setActiveIdx((prev) => (prev + 1) % product.images.length);
+  };
+
   return (
     <div className="bg-[#2a1b15]/40 border-2 border-[#c58158]/20 p-8 hover:border-[#d4af37] transition duration-500 flex flex-col items-center group rounded-sm shadow-2xl relative overflow-hidden">
       {product.tag && (<div className="absolute top-4 left-[-30px] bg-[#d4af37] text-[#1a0f0a] px-10 py-1 text-[8px] font-black uppercase -rotate-45 z-20">{product.tag}</div>)}
-      <div onClick={nextImg} className="w-full aspect-square bg-[#1a0f0a] border border-[#c58158]/20 mb-8 flex items-center justify-center relative overflow-hidden cursor-pointer group/img">
-        {product.images.map((imgUrl, i) => (<img key={i} src={imgUrl} alt={product.name} className={`absolute inset-0 w-full h-full object-contain transition-all duration-700 ${activeIdx === i ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'}`} />))}
-        <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-1.5 z-30 pointer-events-none">{product.images.map((_, i) => (<div key={i} className={`h-1 rounded-full transition-all duration-300 ${activeIdx === i ? 'bg-[#d4af37] w-4' : 'bg-white/20'}`} />))}</div>
-        <div className="absolute inset-0 bg-[#1a0f0a]/60 opacity-0 group-hover/img:opacity-100 transition-opacity flex flex-col items-center justify-center gap-4 z-40"><button onClick={(e) => { e.stopPropagation(); onOpenLightbox(product.images, activeIdx); }} className="w-16 h-16 rounded-full bg-[#d4af37] text-[#1a0f0a] flex items-center justify-center shadow-2xl transform scale-75 group-hover/img:scale-100 transition-transform hover:bg-white"><ZoomIn size={32} /></button><p className="text-[10px] font-black text-white uppercase tracking-[0.2em] italic">Expand Full Specs</p></div>
-        <div className="absolute top-4 left-4 text-[7px] font-black text-[#d4af37]/40 uppercase tracking-widest italic group-hover/img:text-[#d4af37] transition-colors">Tap Image to Cycle View</div>
+      
+      <div 
+        onClick={() => onOpenLightbox(product.images, activeIdx)}
+        className="w-full aspect-square bg-[#1a0f0a] border border-[#c58158]/20 mb-8 flex items-center justify-center relative overflow-hidden cursor-pointer group/img"
+      >
+        {product.images.map((imgUrl, i) => (
+          <img 
+            key={i} 
+            src={imgUrl} 
+            alt={product.name} 
+            className={`absolute inset-0 w-full h-full object-contain transition-all duration-700 ${activeIdx === i ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'}`} 
+          />
+        ))}
+
+        {product.images.length > 1 && (
+          <>
+            <button 
+              onClick={prevImg}
+              className="absolute left-2 top-1/2 -translate-y-1/2 p-2 bg-[#1a0f0a]/40 text-[#d4af37] rounded-full opacity-0 group-hover/img:opacity-100 transition-opacity z-40"
+            >
+              <ChevronLeft size={16} />
+            </button>
+            <button 
+              onClick={nextImg}
+              className="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-[#1a0f0a]/40 text-[#d4af37] rounded-full opacity-0 group-hover/img:opacity-100 transition-opacity z-40"
+            >
+              <ChevronRight size={16} />
+            </button>
+          </>
+        )}
+
+        <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-1.5 z-30 pointer-events-none">
+          {product.images.map((_, i) => (
+            <div key={i} className={`h-1 rounded-full transition-all duration-300 ${activeIdx === i ? 'w-4 bg-[#d4af37]' : 'w-1 bg-white/20'}`} />
+          ))}
+        </div>
+
+        <div className="absolute top-4 left-4 text-[7px] font-black text-[#d4af37]/40 uppercase tracking-widest italic group-hover/img:text-[#d4af37] transition-colors">
+          Click Image to Expand
+        </div>
       </div>
+
       <h3 className="text-3xl font-black text-white uppercase mb-2 italic">{product.name}</h3>
       <p className="text-[#d4af37] font-black uppercase tracking-[0.4em] text-[10px] mb-6">{product.sub}</p>
-      <ul className="w-full space-y-3 mb-10 border-t border-[#c58158]/10 pt-6">{product.benefits.map((b, i) => (<li key={i} className="flex items-start gap-3"><CheckCircle2 size={12} className="text-[#d4af37] mt-0.5 shrink-0" /><span className="text-[11px] text-[#f4e4bc] font-bold uppercase tracking-widest leading-snug">{b}</span></li>))}</ul>
+      
+      <ul className="w-full space-y-3 mb-10 border-t border-[#c58158]/10 pt-6">
+        {product.benefits.map((b, i) => (
+          <li key={i} className="flex items-start gap-3">
+            <CheckCircle2 size={12} className="text-[#d4af37] mt-0.5 shrink-0" />
+            <span className="text-[11px] text-[#f4e4bc] font-bold uppercase tracking-widest leading-snug">{b}</span>
+          </li>
+        ))}
+      </ul>
+
       <div className="mt-auto w-full space-y-6 pt-8 border-t border-[#c58158]/20">
-        <div className="text-center"><p className="text-4xl font-black italic text-white mb-1">${product.price}</p><span className="text-[10px] text-[#c58158] font-black uppercase tracking-widest">Free Express Shipping</span></div>
+        <div className="text-center">
+          <p className="text-4xl font-black italic text-white mb-1">${product.price}</p>
+          <span className="text-[10px] text-[#c58158] font-black uppercase tracking-widest">Free Express Shipping</span>
+        </div>
+        
         <button onClick={() => handlePurchase(product.priceId, product.id, "payment")} disabled={isPurchasing === product.id} className="relative w-full overflow-hidden bg-gradient-to-b from-[#d4af37] to-[#c58158] text-[#1a0f0a] py-4 font-black uppercase text-xs hover:brightness-110 shadow-[0_8px_0_#3d291f] active:translate-y-[8px] transition-all flex items-center justify-center gap-3"><span className="relative z-10 flex items-center gap-3">{isPurchasing === product.id ? <Loader2 size={16} className="animate-spin" /> : <Package size={16} />}{isPurchasing === product.id ? 'Processing...' : 'Add To Kit'}</span><div className="btn-glare-overlay" /></button>
         <button onClick={() => handlePurchase(product.subPriceId, product.id + '_sub', "subscription")} disabled={isPurchasing === product.id + '_sub'} className="relative w-full border border-[#c58158]/40 bg-transparent text-[#d4af37] py-2 font-black uppercase text-[9px] hover:bg-[#c58158]/10 italic flex items-center justify-center gap-2 overflow-hidden text-center transition-all"><span className="relative z-10 flex items-center gap-2">{isPurchasing === product.id + '_sub' ? <Loader2 size={12} className="animate-spin" /> : <RefreshCcw size={12} />} Subscribe & Save 10%</span></button>
       </div>
@@ -301,9 +428,9 @@ const HomeView = ({ products, isPurchasing, handlePurchase, onUnlockDiscount }) 
   const benefitsRef = useRef(null);
 
   useEffect(() => {
-    const hasShown = sessionStorage.getItem('mp_pop_v6');
+    const hasShown = sessionStorage.getItem('mp_pop_v12');
     if (hasShown) return;
-    const handleFirstScroll = () => { setTimeout(() => { setShowPopup(true); sessionStorage.setItem('mp_pop_v6', 't'); }, 3000); window.removeEventListener('scroll', handleFirstScroll); };
+    const handleFirstScroll = () => { setTimeout(() => { setShowPopup(true); sessionStorage.setItem('mp_pop_v12', 't'); }, 3000); window.removeEventListener('scroll', handleFirstScroll); };
     window.addEventListener('scroll', handleFirstScroll);
     return () => window.removeEventListener('scroll', handleFirstScroll);
   }, []);
@@ -326,7 +453,16 @@ const HomeView = ({ products, isPurchasing, handlePurchase, onUnlockDiscount }) 
             <Wrench size={18} className="text-[#c58158]" />
             <img src="https://images.travelprox.com/mrplumberman/plumlogo.png" className="h-6 sm:h-7 w-auto object-contain" alt="Logo" />
           </div>
-          <div className="flex gap-4 items-center"><button onClick={() => scrollTo(benefitsRef)} className="hidden md:block text-[10px] font-black uppercase tracking-[0.3em] text-[#f4e4bc] hover:text-[#d4af37] transition">Specs</button><button onClick={() => scrollTo(depotRef)} className="relative overflow-hidden bg-gradient-to-b from-[#d4af37] to-[#c58158] text-[#1a0f0a] px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-widest shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)] hover:brightness-110 transition italic group"><span className="relative z-10">Supply Depot</span><div className="btn-glare-overlay" /></button></div>
+          <div className="flex gap-4 items-center">
+            <button onClick={() => scrollTo(benefitsRef)} className="hidden md:block text-[10px] font-black uppercase tracking-[0.3em] text-[#f4e4bc] hover:text-[#d4af37] transition">Specs</button>
+            <button 
+              onClick={() => scrollTo(depotRef)} 
+              className="group relative overflow-hidden bg-gradient-to-b from-[#d4af37] to-[#c58158] text-[#1a0f0a] px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-widest shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)] hover:brightness-110 transition italic"
+            >
+              <span className="relative z-10">Supply Depot</span>
+              <div className="btn-glare-overlay" />
+            </button>
+          </div>
         </div>
       </nav>
 
@@ -340,7 +476,17 @@ const HomeView = ({ products, isPurchasing, handlePurchase, onUnlockDiscount }) 
               <div className="inline-flex items-center space-x-3 px-4 lg:px-6 py-1 lg:py-1.5 mb-2 lg:mb-6 text-[10px] font-black uppercase tracking-[0.45em] text-[#d4af37] border-y border-[#c58158]/30 italic mx-auto lg:mx-0"><span>INDUSTRIAL-GRADE VITALITY</span></div>
               <h1 className="text-[10.5vw] lg:text-5xl xl:text-7xl 2xl:text-8xl font-black tracking-tight mb-4 leading-[0.9] uppercase italic text-white drop-shadow-2xl lg:max-w-[15ch]"><span className="whitespace-nowrap">READY WHEN</span> <br /> <span className="text-[#d4af37] whitespace-nowrap">IT COUNTS.</span></h1>
               <div className="min-h-[24px] lg:min-h-[80px] mb-6 lg:mb-10 flex items-center justify-center lg:justify-start overflow-hidden text-[4.2vw] lg:text-2xl xl:text-3xl text-white font-bold italic tracking-wide"><p className="animate-phrase whitespace-nowrap">Under Pressure. Every Time.</p></div>
-              <div className="w-full flex justify-center lg:justify-start"><button onClick={() => scrollTo(depotRef)} className="relative group overflow-hidden bg-gradient-to-b from-[#d4af37] via-[#c58158] to-[#8c5a3d] text-[#1a0f0a] px-8 py-4 lg:py-6 font-black uppercase tracking-[0.15em] shadow-[0_8px_0_#3d291f,inset_0_1px_2px_rgba(255,255,255,0.6)] rounded-lg hover:translate-y-[2px] transition-all inline-flex items-center justify-center gap-4 italic text-base sm:text-lg w-full max-w-[340px] lg:max-w-none"><span className="relative z-10 leading-none">TURN THE PRESSURE UP</span><ArrowRight size={22} className="relative z-10 group-hover:translate-x-2 transition-transform shrink-0" /><div className="absolute top-0 left-0 right-0 h-[40%] bg-white/25 blur-[1px] rounded-t-lg" /><div className="btn-glare-overlay" /></button></div>
+              <div className="w-full flex justify-center lg:justify-start">
+                <button 
+                  onClick={() => scrollTo(depotRef)} 
+                  className="group relative overflow-hidden bg-gradient-to-b from-[#d4af37] via-[#c58158] to-[#8c5a3d] text-[#1a0f0a] px-8 py-4 lg:py-6 font-black uppercase tracking-[0.15em] shadow-[0_8px_0_#3d291f,inset_0_1px_2px_rgba(255,255,255,0.4)] rounded-lg hover:translate-y-[2px] transition-all inline-flex items-center justify-center gap-4 italic text-base sm:text-lg w-full max-w-[340px] lg:max-w-none"
+                >
+                  <span className="relative z-10 leading-none">TURN THE PRESSURE UP</span>
+                  <ArrowRight size={22} className="relative z-10 group-hover:translate-x-2 transition-transform shrink-0" />
+                  <div className="absolute top-0 left-0 right-0 h-[40%] bg-white/25 blur-[1px] rounded-t-lg" />
+                  <div className="btn-glare-overlay" />
+                </button>
+              </div>
             </ScrollReveal>
           </div>
           <div className="relative group flex justify-center lg:justify-end lg:col-span-6 z-10">
@@ -349,7 +495,9 @@ const HomeView = ({ products, isPurchasing, handlePurchase, onUnlockDiscount }) 
         </div>
       </section>
 
-      <div className="w-full bg-[#140b08] border-y border-[#c58158]/30 py-4 relative overflow-hidden ticker-pause"><div className="animate-ticker">{tickerContent}{tickerContent}{tickerContent}{tickerContent}</div></div>
+      <div className="w-full bg-[#140b08] border-y border-[#c58158]/30 py-4 relative overflow-hidden ticker-pause">
+        <div className="animate-ticker">{tickerContent}{tickerContent}{tickerContent}{tickerContent}</div>
+      </div>
 
       <section className="px-6 py-24 bg-[#1a0f0a] border-b border-[#c58158]/10">
         <ScrollReveal>
@@ -381,7 +529,7 @@ const HomeView = ({ products, isPurchasing, handlePurchase, onUnlockDiscount }) 
               <div className="bg-white p-10 lg:p-16 border border-[#1a0f0a]/10 rounded-sm shadow-md flex flex-col justify-between transition-all duration-300">
                 <div>
                    <div className="inline-flex items-center gap-2 mb-12 text-red-800"><XCircle size={20} /><span className="text-[10px] font-black uppercase tracking-[0.3em]">Mass Market Specification</span></div>
-                   <h4 className="text-xl lg:text-2xl font-black text-[#1a0f0a] mb-12 flex items-center uppercase italic tracking-[0.2em]">NUGENIX TOTAL-T</h4>
+                   <h4 className="text-xl lg:text-2xl font-black text-[#1a0f0a] mb-12 flex items-center uppercase italic tracking-[0.2em]">NUGENIX BRAND</h4>
                    <div className="space-y-6">
                     {[{ l: "Price Comparison", v: "$79+ (Retail Bloat)" }, { l: "Magnesium Form", v: "Oxide (Gastro Filler)" }, { l: "Zinc Form", v: "Oxide (Low Absorption)" }, { l: "Tongkat Ali", v: "Root Powder (Raw)" }, { l: "Potency", v: "Non-Standardized" }].map((row, i) => (<div key={i} className="flex justify-between border-b border-[#1a0f0a]/5 pb-4"><p className="text-[10px] text-[#1a0f0a]/50 uppercase font-black">{row.l}</p><p className="text-xs text-[#1a0f0a]/80 font-bold uppercase">{row.v}</p></div>))}
                   </div>
@@ -433,7 +581,7 @@ const HomeView = ({ products, isPurchasing, handlePurchase, onUnlockDiscount }) 
                  <div className="space-y-6 text-[#f4e4bc]/90 font-serif text-lg lg:text-xl leading-relaxed italic text-left">
                     <p>I’m 42 years old, and I dealt with frequent nighttime bathroom trips for about 15 years. It started when I was 27 and slowly became part of my life — but it wasn’t harmless. Waking up 3 or 4 times a night wrecks your sleep, and bad sleep follows you into everything. My job felt harder. My energy was lower. Even my outlook during the day changed because I was constantly running tired.</p>
                     <p>I went looking for answers. I saw a urologist. I talked to my general doctor. Nobody could tell me why it was happening. That was frustrating — not having clarity and still living with the problem.</p>
-                    <p>And it wasn’t just sleep. It started affecting my confidence and my sex life too. There were times I’d have to stop in the middle just to use the bathroom. That’s not something men like to admit, but it’s real — and it’s embarrassing when it happens.</p>
+                    <p>And it wasn’t just sleep. It started affecting my confidence and my overall energy levels too.</p>
                     <p className="border-l-4 border-[#d4af37] pl-6 py-2 text-white font-bold bg-[#d4af37]/5">What made it more serious for me is my family history. Both my father and grandfather had prostate cancer, so ignoring it never felt like an option.</p>
                     <p>That frustration pushed me to partner with a lab and create my own formula. I wanted something I could trust because I was tired of chasing solutions.</p>
                     <p className="text-[#d4af37] font-bold">Within 3 days of taking my blend, my nighttime trips dropped to once — sometimes none. For the first time in years I could sleep through the night without anxiety about it. And when your sleep improves, everything improves.</p>
@@ -496,7 +644,6 @@ const ThankYouView = ({ onNavigate }) => {
     <div className="min-h-screen bg-[#1a0f0a] flex flex-col items-center justify-center px-6 text-center relative overflow-hidden">
       <div className="absolute inset-0 z-0 opacity-[0.1]" style={{ backgroundImage: `url("https://images.travelprox.com/mrplumberman/herowall.png")`, backgroundSize: 'cover' }} />
       
-      {/* Big Wiggling Wrench Icon */}
       <div className="relative z-10 mb-8 lg:mb-12">
         <div className="w-24 h-24 lg:w-32 lg:h-32 bg-gradient-to-b from-[#d4af37] to-[#c58158] rounded-full mx-auto flex items-center justify-center text-[#1a0f0a] shadow-[0_0_80px_rgba(212,175,55,0.3)] animate-wrench-wiggle">
           <Wrench size={56} />
@@ -504,7 +651,6 @@ const ThankYouView = ({ onNavigate }) => {
       </div>
 
       <div className="max-w-xl w-full relative z-10">
-        {/* Main Central Module with Neat Industrial Border */}
         <div className="bg-[#2a1b15]/60 border-[3px] border-[#c58158]/40 p-8 lg:p-12 backdrop-blur-md shadow-2xl space-y-10">
           <div className="space-y-4">
             <h1 className="text-4xl lg:text-5xl font-black tracking-tighter text-white uppercase italic leading-none">THANK YOU FOR <br/> <span className="text-[#d4af37]">YOUR ORDER</span></h1>
@@ -535,7 +681,10 @@ const ThankYouView = ({ onNavigate }) => {
           </div>
 
           <div className="pt-6">
-            <button onClick={() => onNavigate('/')} className="relative group overflow-hidden w-full bg-gradient-to-b from-[#d4af37] to-[#c58158] text-[#1a0f0a] py-5 font-black uppercase rounded-sm shadow-[0_8px_0_#3d291f] flex items-center justify-center gap-3 italic transition-all active:translate-y-2 active:shadow-none">
+            <button 
+              onClick={() => onNavigate('/')} 
+              className="group relative overflow-hidden w-full bg-gradient-to-b from-[#d4af37] to-[#c58158] text-[#1a0f0a] py-5 font-black uppercase rounded-sm shadow-[0_8px_0_#3d291f] flex items-center justify-center gap-3 italic transition-all active:translate-y-2 active:shadow-none"
+            >
               <HomeIcon size={20} /> 
               <span className="relative z-10">RETURN TO SUPPLY DEPOT</span>
               <div className="btn-glare-overlay" />
