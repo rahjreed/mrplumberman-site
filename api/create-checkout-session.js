@@ -20,6 +20,14 @@ export default async function handler(req, res) {
     const session = await stripe.checkout.sessions.create({
       mode: isRecurring ? "subscription" : "payment",
       line_items: [{ price: priceId, quantity: 1 }],
+      
+       billing_address_collection: "required",
+  shipping_address_collection: {
+    allowed_countries: ["US"],
+  },
+  phone_number_collection: {
+    enabled: true,
+  },
 
       // ✅ This makes the coupon/promo box show up in Stripe Checkout
       allow_promotion_codes: true,
