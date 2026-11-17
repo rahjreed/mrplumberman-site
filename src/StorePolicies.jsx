@@ -1,0 +1,11 @@
+import React from 'react';
+export const policyLinks=[['privacy','Privacy'],['shipping','Shipping'],['returns','Returns & refunds'],['terms','Terms']];
+export default function StorePolicies({page}){
+ const content={
+ privacy:['Privacy','We use information you submit to answer questions, administer purchases and, with your consent, send marketing email. Stripe processes checkout and payment details under its own privacy practices. If you opt in, our email service provider receives your name and email. You may unsubscribe using the link in marketing email. PRESSURE Blood Pressure Tracker is a separate app; its readings are not used for store marketing. Contact us for privacy questions or requests.'],
+ shipping:['Shipping','The current store offers shipping within the United States. Any applicable charges and available shipping details are shown before payment. Contact us for delivery estimates, tracking or address corrections.'],
+ returns:['Returns & refunds','For return requests, damaged shipments, cancellation or refund questions, contact us with your order reference. Please contact us before sending merchandise back. Eligibility and timing must be confirmed with customer support; this text does not limit rights under applicable law.'],
+ terms:['Terms of service','Products are dietary supplements, not medical treatments. Review the label and consult a healthcare professional before use. Prices, applicable taxes and subscription terms are displayed during checkout. For subscription cancellation or billing questions, contact customer support. Your statutory consumer rights are unaffected.']
+ }[page];
+ return <main className="min-h-screen px-6 py-24 bg-[#1a0f0a] text-[#f4e4bc]"><div className="max-w-3xl mx-auto space-y-8"><a href="/" className="underline text-[#d4af37]">Back to Mr. Plumber Man</a><h1 className="text-4xl font-black uppercase italic text-white">{content[0]}</h1><p className="leading-relaxed text-lg">{content[1]}</p><p>Contact: <a className="underline" href="mailto:hello@mrplumberman.com">hello@mrplumberman.com</a></p><nav className="flex flex-wrap gap-4">{policyLinks.map(([key,label])=><a key={key} href={'/'+key} className="underline">{label}</a>)}</nav></div></main>;
+}
