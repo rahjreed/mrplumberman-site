@@ -274,7 +274,7 @@ const DiscountBadge = () => {
     }
   };
   return (
-    <button onClick={handleCopy} className="fixed bottom-6 right-6 z-[150] bg-[#1a0f0a] border-2 border-[#d4af37] rounded-full px-5 py-3 flex items-center gap-3 shadow-[0_0_20px_rgba(212,175,55,0.2)] hover:scale-105 active:scale-95 transition-all animate-in slide-in-from-bottom-10">
+    <button onClick={handleCopy} className="fixed bottom-[calc(env(safe-area-inset-bottom)+1.5rem)] right-6 z-[150] bg-[#1a0f0a] border-2 border-[#d4af37] rounded-full px-5 py-3 flex items-center gap-3 shadow-[0_0_20px_rgba(212,175,55,0.2)] hover:scale-105 active:scale-95 transition-all animate-in slide-in-from-bottom-10">
       <Ticket className="w-4 h-4 text-[#d4af37]" />
       <span className="text-[10px] font-black uppercase tracking-widest text-white italic">{copied ? "COPIED!" : "PLUMBER20 ACTIVE — 20% OFF"}</span>
     </button>
@@ -450,7 +450,7 @@ const WellnessTools = ({ standalone = false }) => (
   </section>
 );
 
-const HomeView = ({ products, isPurchasing, handlePurchase, onUnlockDiscount }) => {
+const HomeView = ({ products, isPurchasing, handlePurchase, onUnlockDiscount, discountUnlocked }) => {
   const [showPopup, setShowPopup] = useState(false);
   const [lightbox, setLightbox] = useState({ open: false, images: [], index: 0 });
   const depotRef = useRef(null);
@@ -483,7 +483,6 @@ const HomeView = ({ products, isPurchasing, handlePurchase, onUnlockDiscount }) 
             <img src="https://images.travelprox.com/mrplumberman/plumlogo.png" className="h-6 sm:h-7 w-auto object-contain" alt="Logo" />
           </div>
           <div className="flex gap-2 sm:gap-4 items-center">
-            <a href="/wellness" className="text-[10px] sm:text-xs font-black uppercase tracking-wide text-[#f4e4bc] hover:text-[#d4af37] transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4">Free Tools</a>
             <button onClick={() => scrollTo(benefitsRef)} className="hidden md:block text-[10px] font-black uppercase tracking-[0.3em] text-[#f4e4bc] hover:text-[#d4af37] transition">Specs</button>
             <button 
               onClick={() => scrollTo(depotRef)} 
@@ -654,6 +653,8 @@ const HomeView = ({ products, isPurchasing, handlePurchase, onUnlockDiscount }) 
 
       <WellnessTools />
 
+      <a href="/wellness" className={`fixed right-4 sm:right-6 ${discountUnlocked ? "bottom-[calc(env(safe-area-inset-bottom)+5.75rem)]" : "bottom-[calc(env(safe-area-inset-bottom)+1.25rem)]"} z-[90] inline-flex items-center justify-center gap-2 min-h-[44px] px-4 py-2 rounded-full bg-[#2a1b15] border border-[#d4af37]/70 text-[#f4e4bc] shadow-[0_6px_20px_rgba(0,0,0,0.35)] hover:border-[#d4af37] hover:text-white transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#d4af37]`}><Activity size={15} className="text-[#d4af37]" aria-hidden="true" /><span className="text-[11px] font-black uppercase tracking-wider">Free Tools</span></a>
+
       <footer className="bg-[#0f0a08] py-16 px-6 lg:px-10 border-t border-[#c58158]/10 text-center flex flex-col items-center">
         <img src="https://images.travelprox.com/mrplumberman/plumlogo.png" className="h-10 w-auto mb-8 opacity-40 grayscale" alt="Logo" />
         <div className="flex flex-col md:flex-row items-center gap-6 mb-10 text-[10px] font-black uppercase tracking-widest italic text-[#c58158]/60">
@@ -813,7 +814,7 @@ const App = () => {
       ) : /^\/wellness\/?$/.test(currentPath) ? (
         <main><WellnessTools standalone /></main>
       ) : (
-        <HomeView products={products} isPurchasing={isPurchasing} handlePurchase={handlePurchase} onUnlockDiscount={() => setDiscountUnlocked(true)} />
+        <HomeView products={products} isPurchasing={isPurchasing} handlePurchase={handlePurchase} discountUnlocked={discountUnlocked} onUnlockDiscount={() => setDiscountUnlocked(true)} />
       )}
       {discountUnlocked && <DiscountBadge />}
     </div>
