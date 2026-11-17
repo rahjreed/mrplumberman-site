@@ -421,6 +421,35 @@ const ProductCard = ({ product, isPurchasing, handlePurchase, onOpenLightbox }) 
   );
 };
 
+const WellnessTools = ({ standalone = false }) => (
+  <section id="wellness-tools" aria-labelledby="wellness-title" className="scroll-mt-28 px-6 py-16 sm:py-24 bg-[#f9f7f2] text-[#1a0f0a] border-y border-[#c58158]/30">
+    <div className="max-w-5xl mx-auto">
+      {standalone && <a href="/" className="inline-flex items-center gap-2 text-sm font-bold text-[#78482e] underline underline-offset-4 mb-10"><ChevronLeft size={18} aria-hidden="true" /> Back to Mr. Plumber Man</a>}
+      <div className="text-center mb-10">
+        <p className="text-[#78482e] text-xs font-black uppercase tracking-[0.25em] mb-3">Mr. Plumber Man / Wellness Resources</p>
+        <h2 id="wellness-title" className="text-4xl sm:text-6xl font-black uppercase italic tracking-tight leading-none">Free Wellness <span className="text-[#78482e]">Tools.</span></h2>
+        <p className="mt-4 text-base sm:text-lg max-w-xl mx-auto">Practical tools for taking charge of your everyday health. No purchase necessary.</p>
+      </div>
+      <article className="bg-white border-2 border-[#c58158]/40 shadow-xl rounded-lg overflow-hidden grid md:grid-cols-2">
+        <div aria-hidden="true" className="bg-[#192f39] text-white flex flex-col items-center justify-center gap-5 p-10 sm:p-14">
+          <div className="w-20 h-20 grid place-items-center rounded-2xl bg-[#e4f1f7] text-[#387f98]"><Activity size={48} strokeWidth={2} /></div>
+          <div className="text-center"><p className="text-4xl sm:text-5xl font-black tracking-tight">PRESSURE</p><p className="mt-2 text-[#b9dae5] text-sm font-bold uppercase tracking-widest">Blood Pressure Tracker</p></div>
+        </div>
+        <div className="p-7 sm:p-10 flex flex-col items-start gap-5">
+          <p className="text-xs font-black uppercase tracking-[0.2em] text-[#78482e]">Free web app</p>
+          <h3 className="text-3xl font-black italic leading-tight">Know your numbers.</h3>
+          <p className="leading-relaxed">Log readings from your blood pressure monitor, review trends over time, and create reports to share with your healthcare professional.</p>
+          <ul className="space-y-2 text-sm font-bold">
+            {['No account or subscription required', 'Guided readings and a seven-day checkup', 'Readings stay on your device by default'].map(item => <li key={item} className="flex gap-2 items-start"><CheckCircle2 className="text-[#387f98] shrink-0" size={18} aria-hidden="true" />{item}</li>)}
+          </ul>
+          <a href="https://pressure.callistadigital.com/" className="w-full inline-flex items-center justify-center gap-3 bg-[#1a0f0a] hover:bg-[#3d291f] text-white px-5 py-4 rounded-md font-black uppercase tracking-wider text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#78482e]">Launch Free App <ArrowRight size={18} aria-hidden="true" /></a>
+          <p className="text-xs text-[#59504a] leading-relaxed">Developed by Callista Digital. This standalone logging tool is separate from the PRESSURE dietary supplement. It does not measure blood pressure, diagnose conditions, or recommend treatments or products.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+);
+
 const HomeView = ({ products, isPurchasing, handlePurchase, onUnlockDiscount }) => {
   const [showPopup, setShowPopup] = useState(false);
   const [lightbox, setLightbox] = useState({ open: false, images: [], index: 0 });
@@ -453,7 +482,8 @@ const HomeView = ({ products, isPurchasing, handlePurchase, onUnlockDiscount }) 
             <Wrench size={18} className="text-[#c58158]" />
             <img src="https://images.travelprox.com/mrplumberman/plumlogo.png" className="h-6 sm:h-7 w-auto object-contain" alt="Logo" />
           </div>
-          <div className="flex gap-4 items-center">
+          <div className="flex gap-2 sm:gap-4 items-center">
+            <a href="/wellness" className="text-[10px] sm:text-xs font-black uppercase tracking-wide text-[#f4e4bc] hover:text-[#d4af37] transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4">Free Tools</a>
             <button onClick={() => scrollTo(benefitsRef)} className="hidden md:block text-[10px] font-black uppercase tracking-[0.3em] text-[#f4e4bc] hover:text-[#d4af37] transition">Specs</button>
             <button 
               onClick={() => scrollTo(depotRef)} 
@@ -622,12 +652,15 @@ const HomeView = ({ products, isPurchasing, handlePurchase, onUnlockDiscount }) 
         </ScrollReveal>
       </section>
 
+      <WellnessTools />
+
       <footer className="bg-[#0f0a08] py-16 px-6 lg:px-10 border-t border-[#c58158]/10 text-center flex flex-col items-center">
         <img src="https://images.travelprox.com/mrplumberman/plumlogo.png" className="h-10 w-auto mb-8 opacity-40 grayscale" alt="Logo" />
         <div className="flex flex-col md:flex-row items-center gap-6 mb-10 text-[10px] font-black uppercase tracking-widest italic text-[#c58158]/60">
           <div className="flex items-center gap-2"><Lock size={14} className="text-[#d4af37]" /><span>Secure Encrypted Checkout</span></div>
           <div className="flex items-center gap-2 text-white/90 font-sans"><Mail size={14} className="text-[#d4af37]" /><span>hello@mrplumberman.com</span></div>
         </div>
+        <a href="/wellness" className="text-[#f4e4bc] uppercase tracking-wider font-bold text-xs underline underline-offset-4 mb-6">Free Wellness Tools</a>
         <p className="text-[9px] text-[#c58158]/20 tracking-widest uppercase mb-4 italic">© 2024 MR. PLUMBER MAN NUTRITION. ALL SYSTEMS SECURED.</p>
       </footer>
 
@@ -777,6 +810,8 @@ const App = () => {
       <GlareStyles />
       {currentPath.startsWith('/thank-you') ? (
         <ThankYouView onNavigate={navigateTo} />
+      ) : /^\/wellness\/?$/.test(currentPath) ? (
+        <main><WellnessTools standalone /></main>
       ) : (
         <HomeView products={products} isPurchasing={isPurchasing} handlePurchase={handlePurchase} onUnlockDiscount={() => setDiscountUnlocked(true)} />
       )}
